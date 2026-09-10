@@ -1,0 +1,431 @@
+html[data-tema="oscuro"] .lateral-torneos .tarjeta-actividad {
+  background: var(--tema-oscuro-fondo-tabla);
+  border-color: var(--tema-oscuro-borde);
+}
+
+html[data-tema="oscuro"] .lateral-torneos .item-proximo {
+  border-color: var(--tema-oscuro-borde);
+  background: var(--tema-oscuro-fondo-pagina);
+}
+
+html[data-tema="oscuro"] .lateral-torneos .icono-proximo {
+  background: var(--tema-oscuro-fondo-terciario);
+  color: var(--tema-oscuro-acento-suave);
+  border: 1px solid var(--tema-oscuro-borde-acento);
+}
+
+html[data-tema="oscuro"] .lateral-torneos .nombre-proximo,
+html[data-tema="oscuro"] .lateral-torneos .fecha-proximo {
+  color: var(--tema-oscuro-texto-principal);
+}
+
+html[data-tema="oscuro"] .lateral-torneos .sub-proximo {
+  color: var(--tema-oscuro-texto-secundario);
+}
+
+html[data-tema="oscuro"] .controles-paginacion .numero-pagina,
+html[data-tema="oscuro"] .controles-paginacion .flecha-pagina {
+  background: var(--tema-oscuro-fondo-pagina) !important;
+  color: var(--tema-oscuro-texto-principal) !important;
+  border-color: var(--tema-oscuro-borde) !important;
+  box-shadow: none !important;
+}
+
+html[data-tema="oscuro"] .controles-paginacion .numero-pagina:hover,
+html[data-tema="oscuro"] .controles-paginacion .flecha-pagina:hover {
+  background: var(--tema-oscuro-fondo-terciario) !important;
+  color: var(--tema-oscuro-acento-suave) !important;
+  border-color: var(--tema-oscuro-borde-acento) !important;
+}
+
+html[data-tema="oscuro"] .controles-paginacion .numero-pagina.activo {
+  background: linear-gradient(135deg, var(--color-directo-7130d8), var(--color-directo-a45dff)) !important;
+  color: var(--color-directo-ffffff) !important;
+  border-color: transparent !important;
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .marcador-enfrentamiento {
+  background: var(--tema-oscuro-superficie-juego);
+  border: 1px solid var(--tema-oscuro-borde);
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .avatar-competidor {
+  background: var(--tema-oscuro-superficie-avatar) !important;
+  color: var(--tema-oscuro-texto-avatar) !important;
+  border: 1px solid var(--tema-oscuro-borde-acento);
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .marcador-principal span {
+  background: var(--tema-oscuro-superficie-marcador) !important;
+  color: var(--tema-oscuro-texto-marcador) !important;
+  border: 1px solid var(--tema-oscuro-borde-acento);
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .marcador-principal b {
+  color: var(--tema-oscuro-acento-suave);
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .estado-sin-confirmar {
+  background: var(--color-directo-21314a) !important;
+  color: var(--color-directo-a9cfff) !important;
+  border: 1px solid var(--color-directo-36547c) !important;
+}
+
+html[data-tema="oscuro"] .tarjeta-resultado .avatar-competidor:hover,
+html[data-tema="oscuro"] .tarjeta-resultado .marcador-principal span:hover {
+  background: var(--color-directo-30405c) !important;
+}
+
+html[data-tema="oscuro"] :where(.insignia-ronda-clasificacion, .porcentaje-progreso) {
+  background: var(--color-directo-26203b) !important;
+  color: var(--tema-oscuro-acento-suave) !important;
+  border: 1px solid var(--tema-oscuro-borde-acento) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave {
+  background: var(--tema-oscuro-superficie-llave) !important;
+  border-color: var(--tema-oscuro-borde) !important;
+  box-shadow: 0 8px 22px var(--color-directo-001) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave > div + div {
+  border-top-color: var(--tema-oscuro-borde) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave span {
+  background: var(--color-directo-2b2045) !important;
+  color: var(--tema-oscuro-acento-suave) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave strong {
+  color: var(--tema-oscuro-texto-principal) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave small {
+  background: var(--tema-oscuro-superficie-llave-secundaria) !important;
+  color: var(--tema-oscuro-texto-secundario) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave.pendiente {
+  background: var(--tema-oscuro-superficie-llave-secundaria) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave.pendiente strong,
+html[data-tema="oscuro"] .cruce-llave.pendiente span {
+  color: var(--tema-oscuro-texto-desactivado) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave.final {
+  background: var(--color-directo-167) !important;
+  border-color: var(--color-directo-168) !important;
+}
+
+html[data-tema="oscuro"] .cruce-llave.final strong {
+  color: var(--color-directo-ffd166) !important;
+}
+
+html[data-tema="oscuro"] body,
+html[data-tema="oscuro"] .cuerpo-app,
+html[data-tema="oscuro"] .contenido-app,
+html[data-tema="oscuro"] .panel {
+  background: var(--color-fondo-pagina);
+  color: var(--color-texto-principal);
+}
+
+html[data-tema="oscuro"] :where(.barra-filtros-clasificacion,.tarjeta-resumen-clasificacion,.estadisticas-disciplina,.dato-disciplina,.tabla-clasificacion-tarjeta,.progreso-torneo,.modal-participante-clasificacion,.dato-modal-clasificacion,.barra-filtros-resultados,.tarjeta-resultado,.mensaje-sin-resultados) {
+  background: var(--color-fondo-tarjeta) !important;
+  color: var(--color-texto-principal) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] :where(.icono-resumen-clasificacion,.icono-pagina-resultados,.insignia-disciplina,.numero-ronda,.boton-cerrar-clasificacion,.boton-mas-opciones:hover) {
+  background: var(--color-fondo-secundario) !important;
+  color: var(--color-acento-suave) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] :where(.valor-resumen-clasificacion,.dato-disciplina strong,.encabezado-seccion-clasificacion h2,.encabezado-tabla-clasificacion h2,.encabezado-progreso h2,.tabla-clasificacion td,.nombre-participante-clasificacion strong,.item-ronda strong,.campeon-torneo strong,.cabecera-modal-clasificacion h2,.dato-modal-clasificacion strong,.ultimos-resultados-clasificacion h3,.datos-torneo-resultado h2,.competidor-resultado strong,.resumen-ganador strong) {
+  color: var(--color-texto-principal) !important;
+}
+
+html[data-tema="oscuro"] :where(.grupo-filtro-clasificacion label,.etiqueta-resumen-clasificacion,.detalle-resumen-clasificacion,.tabla-clasificacion th,.nombre-participante-clasificacion span,.item-ronda span,.campeon-torneo span,.dato-modal-clasificacion span,.resultado-reciente-clasificacion,.grupo-filtro-resultados label) {
+  color: var(--color-texto-secundario) !important;
+}
+
+html[data-tema="oscuro"] :where(.busqueda-clasificacion input,.grupo-filtro-resultados select,.grupo-filtro-resultados input,.campo-con-icono,.campo-con-icono input,.paginacion-resultados button) {
+  background: var(--color-fondo-control) !important;
+  color: var(--color-texto-principal) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] .tabla-clasificacion tbody tr:hover {
+  background: var(--color-fondo-secundario) !important;
+}
+
+html[data-tema="oscuro"] .barra-progreso-torneo {
+  background: var(--color-fondo-secundario) !important;
+}
+
+html[data-tema="oscuro"] .item-ronda:not(.completada):not(.actual),
+html[data-tema="oscuro"] .campeon-torneo {
+  background: var(--color-fondo-secundario) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] .marcador-enfrentamiento {
+  background: var(--tema-oscuro-superficie-juego) !important;
+  border: 1px solid var(--color-borde);
+}
+
+html[data-tema="oscuro"] .avatar-competidor {
+  background: var(--tema-oscuro-superficie-avatar) !important;
+  color: var(--tema-oscuro-texto-avatar) !important;
+  border: 1px solid var(--color-borde-acento);
+}
+
+html[data-tema="oscuro"] .marcador-principal span {
+  background: var(--tema-oscuro-superficie-marcador) !important;
+  color: var(--tema-oscuro-texto-marcador) !important;
+  border: 1px solid var(--color-borde-acento);
+}
+
+html[data-tema="oscuro"] :where(.resumen-sorteo-compacto,.resumen-torneo-principal,.dato-resumen-sorteo,.contenedor-sorteo,.panel-sorteo,.zona-sorteo,.columna-ronda,.resumen-generacion-sorteo) {
+  background: var(--color-fondo-tarjeta) !important;
+  color: var(--color-texto-principal) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] :where(.icono-resumen-sorteo,.cruce-llave,.cruce-llave.pendiente) {
+  background: var(--tema-oscuro-superficie-llave) !important;
+  color: var(--color-texto-principal) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] .boton-notificaciones {
+  color: var(--color-acento-suave);
+}
+
+html[data-tema="oscuro"] .boton-notificaciones:hover,
+html[data-tema="oscuro"] .boton-notificaciones:focus-visible {
+  color: var(--color-acento);
+}
+
+html[data-tema="oscuro"] .contador-notificaciones {
+  background: var(--color-acento);
+  color: var(--tema-oscuro-texto-principal);
+}
+
+html[data-tema="oscuro"] .lateral-registro {
+  color-scheme: dark;
+  background: linear-gradient(180deg, var(--tema-oscuro-fondo-secundario) 0%, var(--tema-oscuro-fondo-pagina) 100%);
+  --texto-lateral-registro-principal: var(--tema-oscuro-texto-principal);
+  --texto-lateral-registro-secundario: var(--tema-oscuro-texto-secundario);
+}
+
+html[data-tema="oscuro"] .lateral-registro .titulo-registro,
+html[data-tema="oscuro"] .lateral-registro .titulo-beneficio {
+  color: var(--texto-lateral-registro-principal) !important;
+}
+
+html[data-tema="oscuro"] .lateral-registro .texto-registro,
+html[data-tema="oscuro"] .lateral-registro .descripcion-beneficio {
+  color: var(--texto-lateral-registro-secundario) !important;
+}
+
+html[data-tema="oscuro"] .lateral-registro .acento-registro {
+  color: var(--morado-claro) !important;
+}
+
+html[data-tema="oscuro"] .contenido-registro .envoltorio-campo {
+  background: var(--color-fondo-control) !important;
+  border-color: var(--color-borde) !important;
+}
+
+html[data-tema="oscuro"] .contenido-registro .envoltorio-campo input {
+  background: transparent !important;
+  color: var(--color-texto-principal) !important;
+}
+
+html[data-tema="oscuro"] .contenido-registro .envoltorio-campo .icono-campo,
+html[data-tema="oscuro"] .contenido-registro .envoltorio-campo .ver-contrasena {
+  background: transparent !important;
+  color: var(--texto-secundario) !important;
+}
+
+html[data-tema="oscuro"] .contenido-registro .envoltorio-campo:focus-within {
+  border-color: var(--morado-claro) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--morado-claro) 18%, transparent);
+}
+
+html[data-tema="oscuro"] .panel-calendario .datos-evento-destacado span{
+  color:var(--color-texto-principal)!important;
+}
+
+html[data-tema="oscuro"] .panel-calendario .datos-evento-destacado strong{
+  color:var(--color-texto-secundario)!important;
+}
+
+html[data-tema="oscuro"] .opcion-tema{
+  background:var(--surface-subtle);
+  border-color:var(--border-subtle);
+  color:var(--text-primary);
+}
+
+html[data-tema="oscuro"] .opcion-tema:hover{
+  background:color-mix(in srgb,var(--color-acento) 8%,var(--surface-subtle));
+  border-color:var(--border-accent);
+}
+
+html[data-tema="oscuro"] .opcion-tema[aria-pressed="true"]{
+  background:color-mix(in srgb,var(--color-acento) 16%,var(--surface-card));
+  border-color:var(--color-acento);
+  box-shadow:0 0 0 3px var(--focus-ring);
+}
+
+html[data-tema="oscuro"] .opcion-tema[aria-pressed="true"] strong{
+  color:var(--color-acento-suave);
+}
+
+html[data-tema="oscuro"] :where(.boton-experiencia-ah,.boton-notificaciones){
+  color:var(--text-secondary);
+}
+
+html[data-tema="oscuro"] :where(.boton-experiencia-ah,.boton-notificaciones):hover,
+html[data-tema="oscuro"] :where(.boton-experiencia-ah,.boton-notificaciones):focus-visible{
+  background:var(--surface-subtle);
+  color:var(--color-acento-suave);
+}
+
+html[data-tema="oscuro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea,
+  .selector-formulario,
+  .campo-formulario,
+  .campo-con-icono
+) {
+  background: var(--surface-control);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  textarea
+)::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+html[data-tema="oscuro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea,
+  .selector-formulario,
+  .campo-formulario,
+  .campo-con-icono
+):focus-visible,
+html[data-tema="oscuro"] .campo-con-icono:focus-within {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+html[data-tema="oscuro"] .panel-calendario {
+  background: var(--surface-page);
+  color: var(--text-primary);
+}
+
+html[data-tema="oscuro"] .panel-calendario .cabecera-calendario .descripcion-pagina,
+html[data-tema="oscuro"] .panel-calendario :where(.datos-resumen-calendario span,.cabecera-seccion-calendario p,.ubicacion-enfrentamiento-calendario,.mensaje-calendario-vacio,.dias-semana-calendario span,.disciplina-enfrentamiento-calendario,.ronda-enfrentamiento-calendario,.fecha-enfrentamiento-calendario span) {
+  color: var(--text-secondary);
+}
+
+html[data-tema="oscuro"] .panel-calendario .cabecera-calendario .etiqueta-modulo,
+html[data-tema="oscuro"] .panel-calendario :where(.tarjeta-lista-dia h3,.boton-enlace-calendario,.cruce-calendario .versus) {
+  color: var(--color-acento-suave);
+}
+
+html[data-tema="oscuro"] .panel-calendario :where(.barra-filtros-calendario,.tarjeta-calendario,.tarjeta-resumen-calendario,.tarjeta-lista-dia,.evento-destacado-calendario,.tarjeta-enfrentamiento-calendario) {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+html[data-tema="oscuro"] .panel-calendario :where(.selector-formulario,.campo-formulario) {
+  background: var(--surface-control);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario :where(.selector-formulario,.campo-formulario):focus,
+html[data-tema="oscuro"] .panel-calendario :where(.selector-formulario,.campo-formulario):focus-visible {
+  border-color: var(--border-accent);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+html[data-tema="oscuro"] .panel-calendario .selector-vista-calendario {
+  background: var(--surface-inset);
+}
+
+html[data-tema="oscuro"] .panel-calendario .boton-vista-calendario {
+  color: var(--text-secondary);
+}
+
+html[data-tema="oscuro"] .panel-calendario .boton-vista-calendario.activo {
+  color: #fff;
+  background: linear-gradient(135deg,var(--color-directo-5b21b6),var(--color-directo-7c3aed));
+}
+
+html[data-tema="oscuro"] .panel-calendario :where(.boton-navegacion-mes,.boton-hoy-calendario,.boton-pagina-calendario) {
+  color: var(--text-primary);
+  background: var(--surface-inset);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario :where(.boton-navegacion-mes,.boton-hoy-calendario,.boton-pagina-calendario):hover {
+  color: var(--color-acento-suave);
+  background: var(--surface-selected);
+  border-color: var(--border-accent);
+}
+
+html[data-tema="oscuro"] .panel-calendario .boton-pagina-calendario.activo {
+  color: #fff;
+  background: var(--color-directo-7130d8);
+  border-color: var(--color-directo-7130d8);
+}
+
+html[data-tema="oscuro"] .panel-calendario .dias-semana-calendario,
+html[data-tema="oscuro"] .panel-calendario .dia-calendario {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario .cuadricula-mes-calendario {
+  border-left-color: var(--border-subtle);
+  border-top-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario .dia-calendario:hover {
+  background: var(--surface-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario .dia-calendario.fuera-mes {
+  color: var(--text-muted);
+  background: var(--surface-inset);
+}
+
+html[data-tema="oscuro"] .panel-calendario .dia-calendario.seleccionado {
+  color: #fff;
+  background: linear-gradient(145deg,var(--color-directo-5b21b6),var(--color-directo-7c3aed));
+}
+
+html[data-tema="oscuro"] .panel-calendario .fecha-enfrentamiento-calendario {
+  border-right-color: var(--border-subtle);
+}
+
+html[data-tema="oscuro"] .panel-calendario option {
+  color: var(--text-primary);
+  background: var(--surface-control);
+}

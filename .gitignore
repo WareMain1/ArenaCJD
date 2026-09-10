@@ -1,0 +1,7 @@
+
+# ArenaCJD - archivos locales y sensibles
+storage/logs/*.log
+!storage/logs/.gitkeep
+.env
+.env.*
+config/entorno.local.php

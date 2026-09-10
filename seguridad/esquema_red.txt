@@ -1,0 +1,32 @@
+ESQUEMA DE RED PROPUESTO - ARENACJD
+
+Internet / Red local
+        |
+        v
+Router / Gateway
+        |
+        v
++------------------------------------------------------+
+| Ubuntu Server / VM                                   |
+|                                                      |
+|  Suricata IDS/IPS                                    |
+|        |                                             |
+|  UFW Firewall                                        |
+|        |                                             |
+|  Apache + PHP  <------ Fail2ban                      |
+|        |               vigila security.log           |
+|        |                                             |
+|  ArenaCJD                                             |
+|        |                                             |
+|  MySQL: localhost:3306                               |
+|  Usuario: arenacjd_app                               |
+|  Permisos: SELECT, INSERT, UPDATE, DELETE            |
++------------------------------------------------------+
+
+Puertos expuestos:
+- 80/tcp HTTP durante pruebas.
+- 443/tcp HTTPS para la versión final.
+- 22/tcp SSH únicamente para administración.
+
+Puerto NO expuesto:
+- 3306/tcp MySQL, porque la base se usa localmente desde PHP.

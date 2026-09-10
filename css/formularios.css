@@ -1,0 +1,51 @@
+/* Apariencia compartida de controles. Los temas solo cambian los colores. */
+:root { --campo-borde:#c9ced7; --campo-foco:#657184; }
+html[data-tema="oscuro"] { --campo-borde:#3d485a; --campo-foco:#a7b3c5; }
+
+html[data-tema] body:is(body,.cuerpo-app) :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="hidden"]),
+  select,textarea,.envoltorio-campo,.campo-con-icono,.campo-busqueda-global-ah,.campo-nombre-usuario-perfil
+) {
+  border-color:var(--campo-estado,var(--campo-borde))!important;
+  box-shadow:none!important;
+}
+html[data-tema] body:is(body,.cuerpo-app) :is(input,select,textarea):is(:focus,:focus-visible),
+html[data-tema] body:is(body,.cuerpo-app) :is(.envoltorio-campo,.campo-con-icono,.campo-busqueda-global-ah,.campo-nombre-usuario-perfil):focus-within {
+  border-color:var(--campo-estado,var(--campo-foco))!important;
+  outline:2px solid var(--campo-estado,var(--campo-foco))!important;
+  outline-offset:-1px;
+  box-shadow:none!important;
+}
+/* Los campos compuestos tienen un único contorno en su envoltorio. */
+html[data-tema] body:is(body,.cuerpo-app) :is(.envoltorio-campo,.campo-con-icono,.campo-busqueda-global-ah,.campo-nombre-usuario-perfil) input {
+  outline:none!important;
+  box-shadow:none!important;
+  border-color:transparent!important;
+}
+html[data-tema] body:is(body,.cuerpo-app) :is(input,select,textarea,.envoltorio-campo):is([aria-invalid="true"],.campo-con-error,.campo-invalido,:user-invalid),
+html[data-tema] body:is(body,.cuerpo-app) :is(.envoltorio-campo,.campo-con-icono,.campo-nombre-usuario-perfil):has([aria-invalid="true"],:user-invalid) { --campo-estado:var(--state-danger-text,var(--rojo)); }
+html[data-tema] body:is(body,.cuerpo-app) .campo-con-exito { --campo-estado:var(--state-success-text); }
+html[data-tema] body:is(body,.cuerpo-app) .campo-advertencia { --campo-estado:var(--state-warning-text); }
+
+.envoltorio-campo input { min-width:0; width:100%; }
+.envoltorio-campo .icono-campo,
+.envoltorio-campo .ver-contrasena { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; }
+.envoltorio-campo .icono-ui { width:18px; height:18px; }
+.campo-con-icono input,.campo-busqueda-global-ah input { min-width:0; }
+.campo-busqueda-global-ah > .icono-ui { color:var(--text-secondary); stroke:currentColor; stroke-width:1.8; }
+
+/* Los campos mantienen una lectura cómoda en pantallas pequeñas. */
+@media (max-width: 640px) {
+  body :is(input[type="text"], input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="number"], input[type="date"], input[type="time"], select, textarea) {
+    font-size: 16px;
+  }
+}
+
+/* Checkboxes y radios compartidos entre temas */
+:is(input[type="checkbox"], input[type="radio"]) {
+  accent-color: var(--color-acento);
+  cursor: pointer;
+}
+:is(input[type="checkbox"], input[type="radio"]):disabled {
+  cursor: not-allowed;
+}

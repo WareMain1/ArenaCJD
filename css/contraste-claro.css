@@ -1,0 +1,230 @@
+html[data-tema="claro"] :where(
+  .campo-formulario,
+  .selector-formulario,
+  .entrada-formulario,
+  .envoltorio-campo input,
+  .campo-con-icono input,
+  .campo-busqueda-participante input,
+  .busqueda-clasificacion input,
+  .filtros-participantes-compactos input,
+  .tarjeta-acceso input,
+  .tarjeta-acceso textarea,
+  .tarjeta-acceso select
+)::placeholder {
+  color: var(--color-texto-placeholder) !important;
+  opacity: 1;
+}
+
+html[data-tema="claro"] .icono-campo,
+html[data-tema="claro"] .ver-contrasena {
+  color: var(--color-texto-secundario);
+}
+
+html[data-tema="claro"] :where(
+  .dato-positivo,
+  .estado-finalizado,
+  .estado-aprobado,
+  .estado-confirmado,
+  .insignia-activo,
+  .mensaje-registro-exito,
+  .icono-regla.valida,
+  .regla-registro.regla-valida,
+  .mensaje-foto-exito,
+  .mensaje-seguridad-perfil.exito,
+  .mensaje-usuario-exito,
+  .estado-sistema-operativo,
+  .estado-tecnico-vivo,
+  .mensaje-gestion-usuario.exito,
+  .mensaje-edicion-torneo.exito,
+  .estado-res.finalizado,
+  .resumen-icono-verde,
+  .tarjeta-invitacion-torneo .acciones-equipo .boton-accion:first-child
+) {
+  color: var(--color-exito-texto) !important;
+}
+
+html[data-tema="claro"] :where(
+  .mensaje-registro-error,
+  .icono-regla.invalida,
+  .regla-registro.regla-invalida,
+  .mensaje-foto-error,
+  .mensaje-seguridad-perfil.error,
+  .mensaje-usuario-error,
+  .estado-rechazado,
+  .mensaje-gestion-usuario.error,
+  .mensaje-edicion-torneo.error,
+  .accion-eliminar-disciplina,
+  .boton-eliminar-categoria,
+  .modal-confirmacion-icono,
+  .tarjeta-invitacion-torneo .acciones-equipo .boton-accion:nth-child(2),
+  .hora-vivo,
+  .minuto-destacado,
+  .estado-vivo,
+  .acciones-usuario-activo .accion-eliminar-usuario
+) {
+  color: var(--color-error-texto) !important;
+}
+
+html[data-tema="claro"] :where(
+  .estado-pendiente,
+  .estado-incompleto,
+  .estado-corregido,
+  .etiqueta-naranja,
+  .marcador-naranja span,
+  .avatar-naranja,
+  .resumen-icono-naranja
+) {
+  color: var(--color-advertencia-texto) !important;
+}
+
+html[data-tema="claro"] :where(
+  .estado-programado,
+  .estado-en-juego,
+  .insignia-en-juego
+) {
+  color: var(--color-info-texto) !important;
+}
+
+html[data-tema="claro"] .insignia-proximo {
+  color: var(--color-info-texto) !important;
+}
+
+html[data-tema="claro"] .estado-publico.estado-pendiente,
+html[data-tema="claro"] .panel-calendario .estado-calendario.pendiente {
+  color: var(--color-advertencia-texto) !important;
+}
+
+html[data-tema="claro"] .panel-calendario .estado-calendario.confirmado {
+  color: var(--color-exito-texto) !important;
+}
+
+html[data-tema="claro"] .panel-calendario .estado-calendario.finalizado {
+  color: var(--color-info-texto) !important;
+}
+
+html[data-tema="claro"] .panel-calendario .estado-calendario.suspendido {
+  color: var(--color-error-texto) !important;
+}
+
+html[data-tema="claro"] .panel-calendario .dia-calendario.fuera-mes,
+html[data-tema="claro"] :where(
+  .equipo-llaves.vacio,
+  .guion-res,
+  .separador-marcador,
+  .cruce-llave.pendiente strong,
+  .cruce-llave.pendiente span,
+  .vs-marcador,
+  .flecha-fecha
+) {
+  color: var(--color-texto-desactivado) !important;
+}
+
+html[data-tema="claro"] .notificacion-sorteo-icono {
+  color: var(--state-danger-text) !important;
+}
+
+html[data-tema="claro"] :where(
+  .enlace-olvido,
+  .enlace-ver-todo,
+  .numero-seccion-configuracion
+) {
+  color: var(--morado-principal) !important;
+}
+
+html[data-tema="claro"] .favorito-torneo-ah[aria-pressed="true"] {
+  border-color: var(--state-warning-border);
+  background: var(--state-warning-bg);
+  color: var(--state-warning-text);
+}
+
+html[data-tema="claro"] :where(
+  .beneficio-modular,
+  .estado-calendario.confirmado
+) {
+  color: var(--color-exito-texto) !important;
+}
+
+html[data-tema="claro"] .beneficio-dispositivo {
+  color: var(--color-info-texto) !important;
+}
+
+html[data-tema="claro"] .beneficio-disponible {
+  color: var(--color-advertencia-texto) !important;
+}
+
+html[data-tema="claro"] :where(
+  .boton-claro,
+  .boton-secundario,
+  .boton-accion,
+  .boton-descarga,
+  .boton-enlace-calendario,
+  .limpiar-filtros-ah,
+  .boton-limpiar-publico
+) {
+  text-shadow: none;
+}
+
+html[data-tema="claro"] :where(
+  .panel,
+  .contenido-principal,
+  .inicio-publico,
+  .contenedor-consulta-publica,
+  .contenido-registro,
+  .pagina-recuperacion
+) :where(p, small, span, label, td, th, strong, b, a, button) {
+  text-rendering: optimizeLegibility;
+}
+html[data-tema="claro"] :where(
+  .acciones-solicitud-notificacion button:first-child,
+  .acciones-tabla-solicitudes button:first-child,
+  .icono-modal-registro
+) {
+  color: var(--color-exito-texto) !important;
+  border-color: var(--color-exito-texto);
+}
+
+html[data-tema="claro"] :where(
+  .acciones-solicitud-notificacion button:nth-child(2),
+  .acciones-tabla-solicitudes button:nth-child(2)
+) {
+  color: var(--color-error-texto) !important;
+  border-color: var(--color-error-texto);
+}
+
+html[data-tema="claro"] .notificacion-gestion-aprobado,
+html[data-tema="claro"] .aviso-notificacion-aprobado,
+html[data-tema="claro"] .aviso-exito {
+  border-color: var(--color-exito-texto);
+}
+
+html[data-tema="claro"] .aviso-notificacion-error,
+html[data-tema="claro"] .aviso-rechazo {
+  border-color: var(--color-error-texto);
+}
+
+html[data-tema="claro"] .aviso-notificacion-pendiente,
+html[data-tema="claro"] .aviso-informacion {
+  border-color: var(--morado-principal);
+}
+
+html[data-tema="claro"] :where(
+  button:disabled,
+  .boton:disabled,
+  .boton-deshabilitado,
+  input:disabled,
+  select:disabled,
+  textarea:disabled
+) {
+  opacity: .74;
+}
+
+html[data-tema="claro"] :where(
+  .estado-error-ah,
+  .sin-solicitudes,
+  .estado-busqueda-global-ah,
+  .progreso-concreto-torneo-ah,
+  .estado-filtros-persistentes-ah
+) {
+  color: var(--color-texto-secundario);
+}
+

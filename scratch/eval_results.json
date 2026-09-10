@@ -1,0 +1,640 @@
+{
+    "total": 79,
+    "passed": 76,
+    "failed": 1,
+    "warnings": 2,
+    "details": [
+        {
+            "section": "Infraestructura",
+            "test": "Servidor Web Apache y PHP respondiendo",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Infraestructura",
+            "test": "Base de Datos MySQL conectada",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Conexión PDO establecida con arenacjd"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Inicio público (index.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Listado de torneos público (torneos-publicos.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Calendario público (calendario-publico.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Resultados públicos (resultados-publicos.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Clasificaciones públicas (clasificacion-publica.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Política de privacidad (privacidad.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Carga página pública: Términos de servicio (terminos.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "API pública torneos (api\/publico\/torneos.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "API pública calendario (api\/publico\/calendario.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "API pública resultados (api\/publico\/resultados.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "API pública resumen (api\/publico\/resumen.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "API pública clasificación valida ausencia de parámetro (HTTP 400)",
+            "passed": true,
+            "warning": null,
+            "severity": "MEDIO",
+            "details": "HTTP 400"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: panel.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: torneos.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: partidos.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: participantes.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: clasificacion.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: calendario.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: configuracion.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: disciplinas.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: sorteos.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo ruta privada sin sesión: mi-actividad.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 302"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo API privada sin sesión: api\/torneos.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo API privada sin sesión: api\/panel.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo API privada sin sesión: api\/usuarios_activos.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo API privada sin sesión: api\/torneo_crear.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Usuario Público",
+            "test": "Bloqueo API privada sin sesión: api\/enfrentamiento_actualizar.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login con campos vacíos rechazado (HTTP 400)",
+            "passed": true,
+            "warning": null,
+            "severity": "MEDIO",
+            "details": "HTTP 400"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login usuario inexistente rechazado (HTTP 401)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login contraseña incorrecta rechazado (HTTP 401)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 401"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login Administrador ('root') exitoso",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login Organizador ('juancito') exitoso",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Login Participante ('membrillo') exitoso",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Seguridad",
+            "test": "Protección CSRF obligatoria en endpoints POST (HTTP 403)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 403"
+        },
+        {
+            "section": "Autenticación",
+            "test": "Logout destruye sesión e invalida acceso (HTTP 401)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP tras logout: 401"
+        },
+        {
+            "section": "Permisos \/ RBAC",
+            "test": "Participante bloqueado de listar usuarios activos (HTTP 403)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 403"
+        },
+        {
+            "section": "Permisos \/ RBAC",
+            "test": "Participante bloqueado de crear torneos (HTTP 403)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 403"
+        },
+        {
+            "section": "Permisos \/ RBAC",
+            "test": "Organizador bloqueado de crear torneos directamente (sólo Administrador)",
+            "passed": true,
+            "warning": null,
+            "severity": "MEDIO",
+            "details": "HTTP 403"
+        },
+        {
+            "section": "Seguridad \/ IDOR",
+            "test": "Organizador no puede modificar torneo de otro organizador (HTTP 403)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 403"
+        },
+        {
+            "section": "Administrador",
+            "test": "Admin configura categorías y formatos permitidos para disciplina (api\/disciplina_actualizar.php)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Creación de torneo individual por Admin (HTTP 201)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 201, ID: 55"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Apertura de inscripciones y publicación",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Registro",
+            "test": "Registro público de nuevo participante ('participante4')",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 409, Mensaje: El nombre de usuario ya está registrado."
+        },
+        {
+            "section": "Regla de Negocio",
+            "test": "Cuentas administradoras tienen prohibido competir como participantes (HTTP 404 por exclusión en consulta)",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 404, Mensaje: El usuario no existe o no está activo."
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Auto-inscripción de 4 participantes y aprobación masiva por Admin",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "Aprobados: 4\/4"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Generación de primera ronda de Eliminación",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Generación exacta de 2 partidos semifinales",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "Partidos: 2"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Empate en eliminación directa rechazado (HTTP 422)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 422"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Avance automático de los 2 ganadores a la Final (Ronda 2)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Final generada ID: 112"
+        },
+        {
+            "section": "Torneo Eliminación",
+            "test": "Torneo finaliza automáticamente al concluir la final",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Estado del torneo: finalizado"
+        },
+        {
+            "section": "Liga",
+            "test": "Creación de torneo formato Liga (HTTP 201)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 201, ID: 56"
+        },
+        {
+            "section": "Liga",
+            "test": "Sorteo y generación de fechas de Liga",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Liga",
+            "test": "Cálculo combinatorio exacto: 4 participantes = 6 partidos",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Partidos: 6"
+        },
+        {
+            "section": "Liga",
+            "test": "Ningún participante juega contra sí mismo",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Sin auto-enfrentamientos"
+        },
+        {
+            "section": "Liga",
+            "test": "Empate 2-2 permitido en Liga",
+            "passed": false,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 422"
+        },
+        {
+            "section": "Liga",
+            "test": "Tabla de posiciones calculada y accesible",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Sistema Suizo",
+            "test": "Creación de torneo Sistema Suizo (HTTP 201)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 201, ID: 57"
+        },
+        {
+            "section": "Sistema Suizo",
+            "test": "Generación de Ronda 1 en Suizo",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Sistema Suizo",
+            "test": "Generación automática de Ronda 2 emparejando por puntos",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Partidos R2: 2"
+        },
+        {
+            "section": "Sistema Suizo",
+            "test": "Torneo Suizo finaliza al completar maxRondas (ceil(log2(4)) = 2)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Estado: finalizado"
+        },
+        {
+            "section": "Equipos",
+            "test": "Creación de equipo por participante ('Equipo Alpha 121420')",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 201, ID: 19"
+        },
+        {
+            "section": "Equipos",
+            "test": "Creación de segundo equipo ('Equipo Beta 121420')",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "HTTP 201, ID: 20"
+        },
+        {
+            "section": "Equipos",
+            "test": "Integrantes invitados aceptan invitaciones y completan planteles de 2 miembros",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "Invitaciones aceptadas para Alpha (ID 17) y Beta (ID 18)"
+        },
+        {
+            "section": "Equipos",
+            "test": "Rechazo de nombre de equipo duplicado (HTTP 409)",
+            "passed": true,
+            "warning": null,
+            "severity": "MEDIO",
+            "details": "HTTP 409"
+        },
+        {
+            "section": "Equipos",
+            "test": "Creación de torneo modalidad Equipos (HTTP 201)",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 201, ID: 58"
+        },
+        {
+            "section": "Equipos",
+            "test": "Aprobación de inscripciones de equipos por Admin",
+            "passed": true,
+            "warning": null,
+            "severity": "ALTO",
+            "details": "Inscripciones de equipos aprobadas"
+        },
+        {
+            "section": "Equipos",
+            "test": "Sorteo y generación de final por equipos",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "HTTP 200"
+        },
+        {
+            "section": "Equipos",
+            "test": "Final de equipos disputada y torneo finalizado con campeón",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Estado: finalizado"
+        },
+        {
+            "section": "Período de Gracia",
+            "test": "Constante técnica Enfrentamiento::DURACION_ESTIMADA_PARTIDO es 90 min",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Valor: 90"
+        },
+        {
+            "section": "Período de Gracia",
+            "test": "Ejecución del cron de resolución automática",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Cron ejecutado con éxito"
+        },
+        {
+            "section": "Período de Gracia",
+            "test": "Idempotencia: doble ejecución no produce errores",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Segunda pasada completada limpiamente"
+        },
+        {
+            "section": "Favoritos",
+            "test": "Persistencia de Favoritos en Base de Datos MySQL",
+            "passed": false,
+            "warning": "Alerta de diseño: Los favoritos se pierden al cambiar de dispositivo o limpiar datos de navegación.",
+            "severity": "MEDIO",
+            "details": "NO existe tabla 'favoritos' en MySQL ni endpoints REST de sincronización. Funcionalidad implementada exclusivamente en localStorage ('arenaCJD-favoritos-v2-...')"
+        },
+        {
+            "section": "Seguridad",
+            "test": "No exposición de código fuente PHP en config\/Conexion.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Código no expuesto"
+        },
+        {
+            "section": "Seguridad",
+            "test": "No exposición de código fuente PHP en seguridad\/XAMPP_VARIABLES_ENTORNO.txt",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Código no expuesto"
+        },
+        {
+            "section": "Seguridad",
+            "test": "No exposición de código fuente PHP en cron\/procesar_resolucion_automatica.php",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "Código no expuesto"
+        },
+        {
+            "section": "Seguridad",
+            "test": "Exposición de credenciales en seguridad\/XAMPP_VARIABLES_ENTORNO.txt",
+            "passed": false,
+            "warning": "Vulnerabilidad: XAMPP_VARIABLES_ENTORNO.txt contiene referencias directas a credenciales y está en la raíz web.",
+            "severity": "ALTO",
+            "details": "VULNERABILIDAD ALTA: Archivo accesible por HTTP que expone nombres de variables y contraseñas de entorno"
+        },
+        {
+            "section": "Seguridad",
+            "test": "Sanitización contra XSS en búsqueda pública",
+            "passed": true,
+            "warning": null,
+            "severity": "CRÍTICO",
+            "details": "XSS prevenido correctamente"
+        }
+    ]
+}

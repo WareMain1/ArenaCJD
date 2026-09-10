@@ -1,0 +1,26 @@
+ARENA CJD - VARIABLES DE ENTORNO EN XAMPP / WINDOWS
+
+La contraseña MySQL ya no está escrita dentro de Conexion.php.
+Apache debe recibirla mediante ARENA_DB_PASS.
+
+Opción recomendada para la computadora de desarrollo:
+
+1. Abre como administrador:
+   C:\xampp\apache\conf\httpd.conf
+
+2. Cerca del final agrega valores como estos, usando TU contraseña real:
+
+   SetEnv ARENA_DB_HOST "localhost"
+   SetEnv ARENA_DB_NAME "arenacjd"
+   SetEnv ARENA_DB_USER "arenacjd_app"
+   SetEnv ARENA_DB_PASS "TU_CONTRASENA_SEGURA"
+   SetEnv ARENA_TIMEZONE "America/Montevideo"
+
+3. Guarda el archivo.
+4. Detén Apache desde XAMPP.
+5. Inicia Apache nuevamente.
+
+IMPORTANTE:
+- No copies la contraseña real a archivos del proyecto.
+- No subas httpd.conf al repositorio.
+- El valor de ARENA_DB_PASS debe coincidir con el configurado para arenacjd_app en MySQL.

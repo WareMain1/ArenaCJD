@@ -1,0 +1,486 @@
+html[data-tema="claro"] body,
+html[data-tema="claro"] .cuerpo-app,
+html[data-tema="claro"] .contenido-app,
+html[data-tema="claro"] .panel {
+  background: var(--surface-page);
+  color: var(--text-primary);
+}
+
+html[data-tema="claro"] .encabezado-app {
+  background: color-mix(in srgb, var(--surface-card) 96%, var(--surface-selected));
+  border-bottom-color: var(--border-subtle);
+  box-shadow: 0 1px 0 rgba(55, 39, 73, .025);
+}
+
+html[data-tema="claro"] :where(
+  .tarjeta,
+  .tarjeta-ah,
+  .seccion-panel,
+  .tarjeta-estadistica,
+  .tarjeta-actividad,
+  .tarjeta-resumen-panel,
+  .tarjeta-acceso,
+  .tarjeta-equipo-compacta,
+  .tarjeta-torneo,
+  .tarjeta-calendario,
+  .tarjeta-resumen-calendario,
+  .barra-filtros-calendario,
+  .barra-filtros-clasificacion,
+  .barra-filtros-resultados,
+  .tabla-clasificacion-tarjeta,
+  .progreso-torneo,
+  .estadisticas-disciplina,
+  .bloque-disciplinas,
+  .contenedor-disciplinas,
+  .tarjeta-resultado,
+  .resumen-sorteo-compacto,
+  .resumen-torneo-principal,
+  .contenedor-sorteo,
+  .panel-sorteo,
+  .zona-sorteo,
+  .columna-ronda,
+  .resumen-generacion-sorteo
+) {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] :where(
+  .dato-resumen-sorteo,
+  .dato-disciplina,
+  .detalle-torneo-real > div,
+  .datos-torneo-publico > div,
+  .selector-imagen-entidad,
+  .solicitud-notificacion,
+  .siguiente-accion-panel-ah,
+  .paso-onboarding-ah,
+  .item-espectador-ah,
+  .acceso-reciente-ah,
+  .resumen-perfil-modal,
+  .dato-modal-clasificacion,
+  .item-ronda:not(.completada):not(.actual),
+  .campeon-torneo,
+  .estado-vacio-ah,
+  .estado-vacio-publico,
+  .estado-vacio-actividad,
+  .estado-vacio-recientes-ah,
+  .mensaje-sin-resultados,
+  .mensaje-calendario-vacio,
+  .estado-error-ah,
+  .estado-error-publico
+) {
+  background: var(--surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] :where(
+  .selector-vista-calendario,
+  .barra-progreso-torneo,
+  .fondo-progreso,
+  .cabecera-tabla,
+  .encabezado-tabla,
+  .tabla-clasificacion thead,
+  .tabla-disciplinas thead,
+  .tabla-participantes thead,
+  .tabla-solicitudes thead,
+  .tabla-posiciones thead
+) {
+  background: var(--surface-inset);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea,
+  .campo-formulario,
+  .selector-formulario,
+  .campo-con-icono,
+  .campo-busqueda-global-ah
+) {
+  background-color: var(--surface-control);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  textarea
+)::placeholder {
+  color: var(--color-texto-placeholder);
+  opacity: 1;
+}
+
+html[data-tema="claro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea,
+  button,
+  a
+):focus-visible {
+  outline-color: var(--color-acento);
+}
+
+html[data-tema="claro"] :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea
+):focus-visible {
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+html[data-tema="claro"] :where(
+  .boton-secundario,
+  .boton-claro,
+  .boton-accion,
+  .boton-descarga,
+  .flecha-pagina,
+  .numero-pagina,
+  .boton-pagina-calendario,
+  .boton-navegacion-mes,
+  .boton-hoy-calendario
+) {
+  background: var(--surface-control);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+  box-shadow: none;
+}
+
+html[data-tema="claro"] :where(
+  .boton-secundario,
+  .boton-claro,
+  .boton-accion,
+  .boton-descarga,
+  .flecha-pagina,
+  .numero-pagina,
+  .boton-pagina-calendario,
+  .boton-navegacion-mes,
+  .boton-hoy-calendario
+):hover:not(:disabled) {
+  background: var(--surface-selected);
+  color: var(--state-accent-text);
+  border-color: var(--border-accent);
+}
+
+html[data-tema="claro"] :where(
+  button:disabled,
+  .boton:disabled,
+  .boton-deshabilitado,
+  input:disabled,
+  select:disabled,
+  textarea:disabled
+) {
+  background-color: var(--surface-subtle);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+  opacity: .78;
+  box-shadow: none;
+}
+
+html[data-tema="claro"] :where(
+  .tabla,
+  .tabla-ah,
+  .tabla-disciplinas,
+  .tabla-clasificacion,
+  .tabla-solicitudes,
+  .tabla-participantes,
+  .tabla-participantes-sorteo,
+  .tabla-posiciones,
+  .tabla-clasificacion-publica
+) {
+  background: var(--surface-table);
+  color: var(--text-primary);
+}
+
+html[data-tema="claro"] :where(
+  .tabla,
+  .tabla-ah,
+  .tabla-disciplinas,
+  .tabla-clasificacion,
+  .tabla-solicitudes,
+  .tabla-participantes,
+  .tabla-participantes-sorteo,
+  .tabla-posiciones,
+  .tabla-clasificacion-publica
+) th {
+  background: var(--surface-subtle);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] :where(
+  .tabla,
+  .tabla-ah,
+  .tabla-disciplinas,
+  .tabla-clasificacion,
+  .tabla-solicitudes,
+  .tabla-participantes,
+  .tabla-participantes-sorteo,
+  .tabla-posiciones,
+  .tabla-clasificacion-publica
+) td {
+  color: var(--text-primary);
+  border-color: color-mix(in srgb, var(--border-subtle) 82%, transparent);
+}
+
+html[data-tema="claro"] :where(
+  .tabla,
+  .tabla-ah,
+  .tabla-disciplinas,
+  .tabla-clasificacion,
+  .tabla-solicitudes,
+  .tabla-participantes,
+  .tabla-participantes-sorteo,
+  .tabla-posiciones,
+  .tabla-clasificacion-publica
+) tbody tr:hover {
+  background: color-mix(in srgb, var(--color-acento) 4%, var(--surface-card));
+}
+
+html[data-tema="claro"] :where(
+  .descripcion-pagina,
+  .texto-secundario,
+  .ayuda-formulario,
+  .detalle-resumen-clasificacion,
+  .etiqueta-resumen-clasificacion,
+  .grupo-filtro-clasificacion label,
+  .tabla-clasificacion th,
+  .item-ronda span,
+  .campeon-torneo span,
+  .fecha-enfrentamiento,
+  .metadato-enfrentamiento,
+  .detalle-enfrentamiento,
+  .subtitulo-resultado,
+  .detalle-resultado,
+  .meta-equipo,
+  .detalle-equipo,
+  .cabecera-bloque-disciplinas p,
+  .actualizacion-disciplinas,
+  .datos-resumen-calendario span,
+  .cabecera-seccion-calendario p,
+  .datos-evento-destacado strong,
+  .disciplina-enfrentamiento-calendario,
+  .ronda-enfrentamiento-calendario,
+  .ubicacion-enfrentamiento-calendario,
+  .fecha-enfrentamiento-calendario span
+) {
+  color: var(--text-secondary);
+}
+
+html[data-tema="claro"] :where(
+  .insignia-torneo,
+  .insignia-publicacion,
+  .estado-publico,
+  .estado-calendario,
+  .estado-disciplina,
+  .estado-inscripcion,
+  .estado-solicitud,
+  .estado-mi-actividad,
+  .estado-mini,
+  .insignia-disciplina,
+  .insignia-ronda-clasificacion,
+  .insignia-estado-clasificacion,
+  .chip-asociacion-disciplina,
+  .chip-filtro-ah,
+  .chip-reciente-ah,
+  .etiqueta-categoria-disciplina,
+  .etiqueta-violeta,
+  .etiqueta-verde,
+  .etiqueta-naranja,
+  .etiqueta-azul,
+  .etiqueta-rojo
+) {
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+}
+
+html[data-tema="claro"] :where(
+  .estado-aprobado,
+  .estado-confirmado,
+  .estado-finalizado,
+  .estado-disciplina.activa,
+  .estado-calendario.confirmado,
+  .insignia-activo,
+  .etiqueta-verde
+) {
+  background: var(--state-success-bg);
+  color: var(--state-success-text);
+  border-color: var(--state-success-border);
+}
+
+html[data-tema="claro"] :where(
+  .estado-pendiente,
+  .estado-incompleto,
+  .estado-corregido,
+  .etiqueta-naranja
+) {
+  background: var(--state-warning-bg);
+  color: var(--state-warning-text);
+  border-color: var(--state-warning-border);
+}
+
+html[data-tema="claro"] :where(
+  .estado-programado,
+  .estado-en-juego,
+  .insignia-en-juego,
+  .insignia-proximo,
+  .etiqueta-azul
+) {
+  background: var(--state-info-bg);
+  color: var(--state-info-text);
+  border-color: var(--state-info-border);
+}
+
+html[data-tema="claro"] :where(
+  .estado-rechazado,
+  .estado-suspendido,
+  .insignia-suspendido,
+  .etiqueta-rojo
+) {
+  background: var(--state-danger-bg);
+  color: var(--state-danger-text);
+  border-color: var(--state-danger-border);
+}
+
+html[data-tema="claro"] :where(
+  .insignia-publicacion.publicada,
+  .insignia-disciplina,
+  .insignia-ronda-clasificacion,
+  .chip-asociacion-disciplina,
+  .chip-filtro-ah,
+  .etiqueta-violeta
+) {
+  background: var(--state-accent-bg);
+  color: var(--state-accent-text);
+  border-color: var(--state-accent-border);
+}
+
+html[data-tema="claro"] :where(
+  .modal-torneo-contenido,
+  .modal-registro-contenido,
+  .contenido-modal-registro,
+  .modal-disciplina-contenido,
+  .modal-confirmacion-contenido,
+  .modal-participante-clasificacion,
+  .modal-gestion-usuario,
+  .modal-perfil-usuario,
+  .contenido-modal,
+  .menu-contextual-torneo,
+  .panel-notificaciones,
+  .panel-busqueda-global-ah,
+  .panel-ayuda-ah
+) {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-float);
+}
+
+html[data-tema="claro"] .opcion-tema {
+  background: var(--surface-subtle);
+  color: var(--text-primary);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] .opcion-tema:hover {
+  background: color-mix(in srgb, var(--color-acento) 5%, var(--surface-subtle));
+  border-color: var(--border-accent);
+}
+
+html[data-tema="claro"] .opcion-tema[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--color-acento) 10%, var(--surface-card));
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 3px var(--focus-ring), 0 8px 20px rgba(38, 24, 55, .08);
+}
+
+html[data-tema="claro"] .opcion-tema[aria-pressed="true"] strong {
+  color: var(--state-accent-text);
+}
+
+html[data-tema="claro"] .opcion-tema[aria-pressed="true"] .muestra-tema {
+  border-color: var(--color-acento);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-acento) 14%, transparent);
+  opacity: 1;
+}
+
+html[data-tema="claro"] .opcion-tema:not([aria-pressed="true"]) .muestra-tema {
+  opacity: .76;
+}
+
+html[data-tema="claro"] .etiqueta-administracion {
+  color: var(--color-acento);
+}
+
+html[data-tema="claro"] .panel-calendario {
+  background: var(--surface-page);
+  color: var(--text-primary);
+}
+
+html[data-tema="claro"] .panel-calendario .selector-vista-calendario {
+  background: var(--surface-inset);
+  border: 1px solid var(--border-subtle);
+}
+
+html[data-tema="claro"] .panel-calendario .boton-vista-calendario {
+  color: var(--text-secondary);
+}
+
+html[data-tema="claro"] .panel-calendario .boton-vista-calendario.activo {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--morado-principal), #7c3aed);
+}
+
+html[data-tema="claro"] .panel-calendario .boton-vista-calendario:hover:not(.activo),
+html[data-tema="claro"] .panel-calendario .boton-vista-calendario:focus-visible:not(.activo) {
+  background: var(--surface-card);
+  color: var(--color-acento);
+}
+
+html[data-tema="claro"] .panel-calendario .dia-calendario {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border-right-color: var(--border-subtle);
+  border-bottom-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] .panel-calendario .dia-calendario:hover:not(.seleccionado) {
+  background: var(--surface-subtle);
+}
+
+html[data-tema="claro"] .panel-calendario .dia-calendario.fuera-mes {
+  background: var(--surface-subtle);
+  color: var(--text-muted);
+}
+
+html[data-tema="claro"] .panel-calendario .dias-semana-calendario {
+  background: var(--surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+html[data-tema="claro"] .panel-calendario option {
+  background: var(--surface-card);
+  color: var(--text-primary);
+}
+
+/* Separación de superficies sin alterar la geometría compartida. */
+html[data-tema="claro"] body :is(
+  .tarjeta-ah,.tarjeta-estadistica,.tarjeta-torneo,.resumen-participante,
+  .tarjeta-equipo,.barra-filtros-participantes,.filtros-torneos,
+  .barra-filtros-calendario,.tarjeta-calendario,.tarjeta-resumen-calendario,
+  .barra-filtros-clasificacion,.tarjeta-resumen-clasificacion,
+  .tabla-clasificacion-tarjeta,.progreso-torneo,.barra-filtros-resultados
+) {
+  background:var(--surface-card);
+  border-color:#dddfe7;
+  box-shadow:inset 0 0 0 1px rgb(36 31 43 / 4%), 0 5px 16px rgb(36 31 43 / 6%);
+}
+
+html[data-tema="claro"] .principal-torneos .siguiente-accion-torneo-ah {
+  border-color:color-mix(in srgb,var(--state-accent-text) 30%,var(--border-subtle));
+  box-shadow:inset 3px 0 0 var(--state-accent-text);
+}
+html[data-tema="claro"] .principal-torneos .siguiente-accion-torneo-ah > div > span { color:var(--state-accent-text); }
+html[data-tema="claro"] .principal-torneos .siguiente-accion-torneo-ah strong { color:var(--text-primary); }
+html[data-tema="claro"] .principal-torneos .siguiente-accion-torneo-ah small { color:var(--text-secondary); }
+html[data-tema="claro"] .principal-torneos .siguiente-accion-torneo-ah .boton { background:var(--state-accent-text); color:#fff; }

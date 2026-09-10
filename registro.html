@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArenaCJD - Crear cuenta</title>
+<link rel="icon" type="image/png" href="imagenes/arena-cjd-isotipo.png">
+<script src="js/tema-inicial.js"></script>
+<script src="js/iconos.js?v=20260909-sprint11"></script>
+<link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
+<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
+<link rel="stylesheet" href="css/componentes.css?v=20260909-sprint12">
+<link rel="stylesheet" href="css/animaciones.css">
+<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-theme5">
+<link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">
+<link rel="stylesheet" href="css/formularios.css?v=20260910-mobile1">
+</head>
+<body>
+
+<main class="distribucion-registro">
+
+<aside class="lateral-registro">
+
+<div class="marca-registro">
+<a href="index.php"><img src="imagenes/arena-cjd-logo-horizontal.png" alt="Logo de ArenaCJD" class="imagen-marca-registro"></a>
+</div>
+
+<div class="encabezado-lateral">
+<h1 class="titulo-registro">
+Únete a la competencia
+<span class="acento-registro">y vive la experiencia</span>
+</h1>
+<p class="texto-registro">
+Crea tu cuenta y participa en torneos deportivos
+electrónicos y mentales.
+</p>
+</div>
+
+<ul class="beneficios-registro">
+<li class="beneficio-registro">
+<span class="icono-beneficio">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v6a5 5 0 0 1-10 0z"></path><path d="M7 6H4a2 2 0 0 0 2 5"></path><path d="M17 6h3a2 2 0 0 1-2 5"></path></svg>
+</span>
+<div>
+<h3 class="titulo-beneficio">Participa en torneos</h3>
+<p class="descripcion-beneficio">
+Compite en diferentes categorías
+y demuestra tu talento.
+</p>
+</div>
+</li>
+
+<li class="beneficio-registro">
+<span class="icono-beneficio">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="4"></circle><path d="M2 20c0-4 4-6 7-6s7 2 7 6"></path><circle cx="19" cy="8" r="3"></circle></svg>
+</span>
+<div>
+<h3 class="titulo-beneficio">Sigue tu progreso</h3>
+<p class="descripcion-beneficio">
+Consulta tus estadísticas, posiciones
+y resultados en tiempo real.
+</p>
+</div>
+</li>
+
+<li class="beneficio-registro">
+<span class="icono-beneficio">
+<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+</span>
+<div>
+<h3 class="titulo-beneficio">Organiza eventos</h3>
+<p class="descripcion-beneficio">
+Crea y administra torneos de forma
+fácil y profesional.
+</p>
+</div>
+</li>
+</ul>
+
+<div class="imagen-registro">
+<img src="imagenes/ilustracion-trofeo-registro.png" alt="Trofeo deportivo de ArenaCJD">
+</div>
+</aside>
+
+<section class="contenido-registro">
+<div class="tarjeta tarjeta-registro">
+
+<header class="cabecera-registro">
+<h2 class="titulo-sesion">Crear cuenta</h2>
+<p class="subtitulo-sesion">Regístrate para participar en los torneos</p>
+</header>
+
+<form class="formulario-sesion" id="formularioRegistro" novalidate>
+
+<fieldset class="seccion-registro">
+<legend class="titulo-seccion leyenda-registro">
+<span class="paso-registro">Paso 1 de 2</span>
+<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path></svg>
+Información personal
+</legend>
+
+<div class="grid-registro">
+<div class="grupo-formulario">
+<label for="fullname">Nombre completo</label>
+<div class="envoltorio-campo">
+<span class="icono-campo" data-icono="usuario" aria-hidden="true"></span>
+<input type="text" id="fullname" name="fullname" placeholder="Ej: Juan Pérez" autocomplete="name" required>
+</div>
+</div>
+
+<div class="grupo-formulario">
+<label for="username">Nombre de usuario</label>
+<div class="envoltorio-campo">
+<span class="icono-campo" data-icono="usuario" aria-hidden="true"></span>
+<input type="text" id="username" name="username" placeholder="Ej: juanperez" autocomplete="username" aria-describedby="ayudaUsername" required>
+</div>
+<small class="ayuda-campo-ah" id="ayudaUsername">Entre 4 y 24 caracteres. Puedes usar letras, números, punto, guion y guion bajo.</small>
+</div>
+</div>
+
+<div class="grupo-formulario">
+<label for="email">Correo electrónico</label>
+<div class="envoltorio-campo">
+<span class="icono-campo" data-icono="mensaje" aria-hidden="true"></span>
+<input type="email" id="email" name="email" placeholder="Ej: correo@ejemplo.com" autocomplete="email" required>
+</div>
+</div>
+
+<div class="grid-registro">
+<div class="grupo-formulario">
+<label for="password">Contraseña</label>
+<div class="envoltorio-campo">
+<span class="icono-campo" data-icono="candado" aria-hidden="true"></span>
+<input type="password" id="password" name="password" placeholder="••••••••••" autocomplete="new-password" aria-describedby="reglasContrasena" required>
+<button class="ver-contrasena" type="button" data-target="password" aria-label="Mostrar contraseña"><span data-icono="ojo" aria-hidden="true"></span>
+</button>
+</div>
+</div>
+
+<div class="grupo-formulario">
+<label for="confirmPassword">Confirmar contraseña</label>
+<div class="envoltorio-campo">
+<span class="icono-campo" data-icono="candado" aria-hidden="true"></span>
+<input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••••" autocomplete="new-password" required>
+<button class="ver-contrasena" type="button" data-target="confirmPassword" aria-label="Mostrar contraseña"><span data-icono="ojo" aria-hidden="true"></span>
+</button>
+</div>
+</div>
+</div>
+
+<div class="reglas-registro" id="reglasContrasena">
+<p class="titulo-reglas">Tu contraseña debe contener:</p>
+<ul class="lista-reglas">
+<li class="regla-registro" data-rule="length">
+<span class="icono-regla neutral"><span data-icono="circulo" aria-hidden="true"></span></span>
+<span>Mínimo 8 caracteres</span>
+</li>
+<li class="regla-registro" data-rule="number">
+<span class="icono-regla neutral"><span data-icono="circulo" aria-hidden="true"></span></span>
+<span>Al menos un número</span>
+</li>
+<li class="regla-registro" data-rule="uppercase">
+<span class="icono-regla neutral"><span data-icono="circulo" aria-hidden="true"></span></span>
+<span>Al menos una mayúscula</span>
+</li>
+<li class="regla-registro" data-rule="symbol">
+<span class="icono-regla neutral"><span data-icono="circulo" aria-hidden="true"></span></span>
+<span>Al menos un símbolo: ! @ # $ % &amp; *</span>
+</li>
+</ul>
+</div>
+</fieldset>
+
+<fieldset class="seccion-registro">
+<legend class="titulo-seccion leyenda-registro"><span class="paso-registro">Paso 2 de 2</span>Recuperación de cuenta</legend>
+<p class="texto-ayuda-recuperacion">Esta pregunta se utilizará únicamente si olvidas tu contraseña. Evita usar datos demasiado sensibles.</p>
+<div class="grid-registro">
+<div class="grupo-formulario">
+<label for="preguntaRecuperacion">Pregunta de recuperación</label>
+<select id="preguntaRecuperacion" name="pregunta_recuperacion" class="selector-formulario" required>
+<option value="">Seleccionar pregunta</option>
+<option>¿Cuál era el nombre de tu primera mascota?</option>
+<option>¿Cuál es tu comida favorita?</option>
+<option>¿Cuál fue tu primer videojuego?</option>
+<option>¿Cuál es el apodo de un amigo de la infancia?</option>
+<option>¿Cuál es tu película favorita?</option>
+</select>
+</div>
+<div class="grupo-formulario">
+<label for="respuestaRecuperacion">Respuesta</label>
+<input class="campo-formulario" id="respuestaRecuperacion" name="respuesta_recuperacion" type="text" maxlength="100" autocomplete="off" placeholder="Escribe una respuesta que recuerdes" required>
+</div>
+</div>
+</fieldset>
+
+<div class="casillas-registro">
+<label class="recordar">
+<input type="checkbox" id="terms" name="terms" checked>
+<span>
+Acepto los <a href="terminos.php" class="enlace-olvido" target="_blank" rel="noopener">términos y condiciones</a> y la
+<a href="privacidad.php" class="enlace-olvido" target="_blank" rel="noopener">política de privacidad</a>
+</span>
+</label>
+
+</div>
+
+<p class="mensaje-registro" id="mensajeRegistro" role="alert" aria-live="polite"></p>
+
+<button class="boton boton-principal boton-bloque boton-enviar" type="submit">
+<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="4"></circle><path d="M2 20c0-4 4-6 7-6s7 2 7 6"></path><line x1="19" y1="8" x2="19" y2="14"></line><line x1="16" y1="11" x2="22" y2="11"></line></svg>
+Crear cuenta
+</button>
+
+<p class="sin-cuenta pie-registro">
+¿Ya tienes cuenta?
+<a href="index.php" class="enlace-olvido">Iniciar sesión</a>
+</p>
+
+</form>
+</div>
+</section>
+
+</main>
+
+<div class="modal-registro" id="modalRegistroExitoso" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="tituloModalRegistro">
+<div class="fondo-modal-registro" data-cerrar-modal-registro></div>
+<div class="contenido-modal-registro" tabindex="-1">
+<div class="icono-modal-registro" aria-hidden="true">
+<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"></path></svg>
+</div>
+<h2 id="tituloModalRegistro">¡Cuenta creada con éxito!</h2>
+<p>Tu solicitud fue registrada correctamente. Un administrador revisará el acceso antes de habilitar tu cuenta.</p>
+<div class="acciones-modal-registro">
+<button class="boton boton-secundario" type="button" data-cerrar-modal-registro>Cerrar</button>
+<a class="boton boton-principal" href="index.php">Ir a iniciar sesión</a>
+</div>
+</div>
+</div>
+
+<script src="js/menu.js?v=20260909-sprint11"></script>
+<script src="js/tema.js?v=20260909-login-tema1"></script>
+</body>
+</html>

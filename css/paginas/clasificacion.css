@@ -1,0 +1,220 @@
+.panel-clasificacion{display:flex;flex-direction:column;gap:20px;min-width:0}.cabecera-clasificacion{display:flex;flex-direction:column;gap:16px}.etiqueta-modulo{margin:0 0 5px;color:var(--morado-principal);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.descripcion-pagina{margin:6px 0 0;color:var(--texto-gris);line-height:1.55}.boton-exportar-clasificacion{align-self:flex-start}.barra-filtros-clasificacion{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:16px;border:1px solid var(--color-borde);border-radius:16px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.grupo-filtro-clasificacion{display:flex;flex-direction:column;gap:7px;min-width:0}.grupo-filtro-clasificacion label{color:var(--color-texto-secundario);font-size:12px;font-weight:700}.resumen-clasificacion{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.tarjeta-resumen-clasificacion{display:flex;align-items:center;gap:13px;min-width:0;padding:17px;border:1px solid var(--color-borde);border-radius:16px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.icono-resumen-clasificacion{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:13px;background:var(--color-fondo-terciario);color:var(--morado-principal);font-size:21px}.contenido-resumen-clasificacion{display:flex;flex-direction:column;min-width:0}.etiqueta-resumen-clasificacion{color:var(--texto-gris);font-size:12px;font-weight:700}.valor-resumen-clasificacion{overflow:hidden;color:var(--color-texto-principal);font-size:23px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.detalle-resumen-clasificacion{color:var(--color-texto-secundario);font-size:11px}.estadisticas-disciplina{padding:18px;border:1px solid var(--color-borde);border-radius:18px;background:linear-gradient(135deg,var(--color-fondo-tarjeta),var(--color-fondo-secundario));box-shadow:var(--sombra-tarjeta)}.encabezado-seccion-clasificacion{display:flex;flex-direction:column;gap:10px;margin-bottom:15px}.encabezado-seccion-clasificacion h2,.encabezado-tabla-clasificacion h2,.encabezado-progreso h2{margin:0;color:var(--color-texto-principal);font-size:18px}.encabezado-seccion-clasificacion p,.encabezado-tabla-clasificacion p,.encabezado-progreso p{margin:4px 0 0;color:var(--texto-gris);font-size:12px}.insignia-disciplina{align-self:flex-start;padding:7px 11px;border-radius:999px;background:var(--color-fondo-terciario);color:var(--morado-principal);font-size:12px;font-weight:800}.grid-estadisticas-disciplina{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.dato-disciplina{padding:13px;border:1px solid var(--color-borde);border-radius:13px;background:var(--color-fondo-tarjeta)}.dato-disciplina span{display:block;color:var(--texto-gris);font-size:11px;font-weight:700}.dato-disciplina strong{display:block;margin-top:4px;color:var(--color-texto-principal);font-size:21px}.contenido-clasificacion{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;min-width:0}.tabla-clasificacion-tarjeta,.progreso-torneo{min-width:0;padding:17px}.encabezado-tabla-clasificacion{display:flex;flex-direction:column;gap:13px;margin-bottom:15px}.busqueda-clasificacion input{width:100%;min-height:42px;padding:0 13px;border:1px solid var(--color-borde);border-radius:11px;background:var(--color-fondo-tarjeta);color:var(--color-texto-principal);font:inherit;outline:none}.busqueda-clasificacion input:focus{border-color:var(--morado-principal);box-shadow:0 0 0 3px var(--color-directo-284)}.contenedor-tabla-clasificacion{width:100%;overflow-x:auto}.tabla-clasificacion{width:100%;min-width:690px;border-collapse:collapse}.tabla-clasificacion th{padding:11px 10px;border-bottom:1px solid var(--color-borde);color:var(--color-texto-secundario);font-size:11px;text-align:left;text-transform:uppercase}.tabla-clasificacion td{padding:13px 10px;border-bottom:1px solid var(--color-borde);color:var(--color-texto-principal);font-size:13px}.tabla-clasificacion tbody tr{cursor:pointer;transition:background .2s ease}.tabla-clasificacion tbody tr:hover{background:var(--color-fondo-secundario)}.celda-participante{display:flex;align-items:center;gap:10px;min-width:190px}.avatar-clasificacion{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--color-directo-60229e),var(--color-directo-32104f));color:var(--color-fondo-tarjeta);font-size:11px;font-weight:800}.nombre-participante-clasificacion{display:flex;flex-direction:column;min-width:0}.nombre-participante-clasificacion strong{overflow:hidden;color:var(--color-texto-principal);text-overflow:ellipsis;white-space:nowrap}.nombre-participante-clasificacion span{color:var(--color-texto-secundario);font-size:11px}.insignia-estado-clasificacion,.insignia-ronda-clasificacion{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}.insignia-estado-clasificacion.clasificado{background:var(--color-directo-e7f7ea);color:var(--color-directo-22783a)}.insignia-estado-clasificacion.eliminado{background:var(--color-directo-fdebed);color:var(--color-directo-b82d3a)}.insignia-ronda-clasificacion{background:var(--color-fondo-terciario);color:var(--color-directo-5c258e)}.rendimiento-clasificacion{font-weight:800;color:var(--morado-principal)}.mensaje-sin-clasificacion{padding:22px;text-align:center;color:var(--texto-gris)}.encabezado-progreso{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.porcentaje-progreso{display:grid;place-items:center;flex:0 0 48px;height:32px;border-radius:10px;background:var(--color-fondo-terciario);color:var(--morado-principal);font-size:12px;font-weight:800}.barra-progreso-torneo{height:8px;margin:16px 0 19px;overflow:hidden;border-radius:999px;background:var(--color-fondo-secundario)}.barra-progreso-torneo span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--color-directo-4a148c),var(--color-directo-9c27b0));transition:width .35s ease}.lista-rondas{display:flex;flex-direction:column;gap:10px}.item-ronda{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px;border:1px solid var(--color-borde);border-radius:12px}.numero-ronda{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--color-fondo-secundario);color:var(--color-texto-secundario);font-size:12px;font-weight:800}.item-ronda strong{display:block;color:var(--color-texto-principal);font-size:13px}.item-ronda span{color:var(--color-texto-secundario);font-size:11px}.item-ronda.completada{border-color:var(--color-directo-cdebd5);background:var(--color-directo-f6fcf7)}.item-ronda.completada .numero-ronda{background:var(--color-directo-dff3e4);color:var(--color-directo-237a3e)}.item-ronda.actual{border-color:var(--color-directo-c9aee3);background:var(--color-fondo-secundario)}.item-ronda.actual .numero-ronda{background:var(--morado-principal);color:var(--color-fondo-tarjeta)}.estado-ronda{font-weight:800}.campeon-torneo{display:flex;align-items:center;gap:12px;margin-top:16px;padding:14px;border-radius:13px;background:linear-gradient(135deg,var(--color-directo-f6ecff),#fff6db)}.icono-campeon{font-size:25px}.campeon-torneo div{display:flex;flex-direction:column}.campeon-torneo span{color:var(--color-texto-secundario);font-size:11px;font-weight:700}.campeon-torneo strong{color:var(--color-texto-principal);font-size:14px}.fondo-modal-clasificacion{position:fixed;inset:0;z-index:1100;display:grid;place-items:end center;padding:12px;background:var(--color-directo-300);backdrop-filter:blur(4px)}.fondo-modal-clasificacion[hidden]{display:none}.modal-participante-clasificacion{position:relative;width:100%;max-height:calc(100dvh - 24px);overflow-y:auto;padding:22px;border-radius:20px 20px 12px 12px;background:var(--color-fondo-tarjeta);box-shadow:0 25px 80px var(--color-directo-301)}.boton-cerrar-clasificacion{position:absolute;top:13px;right:13px;width:36px;height:36px;border:0;border-radius:10px;background:var(--color-fondo-secundario);color:var(--color-texto-principal);font-size:24px;cursor:pointer}.cabecera-modal-clasificacion{display:flex;align-items:center;gap:14px;padding-right:38px}.avatar-modal-clasificacion{display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border-radius:17px;background:linear-gradient(135deg,var(--color-directo-60229e),var(--color-directo-2c0e49));color:var(--color-fondo-tarjeta);font-size:16px;font-weight:800}.cabecera-modal-clasificacion h2{margin:5px 0 2px;color:var(--color-texto-principal);font-size:21px}.cabecera-modal-clasificacion p{margin:0;color:var(--texto-gris);font-size:12px}.estado-modal-clasificacion{display:inline-flex;padding:4px 8px;border-radius:999px;background:var(--color-directo-e4f5e8);color:var(--color-directo-24783c);font-size:10px;font-weight:800}.datos-modal-clasificacion{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:19px 0}.dato-modal-clasificacion{padding:12px;border:1px solid var(--color-borde);border-radius:12px}.dato-modal-clasificacion span{display:block;color:var(--color-texto-secundario);font-size:10px;font-weight:700}.dato-modal-clasificacion strong{display:block;margin-top:3px;color:var(--color-texto-principal);font-size:16px}.ultimos-resultados-clasificacion{margin-bottom:17px}.ultimos-resultados-clasificacion h3{margin:0 0 10px;color:var(--color-texto-principal);font-size:14px}.resultado-reciente-clasificacion{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--color-borde);color:var(--color-texto-secundario);font-size:12px}.resultado-reciente-clasificacion strong{color:var(--morado-principal)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.grupo-filtro-clasificacion label,.etiqueta-resumen-clasificacion,.encabezado-seccion-clasificacion p,.encabezado-tabla-clasificacion p,.encabezado-progreso p{font-size:13px;}
+.detalle-resumen-clasificacion,.dato-disciplina span,.nombre-participante-clasificacion span,.item-ronda span,.campeon-torneo span{font-size:12px;}
+.tabla-clasificacion th{font-size:12px;}
+.tabla-clasificacion td{font-size:14px;}
+.boton-cerrar-clasificacion{width:44px;height:44px;}
+
+@media (max-width:700px){
+  .contenedor-tabla-clasificacion{overflow:visible;}
+  .tabla-clasificacion,.tabla-clasificacion tbody,.tabla-clasificacion tr,.tabla-clasificacion td{display:block;width:100%;min-width:0;}
+  .tabla-clasificacion thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  .tabla-clasificacion tbody{display:grid;gap:10px;}
+  .tabla-clasificacion tbody tr{padding:12px 14px;border:1px solid var(--color-borde);border-radius:13px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-pequena);}
+  .tabla-clasificacion td{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:38px;padding:7px 0;border:0;border-bottom:1px solid var(--color-borde);text-align:right;}
+  .tabla-clasificacion td::before{content:attr(data-label);color:var(--color-texto-secundario);font-size:12px;font-weight:800;text-align:left;}
+  .tabla-clasificacion td:last-child{border-bottom:0;}
+  .celda-participante{justify-content:flex-end;min-width:0;}
+}
+
+.panel-clasificacion .tarjeta-resumen-clasificacion{
+  min-height:116px;
+  padding:15px 14px;
+  gap:11px;
+}
+.panel-clasificacion .icono-resumen-clasificacion{
+  flex-basis:40px;
+  width:40px;
+  height:40px;
+  border-radius:11px;
+  font-size:19px;
+}
+.panel-clasificacion .contenido-resumen-clasificacion{
+  flex:1;
+  justify-content:center;
+  gap:2px;
+}
+.panel-clasificacion .valor-resumen-clasificacion{
+  overflow:visible;
+  max-width:100%;
+  color:var(--color-texto-principal);
+  font-size:clamp(18px,1.55vw,21px);
+  line-height:1.12;
+  text-overflow:clip;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.panel-clasificacion .detalle-resumen-clasificacion{
+  margin-top:2px;
+  line-height:1.35;
+}
+.panel-clasificacion .encabezado-seccion-clasificacion{
+  display:block;
+  margin-bottom:14px;
+}
+.panel-clasificacion .encabezado-seccion-clasificacion>div{
+  width:100%;
+}
+.panel-clasificacion .contexto-estadisticas-clasificacion{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px 9px;
+  margin-top:5px;
+}
+.panel-clasificacion .contexto-estadisticas-clasificacion p{
+  margin:0;
+}
+.panel-clasificacion .insignia-disciplina{
+  align-self:auto;
+  min-height:24px;
+  padding:4px 8px;
+  border:1px solid color-mix(in srgb,var(--color-acento) 18%,var(--color-borde));
+  background:color-mix(in srgb,var(--color-acento) 7%,var(--color-fondo-secundario));
+  color:var(--color-acento);
+  font-size:11px;
+}
+.panel-clasificacion .grid-estadisticas-disciplina{
+  gap:9px;
+}
+.panel-clasificacion .dato-disciplina{
+  padding:12px 13px;
+  background:var(--color-fondo-tarjeta);
+}
+.panel-clasificacion .dato-disciplina strong{
+  margin-top:3px;
+  font-size:20px;
+}
+.panel-clasificacion .progreso-torneo{
+  padding:19px;
+}
+.panel-clasificacion .encabezado-progreso{
+  align-items:center;
+}
+.panel-clasificacion .encabezado-progreso h2{
+  font-size:18px;
+}
+.panel-clasificacion #textoRondaActual{
+  margin-top:5px;
+  color:var(--color-texto-principal);
+  font-size:12px;
+  font-weight:700;
+}
+.panel-clasificacion .porcentaje-progreso{
+  flex-basis:58px;
+  min-width:58px;
+  height:38px;
+  border:1px solid color-mix(in srgb,var(--color-acento) 24%,var(--color-borde));
+  background:color-mix(in srgb,var(--color-acento) 8%,var(--color-fondo-secundario));
+  color:var(--color-acento);
+  font-size:15px;
+  font-variant-numeric:tabular-nums;
+}
+.panel-clasificacion .barra-progreso-torneo{
+  height:10px;
+  margin:14px 0 17px;
+  background:var(--color-fondo-secundario);
+  border:1px solid color-mix(in srgb,var(--color-borde) 78%,transparent);
+}
+.panel-clasificacion .lista-rondas{
+  gap:8px;
+}
+.panel-clasificacion .lista-rondas>p{
+  margin:0;
+  padding:11px 12px;
+  border-radius:10px;
+  background:var(--color-fondo-secundario);
+  color:var(--color-texto-secundario);
+  font-size:12px;
+  line-height:1.45;
+}
+.panel-clasificacion .ronda-progreso{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 11px;
+  border:1px solid var(--color-borde);
+  border-radius:10px;
+  background:var(--color-fondo-secundario);
+  color:var(--color-texto-secundario);
+  font-size:12px;
+}
+.panel-clasificacion .ronda-progreso span{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.panel-clasificacion .ronda-progreso strong{
+  flex:0 0 auto;
+  color:var(--color-texto-principal);
+  font-variant-numeric:tabular-nums;
+}
+.panel-clasificacion .ronda-progreso.completada{
+  border-color:color-mix(in srgb,var(--verde) 32%,var(--color-borde));
+  background:color-mix(in srgb,var(--verde) 7%,var(--color-fondo-secundario));
+}
+.panel-clasificacion .ronda-progreso.actual{
+  border-color:color-mix(in srgb,var(--color-acento) 34%,var(--color-borde));
+}
+.panel-clasificacion .campeon-torneo{
+  min-height:68px;
+  margin-top:14px;
+  padding:13px 14px;
+  border:1px solid color-mix(in srgb,var(--color-acento) 20%,var(--color-borde));
+  background:color-mix(in srgb,var(--color-acento) 7%,var(--color-fondo-secundario));
+}
+.panel-clasificacion .campeon-torneo strong{
+  margin-top:2px;
+  font-size:15px;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.panel-clasificacion .boton-exportar-clasificacion:disabled,
+.panel-clasificacion .busqueda-clasificacion input:disabled{
+  cursor:not-allowed;
+  opacity:.62;
+}
+.panel-clasificacion .boton-exportar-clasificacion:disabled{
+  background:var(--color-fondo-terciario);
+  color:var(--color-texto-desactivado);
+  box-shadow:none;
+}
+.panel-clasificacion .busqueda-clasificacion input:disabled{
+  background:var(--color-fondo-secundario);
+  color:var(--color-texto-desactivado);
+  border-color:var(--color-borde);
+}
+.panel-clasificacion .busqueda-clasificacion input:disabled::placeholder{
+  color:var(--color-texto-desactivado);
+}
+.panel-clasificacion .tabla-clasificacion tbody tr:focus-visible{
+  outline:2px solid var(--color-acento);
+  outline-offset:-2px;
+}
+@media(min-width:701px){
+  .panel-clasificacion .tabla-clasificacion th:nth-child(n+3):nth-child(-n+10),
+  .panel-clasificacion .tabla-clasificacion td:nth-child(n+3):nth-child(-n+10){
+    width:46px;
+    padding-left:6px;
+    padding-right:6px;
+    text-align:center;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+}
+@media(max-width:700px){
+  .panel-clasificacion .tarjeta-resumen-clasificacion{
+    min-height:0;
+  }
+  .panel-clasificacion .valor-resumen-clasificacion{
+    font-size:20px;
+  }
+  .panel-clasificacion .contexto-estadisticas-clasificacion{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .panel-clasificacion .busqueda-clasificacion{
+    width:100%;
+  }
+}

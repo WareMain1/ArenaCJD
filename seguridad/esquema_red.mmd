@@ -1,0 +1,11 @@
+flowchart TD
+    A[Internet / Red local] --> B[Router / Gateway]
+    B --> C[Suricata IDS / IPS]
+    C --> D[UFW Firewall]
+    D --> E[Apache + PHP]
+    E --> F[ArenaCJD]
+    F --> G[(MySQL localhost)]
+    H[Fail2ban] --> D
+    F --> I[/Log de seguridad/]
+    I --> H
+    G --- J[Usuario arenacjd_app\nSELECT INSERT UPDATE DELETE]

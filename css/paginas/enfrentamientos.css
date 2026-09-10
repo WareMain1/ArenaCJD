@@ -1,0 +1,334 @@
+.pagina-enfrentamientos {
+  background: var(--color-directo-f7f6fb);
+}
+
+.panel-enfrentamientos {
+  background: radial-gradient(circle at 82% 4%, var(--color-directo-214), transparent 32%), var(--color-directo-f8f8fb);
+  padding: 16px;
+}
+
+.cabecera-pagina-enfrentamientos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.titulo-enfrentamientos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.titulo-enfrentamientos h1 {
+  color: var(--color-directo-17142b);
+  font-size: 27px;
+  line-height: 1.1;
+  margin-bottom: 5px;
+}
+
+.titulo-enfrentamientos p {
+  color: var(--color-directo-676477);
+  font-size: 14px;
+}
+
+.icono-titulo-enfrentamientos {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  display: grid;
+  place-items: center;
+  color: var(--color-directo-5a18b7);
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--color-directo-f2eaff), var(--color-directo-e8dcfb));
+}
+
+.boton-exportar-enfrentamientos {
+  width: 100%;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 15px;
+  border-radius: 9px;
+  border: 1px solid var(--color-directo-6d22c6);
+  background: var(--color-directo-fff);
+  color: var(--color-directo-51109c);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.barra-filtros-enfrentamientos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 13px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--color-directo-fff);
+  border: 1px solid var(--color-directo-ebe8f0);
+  border-radius: 14px;
+  box-shadow: 0 5px 18px var(--color-directo-224);
+}
+
+.filtro-enfrentamiento {
+  min-width: 0;
+}
+
+.filtro-enfrentamiento label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--color-directo-272238);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.filtro-enfrentamiento .selector-formulario,
+.filtro-enfrentamiento .campo-formulario {
+  min-height: 44px;
+  border-color: var(--color-directo-ded9e8);
+  color: var(--color-directo-272238);
+  background: var(--color-directo-fff);
+}
+
+.lista-enfrentamientos {
+  display: grid;
+  gap: 12px;
+}
+
+.tarjeta-enfrentamiento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 15px;
+  align-items: center;
+  padding: 17px;
+  background: var(--color-directo-fff);
+  border: 1px solid var(--color-directo-ebe8f0);
+  border-radius: 14px;
+  box-shadow: 0 5px 18px var(--color-directo-227);
+  min-width: 0;
+}
+
+.datos-torneo-enfrentamiento {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.datos-torneo-enfrentamiento > div:last-child {
+  min-width: 0;
+}
+
+.datos-torneo-enfrentamiento h2 {
+  overflow: hidden;
+  color: var(--color-directo-24212c);
+  font-size: 16px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.datos-torneo-enfrentamiento p {
+  color: var(--color-directo-686474);
+  font-size: 13px;
+  margin: 3px 0 8px;
+}
+
+.icono-disciplina {
+  width: 45px;
+  height: 45px;
+  flex: 0 0 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 23px;
+}
+
+.icono-voley { background: var(--color-directo-eee4ff); }
+.icono-ajedrez { background: var(--color-directo-e4f7e9); color: var(--color-directo-17843a); }
+.icono-basket { background: var(--color-directo-fff0e4); }
+.icono-esports { background: var(--color-directo-e6f0ff); }
+.icono-tenis { background: var(--color-directo-ffe9eb); }
+.icono-cartas { background: var(--color-directo-fff1d8); }
+
+.etiqueta-ronda {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ronda-morada { color: var(--color-directo-5b18a6); background: var(--color-directo-eee4ff); }
+.ronda-verde { color: var(--color-directo-147533); background: var(--color-directo-e7f6eb); }
+.ronda-naranja { color: var(--color-directo-c34b0b); background: var(--color-directo-fff0e5); }
+.ronda-azul { color: var(--color-directo-125ec6); background: var(--color-directo-e5f0ff); }
+.ronda-roja { color: var(--color-directo-c51f28); background: var(--color-directo-ffe8ea); }
+.ronda-dorada { color: var(--color-directo-a75b00); background: var(--color-directo-fff0d8); }
+
+.cruce-enfrentamiento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cruce-enfrentamiento > strong {
+  color: var(--color-directo-24212c);
+  font-size: 14px;
+}
+
+.competidor-enfrentamiento {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.competidor-enfrentamiento > span {
+  overflow: hidden;
+  color: var(--color-directo-24212c);
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.competidor-derecha {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.avatar-competidor {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-directo-fff);
+  font-size: 10px;
+  font-weight: 800;
+  box-shadow: 0 0 0 7px var(--color-directo-248);
+}
+
+.escudo-morado { background: linear-gradient(145deg, var(--color-directo-6724bc), var(--color-directo-3c0c81)); }
+.escudo-rosa { background: linear-gradient(145deg, var(--color-directo-ed47a5), var(--color-directo-c91469)); box-shadow: 0 0 0 7px var(--color-directo-253); }
+.avatar-verde { background: linear-gradient(145deg, var(--color-directo-2db357), var(--color-directo-16863b)); box-shadow: 0 0 0 7px var(--color-directo-256); }
+.escudo-naranja { background: linear-gradient(145deg, var(--color-directo-ff8c32), var(--color-directo-e35413)); box-shadow: 0 0 0 7px var(--color-directo-259); }
+.avatar-azul { background: linear-gradient(145deg, var(--color-directo-2985f1), var(--color-directo-1152bf)); box-shadow: 0 0 0 7px var(--color-directo-262); }
+.avatar-rojo { background: linear-gradient(145deg, var(--color-directo-ee4052), var(--color-directo-bd1729)); box-shadow: 0 0 0 7px var(--color-directo-265); }
+.avatar-dorado { background: linear-gradient(145deg, var(--color-directo-f2aa1f), var(--color-directo-c77600)); box-shadow: 0 0 0 7px var(--color-directo-268); }
+
+.estado-fecha-enfrentamiento {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  align-items: center;
+  justify-content: start;
+  gap: 7px 13px;
+}
+
+.estado-enfrentamiento {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.estado-enfrentamiento > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.estado-pendiente { color: var(--color-directo-b86a00); background: var(--color-directo-fff2d9); }
+.estado-finalizado { color: var(--color-directo-137533); background: var(--color-directo-e6f6ea); }
+.estado-en-juego { color: var(--color-directo-095fd4); background: var(--color-directo-e3efff); }
+.estado-suspendido { color: var(--color-directo-c61f28); background: var(--color-directo-ffe7e9); }
+
+.fecha-enfrentamiento {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-directo-403c4c);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.boton-detalle-enfrentamiento {
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid var(--color-directo-6b20ca);
+  border-radius: 8px;
+  background: var(--color-directo-fff);
+  color: var(--color-directo-52139d);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sin-enfrentamientos {
+  padding: 28px 18px;
+  text-align: center;
+  color: var(--color-directo-6e6977);
+  background: var(--color-directo-fff);
+  border: 1px dashed var(--color-directo-d7d0e2);
+  border-radius: 14px;
+}
+
+.pie-lista-enfrentamientos {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  align-items: center;
+  margin-top: 16px;
+  color: var(--color-directo-686474);
+  font-size: 12px;
+}
+
+.paginacion-enfrentamientos {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.paginacion-enfrentamientos button {
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--color-directo-e1dce8);
+  border-radius: 8px;
+  background: var(--color-directo-fff);
+  color: var(--color-directo-3c3748);
+  font: inherit;
+  cursor: pointer;
+}
+
+.paginacion-enfrentamientos button.activo {
+  border-color: var(--color-directo-5b18a6);
+  background: var(--color-directo-5b18a6);
+  color: var(--color-directo-fff);
+}
+
+.tarjeta-enfrentamiento.oculto {
+  display: none;
+}
+
+#bloqueResultadosGestion[hidden] { display: none !important; }
+#bloqueResultadosGestion label { min-width: 0; }
+#bloqueResultadosGestion label > span { display: block; margin-bottom: 6px; font-weight: 700; }

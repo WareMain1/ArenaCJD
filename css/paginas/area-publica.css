@@ -1,0 +1,347 @@
+.pagina-publica-consulta{min-height:100vh;margin:0;display:flex;flex-direction:column;background:var(--color-fondo-pagina);color:var(--color-texto-principal)}.encabezado-consulta-publica{position:sticky;top:0;z-index:50}.barra-consulta-publica{width:min(100% - 28px,1420px);min-height:72px;gap:18px}.navegacion-consulta-publica{min-width:0;flex:1;overflow-x:auto;scrollbar-width:none}.navegacion-consulta-publica::-webkit-scrollbar{display:none}.navegacion-consulta-publica ul{display:flex;align-items:center;justify-content:center;gap:4px;min-width:max-content;margin:0;padding:0;list-style:none}.navegacion-consulta-publica .enlace-navegacion{display:inline-flex;align-items:center;min-height:40px;padding:9px 12px;border-radius:10px;white-space:nowrap}.acciones-consulta-publica{display:flex;align-items:center;gap:10px;flex:0 0 auto}.boton-acceso-publico{min-height:40px;padding:9px 14px;white-space:nowrap}.contenedor-consulta-publica{width:min(100% - 28px,1280px);margin:0 auto;padding:42px 0 64px;flex:1}.cabecera-consulta-publica{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:26px}.cabecera-consulta-publica h1{margin:12px 0 8px;font-size:clamp(2rem,5vw,3.2rem);line-height:1.05}.cabecera-consulta-publica p{max-width:760px;margin:0;color:var(--color-texto-secundario);line-height:1.65}.barra-filtros-publica{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:24px;padding:18px;border:1px solid var(--color-borde);border-radius:18px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.barra-filtros-publica label{display:grid;gap:7px;color:var(--color-texto-secundario);font-size:12px;font-weight:800}.grid-consulta-publica{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.tarjeta-consulta-publica{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid var(--color-borde);border-radius:18px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.tarjeta-consulta-publica:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--color-acento) 35%,var(--color-borde));box-shadow:0 15px 34px color-mix(in srgb,var(--color-acento) 10%,transparent)}.cabecera-tarjeta-publica{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;color:var(--color-texto-secundario);font-size:12px;font-weight:800}.icono-publico{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:color-mix(in srgb,var(--color-acento) 10%,var(--color-fondo-secundario));font-size:22px}.estado-publico{display:inline-flex;align-items:center;min-height:27px;padding:5px 9px;border-radius:999px;background:var(--color-fondo-terciario);color:var(--color-texto-secundario);font-size:11px;font-weight:900;text-transform:none}.estado-publico.estado-en_curso{background:color-mix(in srgb,#18a66a 13%,var(--color-fondo-tarjeta));color:#148451}.estado-publico.estado-inscripciones{background:color-mix(in srgb,var(--color-acento) 12%,var(--color-fondo-tarjeta));color:var(--color-acento)}.estado-publico.estado-finalizado{background:color-mix(in srgb,#68758a 13%,var(--color-fondo-tarjeta));color:var(--color-texto-secundario)}.estado-publico.estado-programado{background:color-mix(in srgb,#2684ff 12%,var(--color-fondo-tarjeta));color:#2674d9}.estado-publico.estado-pendiente{background:color-mix(in srgb,#e58a17 12%,var(--color-fondo-tarjeta));color:#b76b0c}.tarjeta-consulta-publica h2{margin:0 0 7px;font-size:1.18rem}.tarjeta-consulta-publica>p{margin:0;color:var(--color-texto-secundario);line-height:1.5}.metas-publicas{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.metas-publicas span{padding:6px 9px;border-radius:999px;background:var(--color-fondo-terciario);color:var(--color-texto-secundario);font-size:11px;font-weight:800}.fechas-publicas{display:grid;gap:7px;margin:16px 0;color:var(--color-texto-secundario);font-size:12px}.fechas-publicas strong{color:var(--color-texto-principal)}.boton-publico-tarjeta{margin-top:auto;align-self:flex-start}.cruce-publico,.marcador-publico{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;min-height:72px;margin:7px 0 13px;padding:13px;border-radius:14px;background:var(--color-fondo-secundario);text-align:center}.cruce-publico strong,.marcador-publico strong{overflow:hidden;text-overflow:ellipsis}.cruce-publico span{color:var(--color-acento);font-size:12px;font-weight:900}.marcador-publico span{min-width:62px;color:var(--color-acento);font-size:1.3rem;font-weight:900}.meta-principal-publica{font-size:13px}.fecha-publica{margin-top:7px!important;font-size:12px}.enlace-publico-secundario{display:inline-flex;margin-top:14px;color:var(--color-acento);font-size:12px;font-weight:900}.resumen-clasificacion-publica{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}.resumen-clasificacion-publica>div{display:grid;gap:4px;padding:14px;border:1px solid var(--color-borde);border-radius:14px;background:var(--color-fondo-tarjeta)}.resumen-clasificacion-publica span{color:var(--color-texto-secundario);font-size:11px;font-weight:800}.tabla-publica-contenedor{overflow:hidden;border:1px solid var(--color-borde);border-radius:18px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.tabla-publica-scroll{overflow-x:auto}.tabla-clasificacion-publica{width:100%;border-collapse:collapse;min-width:690px}.tabla-clasificacion-publica th,.tabla-clasificacion-publica td{padding:13px 15px;border-bottom:1px solid var(--color-borde);text-align:left;font-size:13px}.tabla-clasificacion-publica th{background:var(--color-fondo-secundario);color:var(--color-texto-secundario);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.tabla-clasificacion-publica tbody tr:last-child td{border-bottom:0}.lista-calendario-publica{display:grid;gap:12px}.evento-calendario-publico{display:grid;grid-template-columns:120px minmax(0,1fr) auto;align-items:center;gap:18px;padding:17px;border:1px solid var(--color-borde);border-radius:17px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.fecha-evento-publico{display:grid;gap:5px}.fecha-evento-publico strong{font-size:13px}.fecha-evento-publico span{color:var(--color-acento);font-weight:900}.contenido-evento-publico h2{margin:3px 0 4px;font-size:1rem}.contenido-evento-publico p{margin:0;color:var(--color-texto-secundario);font-size:13px}.tipo-evento-publico{color:var(--color-acento);font-size:11px;font-weight:900;text-transform:uppercase}.detalle-torneo-publico{margin-bottom:32px}.enlace-volver-publico{display:inline-flex;margin-bottom:18px;color:var(--color-acento);font-weight:900}.hero-torneo-publico{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:28px;padding:28px;border:1px solid var(--color-borde);border-radius:22px;background:var(--color-fondo-tarjeta);box-shadow:var(--sombra-tarjeta)}.hero-torneo-publico h1{margin:12px 0 8px;font-size:clamp(2rem,5vw,3.4rem);line-height:1.03}.hero-torneo-publico p{margin:0;color:var(--color-texto-secundario);font-size:1rem}.datos-torneo-publico{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.datos-torneo-publico>div{display:grid;gap:4px;padding:12px;border-radius:13px;background:var(--color-fondo-secundario)}.datos-torneo-publico span{color:var(--color-texto-secundario);font-size:10px;font-weight:900;text-transform:uppercase}.seccion-detalle-publico{margin-top:30px}.cabecera-seccion-publica{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.cabecera-seccion-publica h2{margin:0}.cabecera-seccion-publica a{color:var(--color-acento);font-size:12px;font-weight:900}.pagina-publica-consulta .pie-publico{margin-top:auto}.pagina-publica-consulta .mensaje-sin-resultados{grid-column:1/-1;margin:0;padding:28px;color:var(--color-texto-secundario);text-align:center}.selector-torneo-clasificacion-publica{min-width:240px}@media(max-width:980px){.grid-consulta-publica{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-torneo-publico{grid-template-columns:1fr}.barra-consulta-publica{flex-wrap:wrap;padding:10px 0}.marca-publica{order:1}.acciones-consulta-publica{order:2}.navegacion-consulta-publica{order:3;flex-basis:100%}.navegacion-consulta-publica ul{justify-content:flex-start}.contenedor-consulta-publica{padding-top:30px}}@media(max-width:640px){.barra-consulta-publica{width:min(100% - 18px,1420px)}.marca-publica-texto span{display:none}.selector-tema-publico{display:none}.boton-acceso-publico{padding:8px 10px;font-size:12px}.grid-consulta-publica{grid-template-columns:1fr}.contenedor-consulta-publica{width:min(100% - 18px,1280px)}.evento-calendario-publico{grid-template-columns:1fr}.evento-calendario-publico .boton{justify-self:start}.datos-torneo-publico{grid-template-columns:1fr}.hero-torneo-publico{padding:20px}.barra-filtros-publica{padding:14px}}
+
+
+
+
+.navegacion-consulta-publica{padding:7px 5px;overflow-y:visible}
+.navegacion-consulta-publica ul{padding:4px 6px}
+.navegacion-consulta-publica .enlace-navegacion,
+.navegacion-consulta-publica .enlace-navegacion[aria-current="page"]{
+  color:var(--color-refactor-005);
+  background:transparent;
+  transform:scale(1);
+  box-shadow:none;
+}
+.navegacion-consulta-publica .enlace-navegacion:hover{
+  color:var(--blanco);
+  background:var(--color-acento);
+  transform:scale(1.07);
+  box-shadow:0 7px 18px color-mix(in srgb,var(--color-acento) 28%,transparent);
+}
+.navegacion-consulta-publica .enlace-navegacion:focus-visible{
+  color:var(--blanco);
+  background:var(--color-acento);
+}
+
+.media-publica{position:relative;display:inline-grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border:1px solid var(--color-borde);border-radius:14px;overflow:hidden;background:var(--color-fondo-secundario);color:var(--color-acento);font-weight:900;line-height:1}.media-publica>span{display:grid;place-items:center;width:100%;height:100%}.media-publica img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--color-fondo-secundario)}.media-publica-torneo{width:46px;height:46px}.media-publica-pequena{width:38px;height:38px;border-radius:12px}.media-publica-mini{width:28px;height:28px;border-radius:9px;font-size:10px}.media-publica-hero{width:92px;height:92px;border-radius:24px;font-size:28px}.participante-publico-con-media,.participante-tabla-publica,.resumen-media-publica,.titulo-evento-con-media,.fila-torneo-publico-media{display:flex;align-items:center;gap:9px;min-width:0}.participante-publico-con-media{justify-content:center}.participante-publico-con-media strong,.participante-tabla-publica span,.titulo-evento-con-media span,.fila-torneo-publico-media span{min-width:0;overflow:hidden;text-overflow:ellipsis}.hero-torneo-identidad{display:flex;align-items:flex-start;gap:16px;min-width:0}.hero-torneo-identidad>div{min-width:0}.titulo-evento-con-media{margin-top:5px!important}.fila-torneo-publico-media{margin-top:0!important;color:var(--color-texto-secundario);font-size:13px}.cabecera-tarjeta-publica .media-publica{margin-right:auto}@media(max-width:560px){.media-publica-hero{width:72px;height:72px}.hero-torneo-identidad{align-items:center}}
+
+
+
+.boton-menu-publico{
+  display:none;
+  min-width:44px;
+  min-height:44px;
+  border:1px solid var(--borde);
+  border-radius:12px;
+  background:var(--fondo-tarjeta);
+  color:var(--texto-principal);
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:8px 11px;
+  font:inherit;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.boton-menu-publico b{
+  margin-left:4px;
+  font-size:13px;
+}
+
+.metas-publicas span{
+  font-size:13px;
+  gap:5px;
+}
+
+.metas-publicas span b{
+  font-size:10px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--texto-secundario);
+  font-weight:800;
+}
+
+.estado-vacio-publico{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:150px;
+  padding:30px 20px;
+  text-align:center;
+  border:1px dashed var(--borde);
+  border-radius:var(--radio);
+  background:var(--fondo-secundario);
+}
+
+.estado-vacio-publico strong{
+  color:var(--texto-principal);
+  font-size:16px;
+}
+
+.estado-vacio-publico span{
+  max-width:560px;
+  color:var(--texto-secundario);
+  font-size:14px;
+  line-height:1.55;
+}
+
+.selector-tema-publico button{
+  min-width:44px;
+  min-height:44px;
+}
+
+@media (max-width:991px){
+  .barra-consulta-publica{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:10px;
+    align-items:center;
+  }
+
+  .boton-menu-publico{
+    display:flex;
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .navegacion-consulta-publica{
+    display:none;
+    grid-column:1 / -1;
+    width:100%;
+    padding:8px 0 2px;
+  }
+
+  .navegacion-consulta-publica.abierta{
+    display:block;
+  }
+
+  .navegacion-consulta-publica ul{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    min-width:0;
+    gap:6px;
+    width:100%;
+    overflow:visible;
+  }
+
+  .navegacion-consulta-publica .enlace-navegacion{
+    display:flex;
+    align-items:center;
+    min-height:44px;
+    width:100%;
+    padding:9px 12px;
+    border-radius:10px;
+  }
+
+  .acciones-consulta-publica{
+    grid-column:1 / -1;
+    justify-content:space-between;
+    gap:6px;
+  }
+}
+
+@media (max-width:640px){
+  .barra-consulta-publica{
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+
+  .acciones-consulta-publica{
+    grid-column:1 / -1;
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .selector-tema-publico{
+    display:flex !important;
+  }
+
+  .boton-acceso-publico{
+    flex:1;
+    max-width:230px;
+  }
+
+  .tabla-publica-scroll{
+    overflow:visible;
+  }
+
+  .tabla-clasificacion-publica,
+  .tabla-clasificacion-publica tbody,
+  .tabla-clasificacion-publica tr,
+  .tabla-clasificacion-publica td{
+    display:block;
+    width:100%;
+  }
+
+  .tabla-clasificacion-publica thead{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+
+  .tabla-clasificacion-publica tbody{
+    display:grid;
+    gap:10px;
+  }
+
+  .tabla-clasificacion-publica tr{
+    padding:12px 14px;
+    border:1px solid var(--borde);
+    border-radius:12px;
+    background:var(--fondo-tarjeta);
+    box-shadow:var(--sombra-pequena);
+  }
+
+  .tabla-clasificacion-publica td{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    min-height:36px;
+    padding:7px 0;
+    border:0;
+    border-bottom:1px solid var(--borde);
+    text-align:right;
+    font-size:14px;
+  }
+
+  .tabla-clasificacion-publica td:last-child{
+    border-bottom:0;
+  }
+
+  .tabla-clasificacion-publica td::before{
+    content:attr(data-label);
+    color:var(--texto-secundario);
+    font-size:12px;
+    font-weight:800;
+    text-align:left;
+  }
+
+  .participante-tabla-publica{
+    justify-content:flex-end;
+  }
+}
+
+.estado-filtros-publicos{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  min-height:36px;
+  margin:-4px 0 16px;
+  color:var(--texto-secundario);
+  font-size:13px;
+}
+
+.boton-limpiar-publico{
+  min-height:38px;
+  padding:7px 12px;
+  font-size:13px;
+}
+
+.boton-limpiar-publico[hidden]{display:none;}
+
+@media (max-width:640px){
+  .estado-filtros-publicos{
+    justify-content:space-between;
+  }
+}
+.estado-error-publico{
+  grid-column:1/-1;
+  display:grid;
+  justify-items:center;
+  gap:8px;
+  width:100%;
+  padding:28px 20px;
+  border:1px solid color-mix(in srgb,#c92a2a 28%,var(--borde));
+  border-radius:16px;
+  background:color-mix(in srgb,#c92a2a 5%,var(--fondo-tarjeta));
+  text-align:center;
+}
+
+.estado-error-publico strong{
+  color:var(--texto-principal);
+  font-size:15px;
+}
+
+.estado-error-publico span{
+  max-width:560px;
+  color:var(--texto-secundario);
+  font-size:13px;
+  line-height:1.55;
+}
+
+.estado-error-publico .boton{
+  margin-top:5px;
+}
+
+.skeleton-publico{
+  position:relative;
+  min-height:164px;
+  overflow:hidden;
+  padding:20px;
+  border:1px solid var(--borde);
+  border-radius:18px;
+  background:var(--fondo-tarjeta);
+}
+
+.skeleton-publico::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);
+  animation:skeletonPublicoArena 1.2s infinite;
+}
+
+.skeleton-publico span{
+  display:block;
+  height:13px;
+  margin-bottom:12px;
+  border-radius:999px;
+  background:var(--fondo-secundario);
+}
+
+.skeleton-publico span:first-child{
+  width:36%;
+  height:18px;
+}
+
+.skeleton-publico span:nth-child(2){width:72%;}
+.skeleton-publico span:nth-child(3){width:54%;}
+
+@keyframes skeletonPublicoArena{
+  to{transform:translateX(100%);}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .skeleton-publico::after{display:none;}
+}
+.pagina-publica-consulta .metas-publicas > span {
+  display:inline-flex; align-items:baseline; flex-wrap:wrap; gap:6px;
+  background:var(--surface-subtle); color:var(--text-secondary);
+}
+.pagina-publica-consulta .estado-publico.estado-en_curso {
+  color:var(--state-success-text); background:var(--state-success-bg);
+}
+.pagina-publica-consulta .estado-publico.estado-programado {
+  color:var(--state-info-text); background:var(--state-info-bg);
+}
+.pagina-publica-consulta .estado-publico.estado-pendiente {
+  color:var(--state-warning-text); background:var(--state-warning-bg);
+}
+@media(max-width:700px) {
+  .pagina-publica-consulta .grid-consulta-publica { grid-template-columns:1fr; }
+}
+
+.resumen-clasificacion-publica[hidden] { display: none; }
