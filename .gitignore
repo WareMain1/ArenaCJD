@@ -3,12 +3,9 @@
 # Variables de entorno
 .env
 .env.*
+ 
 
-# Configuración local
-config/entorno.local.php
-
-# Credenciales/configuración sensible de MySQL
-seguridad/configurar_usuario_aplicacion.sql
+ 
 
 # Logs
 storage/logs/*
