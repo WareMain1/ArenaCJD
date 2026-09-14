@@ -47,17 +47,37 @@
   function mediaPublica(tipo, id, nombre, clase) {
     const numero = Number(id || 0);
     const fallback = tipo === 'torneo' ? window.ArenaCJDIcono('torneo') : iniciales(nombre);
-    const src = numero ? (tipo === 'equipo' ? 'api/publico/imagen_equipo.php?id_equipo=' + numero : 'api/publico/imagen_torneo.php?id_torneo=' + numero) : '';
-    return '<span class="media-publica ' + (clase || '') + '"><span>' + (tipo === 'torneo' ? fallback : escapar(fallback)) + '</span>' + (src ? '<img src="' + escapar(src) + '" alt="' + escapar((tipo === 'equipo' ? 'Imagen del equipo ' : 'Imagen del torneo ') + (nombre || '')) + '" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</span>';
+    let src = '';
+    let etiqueta = 'Imagen de ';
+    if (numero && tipo === 'equipo') {
+      src = 'api/publico/imagen_equipo.php?id_equipo=' + numero;
+      etiqueta = 'Imagen del equipo ';
+    } else if (numero && tipo === 'usuario') {
+      src = 'api/publico/foto_perfil.php?id_usuario=' + numero;
+      etiqueta = 'Foto de ';
+    } else if (numero && tipo === 'torneo') {
+      src = 'api/publico/imagen_torneo.php?id_torneo=' + numero;
+      etiqueta = 'Imagen del torneo ';
+    }
+    return '<span class="media-publica ' + (clase || '') + '"><span aria-hidden="true">' + (tipo === 'torneo' ? fallback : escapar(fallback)) + '</span>' + (src ? '<img src="' + escapar(src) + '" alt="' + escapar(etiqueta + (nombre || '')) + '" loading="lazy" onerror="this.style.display=\'none\'">' : '') + '</span>';
   }
 
   function participantePublico(item, lado) {
     const nombre = lado === 'a' ? (item.participante_a || 'Por definir') : (item.participante_b || 'Pase automático');
     const idEquipo = lado === 'a' ? item.id_equipo_a : item.id_equipo_b;
-    if (item.tipo_participante === 'equipo' && idEquipo) {
-      return '<span class="participante-publico-con-media">' + mediaPublica('equipo', idEquipo, nombre, 'media-publica-pequena') + '<strong>' + escapar(nombre) + '</strong></span>';
+    const idUsuario = lado === 'a' ? item.id_usuario_a : item.id_usuario_b;
+    const esEquipo = item.tipo_participante === 'equipo';
+    const idMedia = esEquipo ? idEquipo : idUsuario;
+    const tipoMedia = esEquipo ? 'equipo' : 'usuario';
+    const claseLado = lado === 'a' ? 'participante-publico-a' : 'participante-publico-b';
+    const texto = '<strong title="' + escapar(nombre) + '">' + escapar(nombre) + '</strong>';
+    if (idMedia) {
+      const media = mediaPublica(tipoMedia, idMedia, nombre, 'media-publica-pequena');
+      return lado === 'a'
+        ? '<span class="participante-publico-con-media ' + claseLado + '">' + media + texto + '</span>'
+        : '<span class="participante-publico-con-media ' + claseLado + '">' + texto + media + '</span>';
     }
-    return '<strong>' + escapar(nombre) + '</strong>';
+    return '<strong class="participante-publico-sin-media ' + claseLado + '" title="' + escapar(nombre) + '">' + escapar(nombre) + '</strong>';
   }
 
   function activarEstadoFiltros(controles, render) {
@@ -152,11 +172,16 @@
   function fecha(valor, conHora) {
     if (!valor) return 'Sin fecha';
     const texto = String(valor).replace(' ', 'T');
-    // YYYY-MM-DD es una fecha civil; Date la interpretaría como medianoche UTC.
     const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(texto);
     const objeto = partes ? new Date(Number(partes[1]), Number(partes[2]) - 1, Number(partes[3])) : new Date(texto);
     if (Number.isNaN(objeto.getTime())) return String(valor);
     return new Intl.DateTimeFormat('es-UY', conHora ? {dateStyle: 'medium', timeStyle: 'short'} : {dateStyle: 'medium'}).format(objeto);
+  }
+
+  const modalidadesTorneos = window.ArenaCJDModalidadesTorneos;
+
+  function realizacionPublicaHTML(idTorneo, clase) {
+    return modalidadesTorneos.indicadorHTML(modalidadesTorneos.obtener(idTorneo), clase || 'realizacion-publica');
   }
 
   function etiquetaEstado(estado) {
@@ -179,10 +204,12 @@
 
   function tarjetaTorneo(torneo) {
     const cupo = torneo.cupo_maximo == null ? 'Sin límite' : torneo.cantidad_inscritos + '/' + torneo.cupo_maximo;
+    const realizacion = realizacionPublicaHTML(torneo.id_torneo);
     return '<article class="tarjeta-consulta-publica tarjeta-torneo-publico">' +
       '<div class="cabecera-tarjeta-publica">' + mediaPublica('torneo', torneo.id_torneo, torneo.nombre, 'media-publica-torneo') + '<span class="estado-publico estado-' + escapar(torneo.estado) + '">' + escapar(etiquetaEstado(torneo.estado)) + '</span></div>' +
       '<h2>' + escapar(torneo.nombre) + '</h2>' +
       '<p>' + escapar(torneo.disciplina) + ' · ' + escapar(torneo.categoria) + '</p>' +
+      '<div class="fila-realizacion-publica"><span class="etiqueta-realizacion-publica">Modalidad de realización</span>' + realizacion + '</div>' +
       '<div class="metas-publicas"><span><b>Formato</b>' + escapar(torneo.tipo_torneo) + '</span><span><b>Participación</b>' + (torneo.modalidad === 'equipo' ? 'Equipos' : 'Individual') + '</span><span><b>Cupo</b>' + escapar(cupo) + '</span></div>' +
       '<div class="fechas-publicas"><span>Inicio: <strong>' + escapar(fecha(torneo.fecha_inicio + ' ' + (torneo.hora_inicio || '09:00:00'), true)) + '</strong></span><span>Fin: <strong>' + escapar(fecha(torneo.fecha_fin, false)) + '</strong></span></div>' +
       '<a class="boton boton-principal boton-publico-tarjeta" href="torneo-publico.php?id=' + encodeURIComponent(torneo.id_torneo) + '">Ver torneo</a>' +
@@ -192,7 +219,7 @@
   function tarjetaEnfrentamiento(item, resultado) {
     const a = item.participante_a || 'Por definir';
     const b = item.participante_b || 'Pase automático';
-    const marcador = resultado ? '<div class="marcador-publico">' + participantePublico(item, 'a') + '<span>' + escapar(item.puntaje_a) + ' - ' + escapar(item.puntaje_b) + '</span>' + participantePublico(item, 'b') + '</div>' : '<div class="cruce-publico">' + participantePublico(item, 'a') + '<span>VS</span>' + participantePublico(item, 'b') + '</div>';
+    const marcador = resultado ? '<div class="marcador-publico">' + participantePublico(item, 'a') + '<span class="marcador-publico-valor">' + escapar(item.puntaje_a) + ' - ' + escapar(item.puntaje_b) + '</span>' + participantePublico(item, 'b') + '</div>' : '<div class="cruce-publico">' + participantePublico(item, 'a') + '<span class="versus-publico">VS</span>' + participantePublico(item, 'b') + '</div>';
     return '<article class="tarjeta-consulta-publica tarjeta-enfrentamiento-publico">' +
       '<div class="cabecera-tarjeta-publica"><span>' + escapar(item.ronda) + '</span><span class="estado-publico estado-' + escapar(item.estado || 'finalizado') + '">' + escapar(resultado ? 'Finalizado' : etiquetaEstado(item.estado)) + '</span></div>' +
       marcador +
@@ -311,7 +338,8 @@
   function tablaClasificacion(filas, modalidad) {
     if (!filas.length) return '<p class="mensaje-sin-resultados">Todavía no hay posiciones calculadas.</p>';
     return '<div class="tabla-publica-scroll"><table class="tabla-clasificacion-publica"><thead><tr><th>Pos.</th><th>Participante</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>Dif.</th><th>Pts.</th></tr></thead><tbody>' + filas.map(function (fila) {
-      const participante = modalidad === 'equipo' ? '<span class="participante-tabla-publica">' + mediaPublica('equipo', fila.id, fila.nombre, 'media-publica-mini') + '<span>' + escapar(fila.nombre) + '</span></span>' : escapar(fila.nombre);
+      const tipoParticipante = modalidad === 'equipo' ? 'equipo' : 'usuario';
+      const participante = '<span class="participante-tabla-publica">' + mediaPublica(tipoParticipante, fila.id, fila.nombre, 'media-publica-mini') + '<span title="' + escapar(fila.nombre) + '">' + escapar(fila.nombre) + '</span></span>';
       return '<tr><td data-label="Posición"><strong>' + escapar(fila.posicion) + '</strong></td><td data-label="Participante">' + participante + '</td><td data-label="Jugados">' + escapar(fila.jugados) + '</td><td data-label="Ganados">' + escapar(fila.ganados) + '</td><td data-label="Empatados">' + escapar(fila.empatados) + '</td><td data-label="Perdidos">' + escapar(fila.perdidos) + '</td><td data-label="Diferencia">' + escapar(fila.diferencia) + '</td><td data-label="Puntos"><strong>' + escapar(fila.puntos) + '</strong></td></tr>';
     }).join('') + '</tbody></table></div>';
   }
@@ -337,7 +365,8 @@
         contenedor.innerHTML = tablaClasificacion(datos.clasificacion || [], datos.torneo && datos.torneo.modalidad);
         if (resumen) {
           resumen.hidden = false;
-          resumen.innerHTML = '<div><span>Torneo</span><strong class="resumen-media-publica">' + mediaPublica('torneo', datos.torneo.id_torneo, datos.torneo.nombre, 'media-publica-mini') + '<span>' + escapar(datos.torneo.nombre) + '</span></strong></div><div><span>Participantes</span><strong>' + escapar(datos.resumen.participantes) + '</strong></div><div><span>Ronda</span><strong>' + escapar(datos.resumen.ronda_actual) + '</strong></div><div><span>Progreso</span><strong>' + escapar(datos.resumen.progreso) + '%</strong></div>' + (datos.resumen.campeon ? '<div><span>Campeón</span><strong class="resumen-media-publica">' + (datos.torneo.modalidad === 'equipo' ? mediaPublica('equipo', datos.resumen.campeon_id, datos.resumen.campeon, 'media-publica-mini') : window.ArenaCJDIcono('torneo')) + '<span>' + escapar(datos.resumen.campeon) + '</span></strong></div>' : '');
+          const tipoCampeon = datos.torneo.modalidad === 'equipo' ? 'equipo' : 'usuario';
+          resumen.innerHTML = '<div><span>Torneo</span><strong class="resumen-media-publica">' + mediaPublica('torneo', datos.torneo.id_torneo, datos.torneo.nombre, 'media-publica-mini') + '<span title="' + escapar(datos.torneo.nombre) + '">' + escapar(datos.torneo.nombre) + '</span></strong></div><div><span>Participantes</span><strong>' + escapar(datos.resumen.participantes) + '</strong></div><div><span>Ronda</span><strong>' + escapar(datos.resumen.ronda_actual) + '</strong></div><div><span>Progreso</span><strong>' + escapar(datos.resumen.progreso) + '%</strong></div>' + (datos.resumen.campeon ? '<div><span>Campeón</span><strong class="resumen-media-publica">' + mediaPublica(tipoCampeon, datos.resumen.campeon_id, datos.resumen.campeon, 'media-publica-mini') + '<span title="' + escapar(datos.resumen.campeon) + '">' + escapar(datos.resumen.campeon) + '</span></strong></div>' : '');
         }
         const url = new URL(window.location.href);
         url.searchParams.set('torneo', select.value);
@@ -401,7 +430,9 @@
     try {
       const datos = await pedir('api/publico/torneo.php?id=' + encodeURIComponent(id));
       const t = datos.torneo;
-      detalle.innerHTML = '<a class="enlace-volver-publico" href="torneos-publicos.php"><span data-icono="izquierda" aria-hidden="true"></span> Volver a torneos</a><div class="hero-torneo-publico"><div class="hero-torneo-identidad">' + mediaPublica('torneo', t.id_torneo, t.nombre, 'media-publica-hero') + '<div><span class="estado-publico estado-' + escapar(t.estado) + '">' + escapar(etiquetaEstado(t.estado)) + '</span><h1>' + escapar(t.nombre) + '</h1><p>' + escapar(t.disciplina) + ' · ' + escapar(t.categoria) + ' · ' + escapar(t.tipo_torneo) + '</p></div></div><div class="datos-torneo-publico"><div><span>Modalidad</span><strong>' + (t.modalidad === 'equipo' ? 'Por equipos' : 'Individual') + '</strong></div><div><span>Organizador</span><strong>' + escapar(t.organizador) + '</strong></div><div><span>Participantes</span><strong>' + escapar(t.cantidad_inscritos) + '</strong></div><div><span>Inicio</span><strong>' + escapar(fecha(t.fecha_inicio + ' ' + (t.hora_inicio || '09:00:00'), true)) + '</strong></div><div><span>Finalización</span><strong>' + escapar(fecha(t.fecha_fin, false)) + '</strong></div></div></div>';
+      const realizacionDetalle = modalidadesTorneos.obtener(t.id_torneo);
+      const datoRealizacion = '<div><span>Modalidad de realización</span><strong class="realizacion-detalle-publica">' + modalidadesTorneos.indicadorHTML(realizacionDetalle, 'valor-realizacion-publica') + '</strong></div>';
+      detalle.innerHTML = '<a class="enlace-volver-publico" href="torneos-publicos.php"><span data-icono="izquierda" aria-hidden="true"></span> Volver a torneos</a><div class="hero-torneo-publico"><div class="hero-torneo-identidad">' + mediaPublica('torneo', t.id_torneo, t.nombre, 'media-publica-hero') + '<div><span class="estado-publico estado-' + escapar(t.estado) + '">' + escapar(etiquetaEstado(t.estado)) + '</span><h1>' + escapar(t.nombre) + '</h1><p>' + escapar(t.disciplina) + ' · ' + escapar(t.categoria) + ' · ' + escapar(t.tipo_torneo) + '</p></div></div><div class="datos-torneo-publico"><div><span>Modalidad de participación</span><strong>' + (t.modalidad === 'equipo' ? 'Por equipos' : 'Individual') + '</strong></div>' + datoRealizacion + '<div><span>Organizador</span><strong>' + escapar(t.organizador) + '</strong></div><div><span>Participantes</span><strong>' + escapar(t.cantidad_inscritos) + '</strong></div><div><span>Inicio</span><strong>' + escapar(fecha(t.fecha_inicio + ' ' + (t.hora_inicio || '09:00:00'), true)) + '</strong></div><div><span>Finalización</span><strong>' + escapar(fecha(t.fecha_fin, false)) + '</strong></div></div></div>';
       const enlace = document.getElementById('enlaceClasificacionTorneoPublico');
       if (enlace) enlace.href = 'clasificacion-publica.php?torneo=' + encodeURIComponent(id);
       const [enf, res, clas] = await Promise.all([

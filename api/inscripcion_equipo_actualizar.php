@@ -37,6 +37,15 @@ try {
     $esPropietario = in_array('organizador', $contexto['roles'], true)
         && (int) $actual['id_organizador'] === (int) $contexto['usuario']['id_usuario'];
     if (!$esAdministrador && !$esPropietario) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'inscripcion_actualizada',
+            'inscripcion_equipo',
+            (int) $idInscripcion,
+            'Intento no autorizado de gestión de inscripción de equipo',
+            'denegado'
+        );
         responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para gestionar esta inscripción.'], 403);
     }
     if ((bool) ($actual['competencia_iniciada'] ?? false) || $actual['torneo_estado'] !== 'inscripciones') {
@@ -53,21 +62,33 @@ try {
         }
     }
 
+    $contexto['conexion']->beginTransaction();
     $actualizar = $contexto['conexion']->prepare(
         "UPDATE inscripciones_equipos SET estado = :estado WHERE id_inscripcion = :id"
     );
     $actualizar->execute([':estado' => $estado, ':id' => (int) $idInscripcion]);
 
+    $accionAuditoria = match ($estado) {
+        'aprobada' => 'inscripcion_aprobada',
+        'rechazada' => 'inscripcion_rechazada',
+        default => 'inscripcion_actualizada'
+    };
+    $detalleAuditoria = $actual['equipo'] . ' · ' . $actual['torneo'] . " · Estado: {$actual['estado']} -> {$estado}";
+
     registrarAuditoriaApi(
         $contexto['conexion'],
         (int) $contexto['usuario']['id_usuario'],
-        'inscripcion_actualizada',
+        $accionAuditoria,
         'inscripcion_equipo',
         (int) $idInscripcion,
-        $actual['equipo'] . ' · ' . $actual['torneo'] . ' · ' . $estado
+        $detalleAuditoria
     );
 
+    $contexto['conexion']->commit();
     responderJson(['exito' => true, 'mensaje' => 'Inscripción del equipo actualizada correctamente.']);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar la inscripción del equipo.'], 500);
 }

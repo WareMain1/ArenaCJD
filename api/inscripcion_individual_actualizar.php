@@ -28,7 +28,10 @@ try {
     $esOrganizador = in_array('organizador', $contexto['roles'], true);
     $gestor = $esAdmin || ($esOrganizador && (int) $actual['id_organizador'] === $idActual);
     $propiaPendiente = (int) $actual['id_usuario'] === $idActual && $actual['estado'] === 'pendiente';
-    if (!$gestor && !$propiaPendiente) responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para editar esta inscripción.'], 403);
+    if (!$gestor && !$propiaPendiente) {
+        registrarAuditoriaApi($contexto['conexion'], $idActual, 'inscripcion_actualizada', 'inscripcion_individual', (int) $idInscripcion, 'Intento no autorizado de modificación de inscripción', 'denegado');
+        responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para editar esta inscripción.'], 403);
+    }
 
     $torneo = $modelo->torneoPorId((int) $idTorneo);
     if (!$torneo || $torneo['modalidad'] !== 'individual') responderJson(['exito' => false, 'mensaje' => 'El torneo seleccionado no admite inscripciones individuales.'], 400);
@@ -63,9 +66,30 @@ try {
         }
     }
 
+    $contexto['conexion']->beginTransaction();
     $modelo->actualizarIndividual((int) $idInscripcion, (int) $idTorneo, $idUsuario, $estado);
-    registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'inscripcion_actualizada', 'inscripcion_individual', (int) $idInscripcion, $estado);
+
+    $accionAuditoria = match ($estado) {
+        'aprobada' => 'inscripcion_aprobada',
+        'rechazada' => 'inscripcion_rechazada',
+        default => 'inscripcion_actualizada'
+    };
+    $detalleAuditoria = (string) $actual['torneo'] . " · Estado: {$actual['estado']} -> {$estado}";
+
+    registrarAuditoriaApi(
+        $contexto['conexion'],
+        (int) $contexto['usuario']['id_usuario'],
+        $accionAuditoria,
+        'inscripcion_individual',
+        (int) $idInscripcion,
+        $detalleAuditoria
+    );
+
+    $contexto['conexion']->commit();
     responderJson(['exito' => true, 'mensaje' => 'Inscripción actualizada correctamente.']);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar la inscripción.'], 500);
 }

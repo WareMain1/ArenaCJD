@@ -1,5 +1,5 @@
 <?php
-// Pruebas aisladas: no conectan ni escriben en la base de datos de ArenaCJD.
+ 
 require_once __DIR__ . '/../modelos/Disciplina.php';
 require_once __DIR__ . '/../modelos/Torneo.php';
 class SentenciaCategoriaPrueba extends PDOStatement {
@@ -52,10 +52,10 @@ foreach ([['torneos'=>2,'disciplinas'=>[]], ['torneos'=>0,'disciplinas'=>['Fútb
 $db = new ConexionCategoriaPrueba([['fila'=>['id_categoria'=>42,'nombre'=>'Temporal']], ['valor'=>0], ['filas'=>[]], []]);
 $eliminada = (new Disciplina($db))->eliminarCategoria(42);
 comprobarCategoria($eliminada['id_categoria'] === 42 && !$db->inTransaction(), 'Elimina únicamente sin uso');
-foreach ([['configuradas'=>0,'coincide'=>0], ['configuradas'=>1,'coincide'=>0]] as $relacion) {
-    $db = new ConexionCategoriaPrueba([['fila'=>$relacion]]);
-    comprobarCategoria(!(new Torneo($db))->combinacionPermitida(1,42,1), 'No hay categoría sin asociación explícita');
-}
+$db = new ConexionCategoriaPrueba([['fila'=>['configuradas'=>0,'coincide'=>0]], ['fila'=>['configurados'=>0,'coincide'=>0]]]);
+comprobarCategoria((new Torneo($db))->combinacionPermitida(1,42,1), 'Sin asociaciones configuradas se usan los catálogos disponibles');
+$db = new ConexionCategoriaPrueba([['fila'=>['configuradas'=>1,'coincide'=>0]]]);
+comprobarCategoria(!(new Torneo($db))->combinacionPermitida(1,42,1), 'Una asociación explícita incompatible se rechaza');
 $db = new ConexionCategoriaPrueba([['fila'=>['configuradas'=>1,'coincide'=>1]], ['fila'=>['configurados'=>1,'coincide'=>1]]]);
 comprobarCategoria((new Torneo($db))->combinacionPermitida(1,42,1), 'Combinación asociada permitida');
 echo "12 casos de Categorías y asociaciones correctos; sin acceso a la base de datos.\n";

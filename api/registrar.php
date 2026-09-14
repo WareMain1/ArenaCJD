@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+exigirLimiteSolicitudesApi('registro', 8, 3600);
+
 $datos = json_decode(file_get_contents('php://input'), true);
 
 if (!is_array($datos)) {
@@ -169,6 +171,7 @@ try {
     $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
     $respuestaRecuperacionHash = password_hash(mb_strtolower($respuestaRecuperacion, 'UTF-8'), PASSWORD_DEFAULT);
 
+    $conexion->beginTransaction();
     $idUsuario = $usuario->registrar(
         $nombreCompleto,
         $nombreUsuario,
@@ -178,6 +181,7 @@ try {
         $respuestaRecuperacionHash
     );
     registrarAuditoriaApi($conexion, (int) $idUsuario, 'cuenta_registrada', 'usuario', (int) $idUsuario, '@' . $nombreUsuario);
+    $conexion->commit();
 
     http_response_code(201);
 
@@ -187,6 +191,9 @@ try {
         'id_usuario' => $idUsuario
     ]);
 } catch (Throwable $error) {
+    if (isset($conexion) && $conexion instanceof PDO && $conexion->inTransaction()) {
+        $conexion->rollBack();
+    }
     http_response_code(500);
 
     echo json_encode([

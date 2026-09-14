@@ -33,15 +33,23 @@ try {
     if ($modelo->existeNombre($nombre, (int) $idDisciplina)) {
         responderJson(['exito' => false, 'mensaje' => 'Ya existe otra disciplina con ese nombre.'], 409);
     }
+    $contexto['conexion']->beginTransaction();
     $modelo->actualizar((int) $idDisciplina, $nombre, $estado, $categorias, $tipos);
     registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'disciplina_actualizada', 'disciplina', (int) $idDisciplina, $nombre . ' · ' . $estado);
+    $contexto['conexion']->commit();
     responderJson([
         'exito' => true,
         'mensaje' => 'Disciplina actualizada correctamente.',
         'disciplina' => $modelo->obtenerPorId((int) $idDisciplina)
     ]);
 } catch (InvalidArgumentException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 422);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar la disciplina.'], 500);
 }

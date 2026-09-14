@@ -2,13 +2,13 @@
 
 class Enfrentamiento
 {
-    /**
-     * Duración técnica estimada estándar de un enfrentamiento (en minutos).
-     * Se utiliza como tiempo reglamentario estimado de juego para todos los deportes y torneos.
-     * Fórmula:
-     *   fin_estimado = enfrentamiento.fecha_hora + DURACION_ESTIMADA_PARTIDO_MINUTOS (90 min)
-     *   vencimiento_gracia = fin_estimado + torneo.periodo_gracia_resultado
-     */
+    
+
+
+
+
+
+
     public const DURACION_ESTIMADA_PARTIDO = 90;
     public const DURACION_ESTIMADA_PARTIDO_MINUTOS = self::DURACION_ESTIMADA_PARTIDO;
 
@@ -147,14 +147,14 @@ class Enfrentamiento
                     $fila['nivel_alerta'] = 'cancelado';
                 } elseif ($fila['estado'] === 'pendiente_revision' || ($fila['gracia_vencida'] && !in_array($fila['estado'], ['finalizado', 'cancelado'], true))) {
                     $fila['nivel_alerta'] = 'rojo';
-                    $fila['alerta_texto'] = 'Plazo de gracia vencido. Requiere revisión manual.';
+                    $fila['alerta_texto'] = 'Período de gracia vencido. El resultado requiere revisión manual.';
                 } elseif ($fila['en_gracia'] || $fila['estado'] === 'en_periodo_gracia') {
                     $fila['nivel_alerta'] = 'naranja';
                     $minutos = $fila['minutos_restantes_gracia'];
                     if ($minutos <= 10) {
-                        $fila['alerta_texto'] = 'El período de gracia está por vencer. Quedan ' . $minutos . ' min para confirmar este resultado.';
+                        $fila['alerta_texto'] = 'El período de gracia está por vencer. Quedan ' . $minutos . ' min para registrar o confirmar este resultado.';
                     } else {
-                        $fila['alerta_texto'] = 'Período de gracia: Tienes ' . $minutos . ' minutos para confirmar el resultado.';
+                        $fila['alerta_texto'] = 'Período de gracia: tienes ' . $minutos . ' minutos para registrar o confirmar el resultado.';
                     }
                 } elseif ($ahora >= $tsInicio) {
                     $fila['nivel_alerta'] = 'amarillo';
@@ -244,8 +244,12 @@ class Enfrentamiento
             }
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
+
+        try {
             $borrar = $this->conexion->prepare("DELETE FROM enfrentamientos WHERE id_torneo = :id_torneo");
             $borrar->execute([':id_torneo' => $idTorneo]);
             if ($this->esLiga((string) $torneo['tipo_torneo'])) {
@@ -255,10 +259,12 @@ class Enfrentamiento
             }
             $this->conexion->prepare("UPDATE torneos SET estado = 'en_curso' WHERE id_torneo = :id AND estado = 'inscripciones'")
                 ->execute([':id' => $idTorneo]);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return $this->obtenerTodos($idTorneo);
         } catch (Throwable $e) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $e;
@@ -321,7 +327,7 @@ class Enfrentamiento
             for ($i = 0; $i < $n / 2; $i++) {
                 $a = $jugadores[$i];
                 $b = $jugadores[$n - 1 - $i];
-                if ($a === null || $b === null) continue; // descanso: no se crea partido ficticio
+                if ($a === null || $b === null) continue;  
                 $insertar->execute([
                     ':id_torneo' => $idTorneo,
                     ':numero_ronda' => $ronda,
@@ -334,7 +340,7 @@ class Enfrentamiento
                     ':eb' => $esEquipo ? (int) $b : null,
                 ]);
             }
-            // Método del círculo: fija el primero y rota el resto.
+             
             $fijo = array_shift($jugadores);
             $ultimo = array_pop($jugadores);
             array_unshift($jugadores, $fijo);
@@ -378,21 +384,24 @@ class Enfrentamiento
             throw new InvalidArgumentException('En eliminación directa el resultado final no puede terminar empatado.');
         }
 
-        $consultaPosteriores = $this->conexion->prepare(
-            "SELECT COUNT(*) FROM enfrentamientos
-             WHERE id_torneo = :id_torneo AND numero_ronda > :numero_ronda"
-        );
-        $consultaPosteriores->execute([
-            ':id_torneo' => (int) $actual['id_torneo'],
-            ':numero_ronda' => (int) $actual['numero_ronda']
-        ]);
-        $hayRondaPosterior = (int) $consultaPosteriores->fetchColumn() > 0;
-        if ($hayRondaPosterior) {
-            $cambiaResultado = $estado !== $actual['estado']
-                || $puntajeA !== ($actual['puntaje_a'] === null ? null : (int) $actual['puntaje_a'])
-                || $puntajeB !== ($actual['puntaje_b'] === null ? null : (int) $actual['puntaje_b']);
-            if ($cambiaResultado) {
-                throw new DomainException('Este resultado ya generó una ronda posterior y no puede modificarse.');
+        $esLiga = $this->esLiga((string) ($actual['tipo_torneo'] ?? ''));
+        if (!$esLiga) {
+            $consultaPosteriores = $this->conexion->prepare(
+                "SELECT COUNT(*) FROM enfrentamientos
+                 WHERE id_torneo = :id_torneo AND numero_ronda > :numero_ronda"
+            );
+            $consultaPosteriores->execute([
+                ':id_torneo' => (int) $actual['id_torneo'],
+                ':numero_ronda' => (int) $actual['numero_ronda']
+            ]);
+            $hayRondaPosterior = (int) $consultaPosteriores->fetchColumn() > 0;
+            if ($hayRondaPosterior) {
+                $cambiaResultado = $estado !== $actual['estado']
+                    || $puntajeA !== ($actual['puntaje_a'] === null ? null : (int) $actual['puntaje_a'])
+                    || $puntajeB !== ($actual['puntaje_b'] === null ? null : (int) $actual['puntaje_b']);
+                if ($cambiaResultado) {
+                    throw new DomainException('Este resultado ya generó una ronda posterior y no puede modificarse.');
+                }
             }
         }
 
@@ -416,7 +425,7 @@ class Enfrentamiento
     public function crearSiguienteRondaSiCorresponde(int $idTorneo): int
     {
         $torneoQ = $this->conexion->prepare(
-            "SELECT t.modalidad, tt.nombre AS tipo_torneo
+            "SELECT t.nombre, t.modalidad, tt.nombre AS tipo_torneo
              FROM torneos t
              INNER JOIN tipos_torneo tt ON tt.id_tipo_torneo = t.id_tipo_torneo
              WHERE t.id_torneo = :id LIMIT 1"
@@ -434,6 +443,13 @@ class Enfrentamiento
             if ((int) $estadoLiga['total'] > 0 && (int) $estadoLiga['total'] === (int) $estadoLiga['finalizados']) {
                 $this->conexion->prepare("UPDATE torneos SET estado = 'finalizado' WHERE id_torneo = :id")
                     ->execute([':id' => $idTorneo]);
+                $this->registrarAuditoria(
+                    null,
+                    'torneo_finalizado',
+                    'torneo',
+                    $idTorneo,
+                    "Torneo {$torneo['nombre']} finalizado automáticamente al concluir todos los enfrentamientos"
+                );
             }
             return 0;
         }
@@ -501,11 +517,25 @@ class Enfrentamiento
         if (count($ganadores) <= 1) {
             $this->conexion->prepare("UPDATE torneos SET estado = 'finalizado' WHERE id_torneo = :id")
                 ->execute([':id' => $idTorneo]);
+            $this->registrarAuditoria(
+                null,
+                'torneo_finalizado',
+                'torneo',
+                $idTorneo,
+                "Torneo finalizado automáticamente al concluir la final de eliminación directa"
+            );
             return 0;
         }
 
         $nueva = $ronda + 1;
         $this->insertarRonda($idTorneo, $nueva, $ganadores, $modalidad);
+        $this->registrarAuditoria(
+            null,
+            'ronda_generada',
+            'torneo',
+            $idTorneo,
+            "Ronda {$nueva} generada automáticamente (Eliminación directa)"
+        );
         return $nueva;
     }
 
@@ -522,6 +552,13 @@ class Enfrentamiento
         if ($ronda >= $maxRondas) {
             $this->conexion->prepare("UPDATE torneos SET estado = 'finalizado' WHERE id_torneo = :id")
                 ->execute([':id' => $idTorneo]);
+            $this->registrarAuditoria(
+                null,
+                'torneo_finalizado',
+                'torneo',
+                $idTorneo,
+                "Torneo finalizado automáticamente tras completar las {$maxRondas} rondas del Sistema Suizo"
+            );
             return 0;
         }
 
@@ -596,6 +633,13 @@ class Enfrentamiento
 
         $nueva = $ronda + 1;
         $this->insertarRonda($idTorneo, $nueva, $orden, $modalidad);
+        $this->registrarAuditoria(
+            null,
+            'ronda_generada',
+            'torneo',
+            $idTorneo,
+            "Ronda {$nueva} generada automáticamente (Sistema Suizo)"
+        );
         return $nueva;
     }
 
@@ -648,10 +692,10 @@ class Enfrentamiento
             }
         }
 
-        // Ordenar primero los más urgentes:
-        // 1. Casos que requieren intervención (pendiente_revision o gracia vencida)
-        // 2. Casos en gracia ordenados por menor tiempo restante
-        // 3. Casos programados por fecha más próxima
+         
+         
+         
+         
         usort($pendientes, static function (array $a, array $b): int {
             $prioridadA = ($a['estado'] === 'pendiente_revision' || $a['gracia_vencida']) ? 0 : ($a['en_gracia'] ? 1 : 2);
             $prioridadB = ($b['estado'] === 'pendiente_revision' || $b['gracia_vencida']) ? 0 : ($b['en_gracia'] ? 1 : 2);
@@ -691,7 +735,7 @@ class Enfrentamiento
         ];
     }
 
-    public function procesarResolucionAutomatica(?int $idTorneo = null, ?int $idUsuarioOperador = null): array
+    public function procesarPeriodosGracia(?int $idTorneo = null, ?int $idUsuarioOperador = null): array
     {
         $sql = "SELECT e.*, t.nombre AS torneo, t.modalidad, t.id_organizador, t.estado AS torneo_estado,
                        t.periodo_gracia_resultado,
@@ -723,7 +767,6 @@ class Enfrentamiento
         $reporte = [
             'evaluados' => count($candidatos),
             'entraron_en_gracia' => 0,
-            'resueltos_automaticamente' => 0,
             'enviados_a_revision' => 0,
             'detalles' => []
         ];
@@ -741,7 +784,6 @@ class Enfrentamiento
             $minutosGracia = (int) ($cand['periodo_gracia_minutos'] ?? 60);
             $tsFinGracia = $tsFinEstimado + ($minutosGracia * 60);
 
-            // Fase 1: El tiempo estimado de juego concluyó y aún está dentro del período de gracia
             if ($ahora >= $tsFinEstimado && $ahora < $tsFinGracia) {
                 if (in_array($cand['estado'], ['programado', 'en_curso', 'pendiente'], true)) {
                     $qGracia = $this->conexion->prepare(
@@ -756,24 +798,22 @@ class Enfrentamiento
                         $reporte['detalles'][] = [
                             'id_enfrentamiento' => $id,
                             'accion' => 'ENTRO_EN_PERIODO_GRACIA',
-                            'motivo' => "Concluyó tiempo estimado de juego (90 min). Período de gracia activo ({$minutosGracia} min)"
+                            'motivo' => "Concluyó el tiempo estimado de juego (90 min). Quedan {$minutosGracia} min para registrar o confirmar el resultado"
                         ];
                         $this->registrarAuditoria(
                             $idUsuarioOperador,
                             'PERIODO_GRACIA_INICIADO',
                             'enfrentamiento',
                             $id,
-                            "Torneo: {$cand['torneo']} · {$cand['ronda']} · Fin estimado cumplido · Gracia: {$minutosGracia} min · Límite: " . date('Y-m-d H:i:s', $tsFinGracia)
+                            "Torneo: {$cand['torneo']} · {$cand['ronda']} · Fin estimado cumplido · Gracia: {$minutosGracia} min · Límite para registrar o confirmar resultado: " . date('Y-m-d H:i:s', $tsFinGracia)
                         );
                     }
                 }
                 continue;
             }
 
-            // Fase 2: Vencimiento del período de gracia ($ahora >= $tsFinGracia)
             if ($ahora >= $tsFinGracia) {
                 if ($cand['estado'] === 'pendiente_revision') {
-                    // Ya está esperando revisión manual, no duplicar auditoría
                     continue;
                 }
 
@@ -796,93 +836,18 @@ class Enfrentamiento
 
                     $pa = $filaBloqueada['puntaje_a'] !== null ? (int) $filaBloqueada['puntaje_a'] : null;
                     $pb = $filaBloqueada['puntaje_b'] !== null ? (int) $filaBloqueada['puntaje_b'] : null;
-                    $esEliminacion = $this->esEliminacionDirecta((string) ($cand['tipo_torneo'] ?? ''));
-                    $admiteEmpate = !$esEliminacion;
+                    $tieneMarcador = $pa !== null && $pb !== null;
+                    $detalleResultado = $tieneMarcador
+                        ? "Marcador pendiente de confirmación manual: {$pa}-{$pb}"
+                        : 'Sin resultado confirmado';
 
-                    // CASO 1: Resultado objetivo cargado con ganador unívoco
-                    if ($pa !== null && $pb !== null && $pa !== $pb && $pa >= 0 && $pb >= 0) {
-                        $ganadorLado = $pa > $pb ? 'a' : 'b';
-                        $ganadorNombre = ($ganadorLado === 'a') ? $cand['participante_a'] : $cand['participante_b'];
-
-                        $this->finalizarEnfrentamientoAutomatico($id, $pa, $pb);
-                        $nuevaRonda = $this->crearSiguienteRondaSiCorresponde((int) $cand['id_torneo']);
-
-                        $this->registrarAuditoria(
-                            $idUsuarioOperador,
-                            'RESULTADO_CONFIRMADO_AUTOMATICAMENTE',
-                            'enfrentamiento',
-                            $id,
-                            "Torneo: {$cand['torneo']} · {$cand['ronda']} · Ganador: {$ganadorNombre} · Marcador: {$pa}-{$pb} · Motivo: MAYOR_PUNTUACION · Origen: SISTEMA_AUTOMATICO"
-                        );
-                        if ($transaccionPropia && $this->conexion->inTransaction()) {
-                            $this->conexion->commit();
-                        }
-                        $reporte['resueltos_automaticamente']++;
-                        $reporte['detalles'][] = [
-                            'id_enfrentamiento' => $id,
-                            'accion' => 'RESULTADO_CONFIRMADO_AUTOMATICAMENTE',
-                            'ganador' => $ganadorNombre,
-                            'motivo' => 'MAYOR_PUNTUACION'
-                        ];
-                        continue;
-                    }
-
-                    // CASO 2: Empate en torneo que admite empate (Liga o Sistema Suizo)
-                    if ($pa !== null && $pb !== null && $pa === $pb && $pa >= 0 && $admiteEmpate) {
-                        $this->finalizarEnfrentamientoAutomatico($id, $pa, $pb);
-                        $nuevaRonda = $this->crearSiguienteRondaSiCorresponde((int) $cand['id_torneo']);
-
-                        $this->registrarAuditoria(
-                            $idUsuarioOperador,
-                            'RESULTADO_CONFIRMADO_AUTOMATICAMENTE',
-                            'enfrentamiento',
-                            $id,
-                            "Torneo: {$cand['torneo']} · {$cand['ronda']} · Resultado: Empate {$pa}-{$pb} · Motivo: EMPATE_PERMITIDO · Origen: SISTEMA_AUTOMATICO"
-                        );
-                        if ($transaccionPropia && $this->conexion->inTransaction()) {
-                            $this->conexion->commit();
-                        }
-                        $reporte['resueltos_automaticamente']++;
-                        $reporte['detalles'][] = [
-                            'id_enfrentamiento' => $id,
-                            'accion' => 'RESULTADO_CONFIRMADO_AUTOMATICAMENTE',
-                            'ganador' => 'Empate',
-                            'motivo' => 'EMPATE_PERMITIDO'
-                        ];
-                        continue;
-                    }
-
-                    // CASO 3: Empate en torneo que NO admite empate (Eliminación directa) -> Requiere revisión
-                    if ($pa !== null && $pb !== null && $pa === $pb && !$admiteEmpate) {
-                        $this->marcarPendienteRevision($id);
-                        $this->registrarAuditoria(
-                            $idUsuarioOperador,
-                            'REQUIERE_REVISION_MANUAL',
-                            'enfrentamiento',
-                            $id,
-                            "Torneo: {$cand['torneo']} · {$cand['ronda']} · Empate {$pa}-{$pb} en torneo de eliminación sin definición · Motivo: EMPATE_NO_PERMITIDO · Origen: SISTEMA_AUTOMATICO"
-                        );
-                        if ($transaccionPropia && $this->conexion->inTransaction()) {
-                            $this->conexion->commit();
-                        }
-                        $reporte['enviados_a_revision']++;
-                        $reporte['detalles'][] = [
-                            'id_enfrentamiento' => $id,
-                            'accion' => 'REQUIERE_REVISION_MANUAL',
-                            'motivo' => 'EMPATE_NO_PERMITIDO'
-                        ];
-                        continue;
-                    }
-
-                    // CASO 4: Sin resultado objetivo o datos insuficientes -> Requiere revisión
-                    // NUNCA inventar ganador al azar
                     $this->marcarPendienteRevision($id);
                     $this->registrarAuditoria(
                         $idUsuarioOperador,
-                        'RESULTADO_MARCADO_PARA_REVISION',
+                        'PERIODO_GRACIA_VENCIDO',
                         'enfrentamiento',
                         $id,
-                        "Torneo: {$cand['torneo']} · {$cand['ronda']} · Período de gracia vencido sin marcador registrado · Motivo: SIN_RESULTADO_OBJETIVO · Origen: SISTEMA_AUTOMATICO"
+                        "Torneo: {$cand['torneo']} · {$cand['ronda']} · Período de gracia vencido · {$detalleResultado} · Requiere revisión manual"
                     );
                     if ($transaccionPropia && $this->conexion->inTransaction()) {
                         $this->conexion->commit();
@@ -890,8 +855,8 @@ class Enfrentamiento
                     $reporte['enviados_a_revision']++;
                     $reporte['detalles'][] = [
                         'id_enfrentamiento' => $id,
-                        'accion' => 'RESULTADO_MARCADO_PARA_REVISION',
-                        'motivo' => 'VENCIDO_SIN_RESULTADO'
+                        'accion' => 'ENVIADO_A_REVISION',
+                        'motivo' => $tieneMarcador ? 'VENCIDO_CON_MARCADOR_PENDIENTE' : 'VENCIDO_SIN_RESULTADO'
                     ];
                 } catch (Throwable $error) {
                     if ($transaccionPropia && $this->conexion->inTransaction()) {
@@ -903,22 +868,6 @@ class Enfrentamiento
         }
 
         return $reporte;
-    }
-
-    private function finalizarEnfrentamientoAutomatico(int $idEnfrentamiento, int $pa, int $pb): void
-    {
-        $q = $this->conexion->prepare(
-            "UPDATE enfrentamientos
-             SET estado = 'finalizado',
-                 puntaje_a = :pa,
-                 puntaje_b = :pb
-             WHERE id_enfrentamiento = :id"
-        );
-        $q->execute([
-            ':pa' => $pa,
-            ':pb' => $pb,
-            ':id' => $idEnfrentamiento
-        ]);
     }
 
     private function marcarPendienteRevision(int $idEnfrentamiento): void
@@ -948,7 +897,10 @@ class Enfrentamiento
                 ':detalle' => $detalle === null ? null : mb_substr($detalle, 0, 500),
                 ':resultado' => in_array($resultado, ['exito', 'error', 'denegado'], true) ? $resultado : 'exito'
             ]);
-        } catch (Throwable) {
+        } catch (Throwable $error) {
+            if ($this->conexion->inTransaction()) {
+                throw $error;
+            }
         }
     }
 

@@ -57,6 +57,7 @@ try {
         }
 
         $modeloInvitacion = new Invitacion($contexto['conexion']);
+        $contexto['conexion']->beginTransaction();
         $idInvitacion = $modeloInvitacion->crearOReenviar((int) $idTorneo, $idActual, $idInvitado);
 
         registrarAuditoriaApi(
@@ -67,6 +68,7 @@ try {
             $idInvitacion,
             '@' . $usuario['nombre_usuario'] . ' · ' . $torneo['nombre']
         );
+        $contexto['conexion']->commit();
 
         responderJson([
             'exito' => true,
@@ -88,6 +90,7 @@ try {
     }
 
     $modeloInvitacion = new Invitacion($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $idInvitacion = $modeloInvitacion->crearOReenviarEquipo((int) $idTorneo, $idActual, (int) $idEquipo);
 
     registrarAuditoriaApi(
@@ -98,6 +101,7 @@ try {
         $idInvitacion,
         'Equipo #' . (int) $idEquipo . ' · ' . $torneo['nombre']
     );
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -107,7 +111,13 @@ try {
         'id_invitacion' => $idInvitacion
     ]);
 } catch (DomainException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo enviar la invitación.'], 500);
 }

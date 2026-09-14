@@ -53,7 +53,6 @@
       if (!control.id) return;
       datos[control.id] = control.type === 'checkbox' ? control.checked : control.value;
     });
-    // El tema se guarda al seleccionarlo; este formulario solo envía sus propios campos.
     return datos;
   }
 

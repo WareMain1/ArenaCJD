@@ -82,7 +82,10 @@ class Disciplina
     {
         $nombre = $this->validarNombreCategoria($nombre);
         if ($idCategoria <= 0) throw new InvalidArgumentException('Categoría no válida.');
-        $this->conexion->beginTransaction();
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
         try {
             $consulta = $this->conexion->prepare('SELECT nombre FROM categorias WHERE id_categoria = ? FOR UPDATE');
             $consulta->execute([$idCategoria]);
@@ -90,10 +93,12 @@ class Disciplina
             if ($anterior === false) throw new DomainException('La categoría ya no existe.');
             $consulta = $this->conexion->prepare('UPDATE categorias SET nombre = ? WHERE id_categoria = ?');
             $consulta->execute([$nombre, $idCategoria]);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return ['id_categoria' => $idCategoria, 'nombre' => $nombre, 'nombre_anterior' => $anterior];
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) $this->conexion->rollBack();
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) $this->conexion->rollBack();
             throw $error;
         }
     }
@@ -104,7 +109,10 @@ class Disciplina
             throw new InvalidArgumentException('Categoría no válida.');
         }
 
-        $this->conexion->beginTransaction();
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
         try {
             $consulta = $this->conexion->prepare(
                 "SELECT id_categoria, nombre
@@ -155,14 +163,16 @@ class Disciplina
 
             $eliminar = $this->conexion->prepare("DELETE FROM categorias WHERE id_categoria = :id_categoria");
             $eliminar->execute([':id_categoria' => $idCategoria]);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
 
             return [
                 'id_categoria' => $idCategoria,
                 'nombre' => (string) $categoria['nombre']
             ];
         } catch (Throwable $e) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $e;
@@ -175,7 +185,10 @@ class Disciplina
             throw new InvalidArgumentException('Disciplina no válida.');
         }
 
-        $this->conexion->beginTransaction();
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
         try {
             $consulta = $this->conexion->prepare(
                 "SELECT id_disciplina, nombre
@@ -208,14 +221,16 @@ class Disciplina
                 "DELETE FROM disciplinas WHERE id_disciplina = :id_disciplina"
             );
             $eliminar->execute([':id_disciplina' => $idDisciplina]);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
 
             return [
                 'id_disciplina' => $idDisciplina,
                 'nombre' => (string) $disciplina['nombre']
             ];
         } catch (Throwable $e) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $e;
@@ -256,7 +271,10 @@ class Disciplina
     public function crear(string $nombre, string $estado, array $categorias, array $tipos): int
     {
         $this->validarAsociaciones($categorias, $tipos);
-        $this->conexion->beginTransaction();
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
         try {
             $consulta = $this->conexion->prepare(
                 "INSERT INTO disciplinas (nombre, estado) VALUES (:nombre, :estado)"
@@ -264,10 +282,12 @@ class Disciplina
             $consulta->execute([':nombre' => $nombre, ':estado' => $estado]);
             $id = (int) $this->conexion->lastInsertId();
             $this->reemplazarAsociaciones($id, $categorias, $tipos);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return $id;
         } catch (Throwable $e) {
-            if ($this->conexion->inTransaction()) $this->conexion->rollBack();
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) $this->conexion->rollBack();
             throw $e;
         }
     }
@@ -275,7 +295,10 @@ class Disciplina
     public function actualizar(int $idDisciplina, string $nombre, string $estado, array $categorias, array $tipos): bool
     {
         $this->validarAsociaciones($categorias, $tipos);
-        $this->conexion->beginTransaction();
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
         try {
             $consulta = $this->conexion->prepare(
                 "UPDATE disciplinas SET nombre = :nombre, estado = :estado WHERE id_disciplina = :id_disciplina"
@@ -286,10 +309,12 @@ class Disciplina
                 ':id_disciplina' => $idDisciplina
             ]);
             $this->reemplazarAsociaciones($idDisciplina, $categorias, $tipos);
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return $ok;
         } catch (Throwable $e) {
-            if ($this->conexion->inTransaction()) $this->conexion->rollBack();
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) $this->conexion->rollBack();
             throw $e;
         }
     }

@@ -1,7 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../config/Conexion.php';
+require_once __DIR__ . '/../config/iniciarSesion.php';
 require_once __DIR__ . '/../modelos/Usuario.php';
+require_once __DIR__ . '/../seguridad/LimiteSolicitudes.php';
 
 function responderJson(array $datos, int $estado = 200): never
 {
@@ -12,9 +14,7 @@ function responderJson(array $datos, int $estado = 200): never
 
 function contextoApi(array $rolesPermitidos = []): array
 {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    iniciarSesionArenaCJD();
 
     if (!isset($_SESSION['usuario_id'])) {
         responderJson(['exito' => false, 'mensaje' => 'No hay una sesión activa.'], 401);
@@ -144,6 +144,9 @@ function registrarAuditoriaApi(PDO $conexion, ?int $idUsuario, string $accion, s
             ':resultado' => $resultado
         ]);
     } catch (Throwable $error) {
+        if ($conexion->inTransaction()) {
+            throw $error;
+        }
     }
 }
 
@@ -152,6 +155,20 @@ function obtenerIpClienteApi(): string
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconocida';
     $ip = preg_replace('/[^0-9a-fA-F:.]/', '', $ip) ?: 'desconocida';
     return substr($ip, 0, 45);
+}
+
+function exigirLimiteSolicitudesApi(string $accion, int $maximo, int $ventanaSegundos): void
+{
+    $resultado = LimiteSolicitudes::consumir($accion, obtenerIpClienteApi(), $maximo, $ventanaSegundos);
+    if (!$resultado['permitido']) {
+        $reintentar = (int) $resultado['reintentar_en'];
+        header('Retry-After: ' . $reintentar);
+        responderJson([
+            'exito' => false,
+            'mensaje' => 'Demasiadas solicitudes. Intenta nuevamente más tarde.',
+            'reintentar_en' => $reintentar
+        ], 429);
+    }
 }
 
 function registrarEventoSeguridadApi(string $evento, string $usuario = ''): void
@@ -179,4 +196,3 @@ function registrarEventoSeguridadApi(string $evento, string $usuario = ''): void
 
     @file_put_contents($rutaLog, $linea, FILE_APPEND | LOCK_EX);
 }
-

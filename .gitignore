@@ -1,7 +1,48 @@
-
 # ArenaCJD - archivos locales y sensibles
-storage/logs/*.log
-!storage/logs/.gitkeep
+
+# Variables de entorno
 .env
 .env.*
+
+# Configuración local
 config/entorno.local.php
+
+# Credenciales/configuración sensible de MySQL
+seguridad/configurar_usuario_aplicacion.sql
+
+# Logs
+storage/logs/*
+!storage/logs/.gitkeep
+!storage/logs/.htaccess
+
+# Imágenes y archivos subidos por usuarios
+storage/perfiles/*
+!storage/perfiles/.gitkeep
+!storage/perfiles/.htaccess
+
+storage/torneos/*
+!storage/torneos/.gitkeep
+!storage/torneos/.htaccess
+
+storage/equipos/*
+!storage/equipos/.gitkeep
+!storage/equipos/.htaccess
+
+# Archivos temporales o límites
+storage/limites/*
+!storage/limites/.gitkeep
+!storage/limites/.htaccess
+
+# Archivos comprimidos y copias
+*.zip
+*.rar
+*.7z
+*.bak
+
+# Archivos del sistema
+Thumbs.db
+.DS_Store
+
+# Archivos temporales de desarrollo
+scratch/
+tests/REVISION-MOVIL.md

@@ -1,15 +1,15 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-session_start();
 require_once __DIR__ . '/_comun.php';
+iniciarSesionArenaCJD();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     responderJson(['exito' => false, 'mensaje' => 'Método no permitido.'], 405);
 }
 
 if (empty($_SESSION['recuperacion_usuario_id']) || ($_SESSION['recuperacion_expira'] ?? 0) < time()) {
-    unset($_SESSION['recuperacion_usuario_id'], $_SESSION['recuperacion_expira'], $_SESSION['recuperacion_intentos'], $_SESSION['recuperacion_token']);
+    unset($_SESSION['recuperacion_usuario_id'], $_SESSION['recuperacion_simulada'], $_SESSION['recuperacion_expira'], $_SESSION['recuperacion_intentos'], $_SESSION['recuperacion_token']);
     responderJson(['exito' => false, 'mensaje' => 'La recuperación venció. Vuelve a identificar tu cuenta.'], 410);
 }
 
@@ -27,6 +27,7 @@ $respuesta = trim((string) ($datos['respuesta'] ?? ''));
 $nueva = (string) ($datos['nueva'] ?? '');
 $confirmar = (string) ($datos['confirmar'] ?? '');
 $idUsuario = (int) $_SESSION['recuperacion_usuario_id'];
+$recuperacionSimulada = !empty($_SESSION['recuperacion_simulada']);
 
 if ($respuesta === '' || $nueva !== $confirmar || strlen($nueva) < 8 || strlen($nueva) > 72 || !preg_match('/[0-9]/', $nueva) || !preg_match('/[A-ZÁÉÍÓÚÑ]/u', $nueva) || !preg_match('/[!@#$%&*]/', $nueva)) {
     responderJson(['exito' => false, 'mensaje' => 'Revisa la respuesta y los requisitos de la nueva contraseña.'], 422);
@@ -35,14 +36,25 @@ if ($respuesta === '' || $nueva !== $confirmar || strlen($nueva) < 8 || strlen($
 try {
     $conexion = (new Conexion())->conectar();
     $modelo = new Usuario($conexion);
+    if ($recuperacionSimulada) {
+        password_verify(mb_strtolower($respuesta, 'UTF-8'), '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.');
+        $intentos = (int) ($_SESSION['recuperacion_intentos'] ?? 0) + 1;
+        $_SESSION['recuperacion_intentos'] = $intentos;
+        if ($intentos >= 5) {
+            responderJson(['exito' => false, 'mensaje' => 'Se alcanzó el límite de intentos. La recuperación quedó bloqueada durante 15 minutos.'], 429);
+        }
+        responderJson(['exito' => false, 'mensaje' => 'La respuesta no coincide. Te quedan ' . (5 - $intentos) . ' intentos.'], 403);
+    }
+
     $consulta = $conexion->prepare('SELECT respuesta_recuperacion FROM usuarios WHERE id_usuario = :id LIMIT 1');
     $consulta->execute([':id' => $idUsuario]);
     $hashRespuesta = $consulta->fetchColumn();
 
     if (!$hashRespuesta || !password_verify(mb_strtolower($respuesta, 'UTF-8'), $hashRespuesta)) {
-        $_SESSION['recuperacion_intentos'] = ($_SESSION['recuperacion_intentos'] ?? 0) + 1;
-        $intentos = (int) $_SESSION['recuperacion_intentos'];
+        $intentos = (int) ($_SESSION['recuperacion_intentos'] ?? 0) + 1;
         $bloquear = $intentos >= 5;
+
+        $conexion->beginTransaction();
         $consultaIntentos = $conexion->prepare(
             "UPDATE usuarios SET recuperacion_intentos = :intentos, recuperacion_bloqueada_hasta = :bloqueada WHERE id_usuario = :id"
         );
@@ -52,17 +64,26 @@ try {
             ':id' => $idUsuario
         ]);
         registrarAuditoriaApi($conexion, $idUsuario, 'recuperacion_fallida', 'usuario', $idUsuario, $bloquear ? 'Bloqueo temporal por cinco respuestas incorrectas' : 'Respuesta de recuperación incorrecta', 'denegado');
+        $conexion->commit();
+
+        $_SESSION['recuperacion_intentos'] = $bloquear ? 0 : $intentos;
         if ($bloquear) responderJson(['exito' => false, 'mensaje' => 'Se alcanzó el límite de intentos. La recuperación quedó bloqueada durante 15 minutos.'], 429);
         responderJson(['exito' => false, 'mensaje' => 'La respuesta no coincide. Te quedan ' . (5 - $intentos) . ' intentos.'], 403);
     }
 
+    $conexion->beginTransaction();
     $modelo->actualizarContrasena($idUsuario, password_hash($nueva, PASSWORD_DEFAULT));
     $conexion->prepare("UPDATE usuarios SET recuperacion_intentos = 0, recuperacion_bloqueada_hasta = NULL WHERE id_usuario = :id")
         ->execute([':id' => $idUsuario]);
     registrarAuditoriaApi($conexion, $idUsuario, 'recuperacion_contrasena', 'usuario', $idUsuario, 'Contraseña restablecida e invalidación de sesiones anteriores');
-    unset($_SESSION['recuperacion_usuario_id'], $_SESSION['recuperacion_expira'], $_SESSION['recuperacion_intentos'], $_SESSION['recuperacion_token']);
+    $conexion->commit();
+
+    unset($_SESSION['recuperacion_usuario_id'], $_SESSION['recuperacion_simulada'], $_SESSION['recuperacion_expira'], $_SESSION['recuperacion_intentos'], $_SESSION['recuperacion_token']);
     session_regenerate_id(true);
     responderJson(['exito' => true, 'mensaje' => 'Contraseña restablecida. Ya puedes iniciar sesión.']);
 } catch (Throwable $error) {
+    if (isset($conexion) && $conexion instanceof PDO && $conexion->inTransaction()) {
+        $conexion->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo restablecer la contraseña.'], 500);
 }

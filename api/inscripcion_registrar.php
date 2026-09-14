@@ -60,8 +60,10 @@ try {
             }
 
             $modeloInvitacion = new Invitacion($contexto['conexion']);
+            $contexto['conexion']->beginTransaction();
             $idInvitacion = $modeloInvitacion->crearOReenviar((int) $idTorneo, $idActual, $idObjetivo);
             registrarAuditoriaApi($contexto['conexion'], $idActual, 'invitacion_enviada', 'invitacion', $idInvitacion, '@' . $usuario['nombre_usuario'] . ' · ' . $torneo['nombre']);
+            $contexto['conexion']->commit();
             responderJson([
                 'exito' => true,
                 'tipo' => 'invitacion',
@@ -76,8 +78,10 @@ try {
         }
 
         if ($modelo->existeIndividual((int) $idTorneo, $idObjetivo)) responderJson(['exito' => false, 'mensaje' => 'Ya tienes una inscripción en este torneo.'], 409);
+        $contexto['conexion']->beginTransaction();
         $idInscripcion = $modelo->crearIndividual((int) $idTorneo, $idObjetivo);
         registrarAuditoriaApi($contexto['conexion'], $idActual, 'inscripcion_registrada', 'inscripcion_individual', $idInscripcion, $torneo['nombre']);
+        $contexto['conexion']->commit();
         responderJson(['exito' => true, 'tipo' => 'inscripcion', 'mensaje' => 'Inscripción individual registrada y pendiente de aprobación.', 'id_inscripcion' => $idInscripcion]);
     }
 
@@ -94,8 +98,10 @@ try {
             }
 
             $modeloInvitacion = new Invitacion($contexto['conexion']);
+            $contexto['conexion']->beginTransaction();
             $idInvitacion = $modeloInvitacion->crearOReenviarEquipo((int) $idTorneo, $idActual, (int) $idEquipoExistente);
             registrarAuditoriaApi($contexto['conexion'], $idActual, 'invitacion_enviada', 'invitacion', $idInvitacion, (string) $equipoExistente['nombre'] . ' · ' . $torneo['nombre']);
+            $contexto['conexion']->commit();
             responderJson([
                 'exito' => true,
                 'tipo' => 'invitacion',
@@ -104,8 +110,10 @@ try {
             ]);
         }
 
+        $contexto['conexion']->beginTransaction();
         $idInscripcion = $modelo->inscribirEquipoExistente((int) $idEquipoExistente, (int) $idTorneo);
         registrarAuditoriaApi($contexto['conexion'], $idActual, 'inscripcion_registrada', 'inscripcion_equipo', $idInscripcion, (string) $equipoExistente['nombre'] . ' · ' . $torneo['nombre']);
+        $contexto['conexion']->commit();
         responderJson([
             'exito' => true,
             'tipo' => 'inscripcion_equipo',
@@ -120,7 +128,13 @@ try {
         'mensaje' => 'Selecciona un equipo permanente existente. Los equipos nuevos se crean por separado antes de inscribirlos.'
     ], 400);
 } catch (DomainException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo registrar la inscripción.'], 500);
 }

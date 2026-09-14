@@ -1,5 +1,6 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) { session_start(); }
+require_once __DIR__ . '/config/iniciarSesion.php';
+iniciarSesionArenaCJD();
 if (!empty($_SESSION['usuario_id'])) {
     $roles = $_SESSION['roles'] ?? [];
     header('Location: ' . ((in_array('administrador',$roles,true) || in_array('organizador',$roles,true)) ? 'panel.php' : 'torneos.php'));
@@ -16,13 +17,13 @@ if (!empty($_SESSION['usuario_id'])) {
 <script src="js/tema-inicial.js"></script>
 <script src="js/iconos.js?v=20260909-sprint11"></script>
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/layout.css?v=20260911-stableui1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/animaciones.css">
 <link rel="stylesheet" href="css/paginas/index.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/paginas/index-publico-vivo.css">
 <link rel="stylesheet" href="css/paginas/recuperar-contrasena.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">

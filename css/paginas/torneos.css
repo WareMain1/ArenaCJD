@@ -82,24 +82,18 @@
 
 .fila-superior-torneo {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 8px 10px;
   min-width: 0;
 }
 
 .fila-superior-torneo .nombre-torneo {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
   justify-self: center;
   width: 100%;
   text-align: center;
-}
-
-.fila-superior-torneo .favorito-torneo-ah {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: end;
 }
 
 .fila-superior-torneo .insignias-torneo {
@@ -107,6 +101,8 @@
   grid-row: 2;
   justify-content: center;
   width: 100%;
+  box-sizing: border-box;
+  padding-inline: 0;
 }
 
 .nombre-torneo {
@@ -369,16 +365,43 @@ html[data-tema="oscuro"] .modal-torneo-contenido,html[data-tema="oscuro"] .menu-
   line-height: 1.45;
 }
 
+.boton-nuevo-torneo {
+  width: 132px;
+  min-width: 132px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0 16px;
+  margin: 0;
+  box-sizing: border-box;
+  flex: 0 0 132px;
+  white-space: nowrap;
+}
+
 @media (min-width: 700px) {
   .cabecera-pagina-torneos {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 132px;
+    align-items: start;
+    column-gap: 24px;
   }
 
   .cabecera-pagina-torneos > .boton {
-    flex: 0 0 auto;
+    justify-self: end;
+    align-self: start;
+    flex: none;
   }
+}
+
+#crearNuevoTorneo,
+#crearNuevoTorneo:hover,
+#crearNuevoTorneo:focus-visible,
+#crearNuevoTorneo:active {
+  width: 132px;
+  min-width: 132px;
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  transform: none;
 }
 
 .aviso-cancelar-torneo{display:flex;align-items:center;gap:12px;margin:8px 0 18px;padding:15px;border:1px solid var(--color-borde);border-radius:13px;background:var(--color-fondo-secundario)}.aviso-cancelar-torneo>span{font-size:28px}.aviso-cancelar-torneo strong{color:var(--color-texto-principal)}.aviso-cancelar-torneo p{margin:4px 0 0;color:var(--color-texto-secundario);font-size:13px}.boton-confirmar-cancelacion{background:var(--rojo);border-color:var(--rojo)}
@@ -685,7 +708,7 @@ html[data-tema="oscuro"] .modal-torneo-contenido,html[data-tema="oscuro"] .menu-
 }
 
 .fila-superior-torneo {
-  grid-template-columns: 54px minmax(0, 1fr) 54px;
+  grid-template-columns: minmax(0, 1fr);
   min-height: 52px;
 }
 
@@ -693,11 +716,6 @@ html[data-tema="oscuro"] .modal-torneo-contenido,html[data-tema="oscuro"] .menu-
   align-self: center;
   justify-self: stretch;
   text-align: center;
-}
-
-.fila-superior-torneo .favorito-torneo-ah {
-  align-self: start;
-  justify-self: end;
 }
 
 .fila-meta-torneo {
@@ -778,14 +796,19 @@ html[data-tema="oscuro"] .modal-torneo-contenido,html[data-tema="oscuro"] .menu-
   min-height:54px;
   gap:8px 12px;
 }
-.principal-torneos .nombre-torneo{
+.principal-torneos .fila-superior-torneo .nombre-torneo{
+  grid-column:2;
+  grid-row:1;
+  width:100%;
+  justify-self:stretch;
+  text-align:center;
   font-size:17px;
   font-weight:800;
   line-height:1.25;
 }
 .principal-torneos .fila-meta-torneo{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   align-items:stretch;
   gap:8px;
   width:min(100%,620px);
@@ -908,6 +931,20 @@ html[data-tema="oscuro"] .modal-torneo-contenido,html[data-tema="oscuro"] .menu-
   gap:7px;
   padding-top:1px;
 }
+
+@media(min-width:641px){
+  .principal-torneos .acciones-torneo:has(.boton-administrar):has(.contenedor-menu-torneo){
+    display:grid;
+    grid-template-columns:42px auto auto 42px;
+    justify-content:center;
+    align-items:center;
+  }
+  .principal-torneos .acciones-torneo:has(.boton-administrar):has(.contenedor-menu-torneo)::before{
+    content:"";
+    width:42px;
+    height:1px;
+  }
+}
 .principal-torneos .acciones-torneo .boton,
 .principal-torneos .acciones-torneo .boton-accion{
   min-height:38px;
@@ -1021,7 +1058,6 @@ html[data-tema="claro"] .principal-torneos .fila-fechas-torneo{
   border-color:var(--border-subtle);
 }
 
-/* Refinamientos de legibilidad y jerarquía solicitados para Torneos. */
 .principal-torneos .meta-torneo{
   border-color:color-mix(in srgb,var(--color-borde) 52%,transparent);
   background:var(--color-fondo-secundario);
@@ -1238,4 +1274,371 @@ html[data-tema="claro"] .descripcion-lista-torneos{
   .principal-torneos .fila-meta-torneo { grid-template-columns:1fr; }
   .principal-torneos .meta-torneo { flex-direction:row; flex-wrap:wrap; align-items:baseline; justify-content:space-between; min-height:0; gap:6px; text-align:left; overflow-wrap:break-word; }
   .principal-torneos .siguiente-accion-torneo-ah { align-items:stretch; flex-direction:column; }
+}
+
+
+.grupo-realizacion-torneo{
+  border:0;
+  padding:0;
+  margin:0;
+  min-width:0;
+}
+
+.grupo-realizacion-torneo legend{
+  margin-bottom:8px;
+  font-weight:700;
+  color:var(--color-texto-principal);
+}
+
+.opciones-realizacion-torneo{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.opcion-realizacion-torneo{
+  position:relative;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) 20px;
+  align-items:center;
+  gap:12px;
+  min-height:92px;
+  padding:14px;
+  border:1px solid var(--color-borde);
+  border-radius:14px;
+  background:var(--color-fondo-secundario);
+  color:var(--color-texto-principal);
+  cursor:pointer;
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+
+.opcion-realizacion-torneo:hover{
+  border-color:color-mix(in srgb,var(--color-acento) 44%,var(--color-borde));
+  transform:translateY(-1px);
+}
+
+.opcion-realizacion-torneo:has(input:focus-visible){
+  outline:2px solid color-mix(in srgb,var(--color-acento) 42%,transparent);
+  outline-offset:2px;
+}
+
+.opcion-realizacion-torneo:has(input:checked){
+  border-color:var(--color-acento);
+  background:color-mix(in srgb,var(--color-acento) 9%,var(--color-fondo-secundario));
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--color-acento) 24%,transparent);
+}
+
+.opcion-realizacion-torneo input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.icono-realizacion-torneo{
+  display:grid;
+  width:42px;
+  height:42px;
+  place-items:center;
+  border-radius:12px;
+  background:color-mix(in srgb,var(--color-acento) 10%,transparent);
+  color:var(--color-acento);
+}
+
+.icono-realizacion-torneo .icono-ui{
+  width:23px;
+  height:23px;
+}
+
+.texto-realizacion-torneo{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  gap:3px;
+}
+
+.texto-realizacion-torneo strong{
+  font-size:14px;
+}
+
+.texto-realizacion-torneo small{
+  color:var(--color-texto-secundario);
+  line-height:1.35;
+}
+
+.marca-realizacion-torneo{
+  display:grid;
+  width:18px;
+  height:18px;
+  place-items:center;
+  border:2px solid var(--color-borde);
+  border-radius:50%;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+
+.opcion-realizacion-torneo:has(input:checked) .marca-realizacion-torneo{
+  border-color:var(--color-acento);
+  box-shadow:inset 0 0 0 4px var(--color-fondo-secundario),inset 0 0 0 9px var(--color-acento);
+}
+
+
+.fila-realizacion-torneo-tarjeta{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:min(100%,620px);
+  align-self:center;
+  min-height:30px;
+  margin:2px 0 1px;
+  padding:8px 10px;
+  border-top:1px solid color-mix(in srgb,var(--color-borde) 52%,transparent);
+  border-bottom:1px solid color-mix(in srgb,var(--color-borde) 52%,transparent);
+}
+
+.fila-realizacion-torneo-tarjeta .insignia-realizacion-torneo{
+  margin:0;
+}
+
+.insignia-realizacion-torneo{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:28px;
+  padding:5px 9px;
+  border:1px solid color-mix(in srgb,var(--color-acento) 26%,var(--color-borde));
+  border-radius:999px;
+  background:color-mix(in srgb,var(--color-acento) 7%,var(--color-fondo-secundario));
+  color:var(--color-texto-secundario);
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.insignia-realizacion-torneo .icono-ui,
+.detalle-realizacion-torneo .icono-ui{
+  width:15px;
+  height:15px;
+  color:var(--color-acento);
+}
+
+.etiqueta-realizacion-torneo-tarjeta{
+  color:var(--color-texto-secundario);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.025em;
+}
+
+.insignia-realizacion-torneo.sin-definir,
+.valor-realizacion-torneo.sin-definir{
+  border-style:dashed;
+  color:var(--color-texto-desactivado);
+}
+
+.aviso-realizacion-sin-definir{
+  color:var(--color-texto-secundario);
+  font-style:italic;
+}
+
+.pie-resultados-torneos{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px 22px;
+  margin-top:24px;
+  padding-top:14px;
+  border-top:1px solid color-mix(in srgb,var(--color-borde) 68%,transparent);
+  color:var(--color-texto-desactivado);
+}
+
+.pie-resultados-torneos[hidden]{display:none}
+.pie-resultados-torneos .paginacion{justify-content:flex-end;gap:12px}
+.pie-resultados-torneos .info-paginacion{color:inherit}
+.pie-resultados-torneos .estado-sincronizacion-torneos{margin:0;text-align:right;white-space:nowrap}
+
+.detalle-realizacion-torneo{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+
+@media(max-width:640px){
+  .opciones-realizacion-torneo{
+    grid-template-columns:1fr;
+  }
+
+  .pie-resultados-torneos{
+    align-items:flex-end;
+    flex-direction:column;
+  }
+
+  .pie-resultados-torneos .paginacion{
+    align-items:flex-end;
+    flex-direction:column;
+  }
+}
+
+@media(max-width:640px){
+  .cabecera-pagina-torneos{
+    gap:16px;
+    margin-bottom:20px;
+  }
+
+  #crearNuevoTorneo,
+  #crearNuevoTorneo:hover,
+  #crearNuevoTorneo:focus-visible,
+  #crearNuevoTorneo:active{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    min-width:0;
+    height:56px;
+    min-height:56px;
+    padding:0 20px;
+    flex:0 0 auto;
+  }
+
+  #crearNuevoTorneo .icono-ui{
+    width:20px;
+    height:20px;
+  }
+
+  .principal-torneos .tarjeta-torneo{
+    padding:16px;
+  }
+
+  .principal-torneos .cuerpo-torneo{
+    gap:12px;
+  }
+
+  .principal-torneos .fila-superior-torneo{
+    grid-template-rows:52px auto;
+    gap:8px 12px;
+    min-height:0;
+  }
+
+  .principal-torneos .insignias-torneo{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .principal-torneos .fila-meta-torneo{
+    gap:8px;
+  }
+
+  .principal-torneos .meta-torneo{
+    gap:4px;
+    padding:8px 12px;
+    line-height:1.4;
+  }
+
+  .principal-torneos .fila-fechas-torneo{
+    gap:4px;
+    padding:10px 12px;
+    line-height:1.45;
+  }
+
+  .principal-torneos .progreso-concreto-torneo-ah{
+    gap:8px;
+    line-height:1.4;
+  }
+
+  .principal-torneos .siguiente-accion-torneo-ah{
+    gap:12px;
+    padding:12px;
+  }
+
+  .principal-torneos .acciones-torneo{
+    gap:8px;
+    padding-top:4px;
+  }
+
+  .pie-resultados-torneos{
+    gap:4px;
+    margin-top:16px;
+    padding-top:12px;
+    font-size:11px;
+    line-height:1.35;
+  }
+
+  .pie-resultados-torneos .paginacion{
+    gap:4px;
+  }
+
+  .lateral-torneos{
+    gap:16px;
+  }
+
+  .lateral-torneos>.tarjeta-actividad{
+    padding:16px;
+  }
+
+  .cabecera-actividad-torneos{
+    gap:8px;
+    margin-bottom:16px;
+  }
+
+  .lateral-torneos .lista-actividad{
+    gap:12px;
+  }
+
+  .lateral-torneos .item-actividad{
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .lateral-torneos .contenido-actividad{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .lateral-torneos .titulo-actividad{
+    line-height:1.3;
+  }
+
+  .lateral-torneos .descripcion-actividad{
+    line-height:1.45;
+  }
+
+  .lateral-torneos .tiempo-actividad{
+    line-height:1.35;
+  }
+
+  .tarjeta-proximos-torneos .titulo-seccion{
+    margin-bottom:16px;
+  }
+
+  .tarjeta-proximos-torneos .lista-proximos{
+    gap:12px;
+    margin-bottom:12px;
+  }
+
+  .tarjeta-proximos-torneos .item-proximo,
+  .tarjeta-proximos-torneos.estado-vacio-proximos .item-proximo{
+    align-items:center;
+    gap:12px;
+    padding:12px;
+  }
+
+  .tarjeta-proximos-torneos .info-proximo{
+    gap:4px;
+  }
+
+  .tarjeta-proximos-torneos .nombre-proximo{
+    line-height:1.3;
+  }
+
+  .tarjeta-proximos-torneos .fecha-proximo,
+  .tarjeta-proximos-torneos .sub-proximo{
+    line-height:1.45;
+    overflow-wrap:anywhere;
+  }
+
+  .tarjeta-proximos-torneos.estado-vacio-proximos .boton-calendario-secundario{
+    min-height:44px;
+    margin-top:12px;
+    padding-block:10px;
+  }
 }

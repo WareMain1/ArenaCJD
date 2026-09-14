@@ -19,6 +19,15 @@ if (!$hash || !password_verify($actual, $hash)) {
     registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'recuperacion_config_denegada', 'usuario', $idUsuario, 'Contraseña actual incorrecta', 'denegado');
     responderJson(['exito' => false, 'mensaje' => 'La contraseña actual no es correcta.'], 403);
 }
-$modelo->configurarRecuperacion($idUsuario, $pregunta, password_hash(mb_strtolower($respuesta, 'UTF-8'), PASSWORD_DEFAULT));
-registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'recuperacion_configurada', 'usuario', $idUsuario, 'Pregunta de recuperación actualizada');
-responderJson(['exito' => true, 'mensaje' => 'Pregunta de recuperación actualizada.']);
+try {
+    $contexto['conexion']->beginTransaction();
+    $modelo->configurarRecuperacion($idUsuario, $pregunta, password_hash(mb_strtolower($respuesta, 'UTF-8'), PASSWORD_DEFAULT));
+    registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'recuperacion_configurada', 'usuario', $idUsuario, 'Pregunta de recuperación actualizada');
+    $contexto['conexion']->commit();
+    responderJson(['exito' => true, 'mensaje' => 'Pregunta de recuperación actualizada.']);
+} catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
+    responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar la recuperación.'], 500);
+}

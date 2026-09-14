@@ -12,11 +12,11 @@ require_once __DIR__ . '/config/proteger.php';
 <script src="js/iconos.js?v=20260909-sprint11"></script>
 <script>if(window.matchMedia('(min-width: 992px)').matches&&localStorage.getItem('menuColapsado')!=='true'){document.documentElement.classList.add('menu-pre-abierto');}</script>
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/layout.css?v=20260911-stableui1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/experiencia.css?v=20260910-guia1">
 <link rel="stylesheet" href="css/paginas/mi-actividad.css?v=20260907-media-entidades2">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">
@@ -134,13 +134,16 @@ require_once __DIR__ . '/config/proteger.php';
 <span class="icono-informacion-actividad" aria-hidden="true"><span data-icono="info" aria-hidden="true"></span></span>
 <div><h2>Todo en un solo lugar</h2><p>Desde aquí puedes acceder rápidamente a tus partidos, equipos, invitaciones, torneos y resultados.</p></div>
 </div>
+<picture>
+<source srcset="imagenes/ilustracion-trofeo-registro.webp" type="image/webp">
 <img src="imagenes/ilustracion-trofeo-registro.png" alt="" aria-hidden="true">
+</picture>
 </section>
 </main>
 </div>
 </div>
 <script src="js/sincronizacion.js?v=20260831-central1"></script>
-<script src="js/componentes.js?v=20260910-confirmacion1"></script>
+<script src="js/componentes.js?v=20260913-sin-presencia1"></script>
 <script src="js/experiencia.js?v=20260910-guia1"></script>
 <script src="js/menu.js?v=20260909-sprint11"></script>
 <script src="js/mi-actividad.js?v=20260907-media-entidades2"></script>

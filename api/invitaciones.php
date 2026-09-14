@@ -30,6 +30,6 @@ try {
 } catch (Throwable $error) {
     responderJson([
         'exito' => false,
-        'mensaje' => 'No se pudieron cargar las invitaciones. Verifica que la migración de la segunda entrega esté aplicada.'
+        'mensaje' => 'No se pudieron cargar las invitaciones. Verifica la instalación de la base de datos.'
     ], 500);
 }

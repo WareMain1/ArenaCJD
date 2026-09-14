@@ -137,7 +137,6 @@
       '  <button class="boton-usuario-menu" id="botonUsuarioMenu" type="button" aria-expanded="false" aria-controls="menuOpcionesUsuario">',
       '    <span class="avatar-usuario-menu" aria-hidden="true">',
       '      <img class="foto-usuario-menu" id="fotoUsuarioMenu" src="' + fotoInicial + '" alt="">',
-      '      <span class="estado-usuario-conectado"></span>',
       '    </span>',
       '    <span class="datos-usuario-menu">',
       '      <span class="nombre-usuario-menu" id="nombreUsuarioMenu">' + nombreInicial + '</span>',
@@ -147,7 +146,7 @@
       '  </button>',
       '  <div class="menu-opciones-usuario" id="menuOpcionesUsuario" hidden>',
       '    <button class="opcion-usuario" id="abrirPerfilUsuario" type="button">' + window.ArenaCJDIcono('usuario') + '<span>Perfil</span></button>',
-      '    <a class="opcion-usuario opcion-cerrar-sesion" href="api/logout.php">' + window.ArenaCJDIcono('salir') + '<span>Cerrar sesión</span></a>',
+      '    <a class="opcion-usuario opcion-cerrar-sesion" href="api/logout.php" data-cerrar-sesion>' + window.ArenaCJDIcono('salir') + '<span>Cerrar sesión</span></a>',
       '  </div>',
       '</div>',
       '<div class="fondo-modal-perfil" id="fondoModalPerfil" hidden>',
@@ -286,6 +285,30 @@
       }
       if (!menu.hidden) { cerrarMenuUsuario(); boton.focus(); }
       if (modalPerfil && !modalPerfil.hidden) cerrarModalPerfil();
+    });
+  }
+
+  function configurarCierreSesion() {
+    if (document.documentElement.dataset.cierreSesionConfigurado === 'true') return;
+    document.documentElement.dataset.cierreSesionConfigurado = 'true';
+    document.addEventListener('click', async function (evento) {
+      const enlace = evento.target.closest('[data-cerrar-sesion]');
+      if (!enlace) return;
+      evento.preventDefault();
+      if (!csrfSesion || enlace.getAttribute('aria-disabled') === 'true') return;
+      enlace.setAttribute('aria-disabled', 'true');
+      try {
+        const respuesta = await fetch('api/logout.php', {
+          method: 'POST',
+          headers: {'X-CSRF-Token': csrfSesion}
+        });
+        const resultado = await respuesta.json();
+        if (!respuesta.ok || !resultado.exito) throw new Error(resultado.mensaje || 'No se pudo cerrar la sesión.');
+        window.location.href = 'index.php';
+      } catch (error) {
+        enlace.removeAttribute('aria-disabled');
+        if (window.ArenaCJDNotificar) window.ArenaCJDNotificar(error.message || 'No se pudo cerrar la sesión.', 'error');
+      }
     });
   }
 
@@ -1344,6 +1367,7 @@
   const sesionInicial = obtenerSesionInicial();
   renderizarMenuLateral(sesionInicial);
   configurarMenuUsuario();
+  configurarCierreSesion();
 
   if (sesionInicial) {
     aplicarUsuarioSesion(sesionInicial);

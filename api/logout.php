@@ -1,6 +1,15 @@
 <?php
 
-session_start();
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+require_once __DIR__ . '/_comun.php';
+
+exigirMetodoApi('POST');
+$contexto = contextoApi();
+exigirCsrfApi($contexto['csrf_token']);
+$idUsuario = (int) $contexto['usuario']['id_usuario'];
+registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'logout', 'sesion', null, 'Cierre de sesión solicitado por el usuario');
+registrarEventoSeguridadApi('LOGOUT', (string) $contexto['usuario']['nombre_usuario']);
 
 $_SESSION = [];
 
@@ -19,8 +28,4 @@ if (ini_get('session.use_cookies')) {
 }
 
 session_destroy();
-
-$script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/ArenaCJD/api/logout.php');
-$rutaBase = rtrim(dirname(dirname($script)), '/');
-header('Location: ' . ($rutaBase !== '' ? $rutaBase : '') . '/index.php');
-exit;
+responderJson(['exito' => true, 'mensaje' => 'Sesión cerrada correctamente.']);

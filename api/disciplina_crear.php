@@ -26,15 +26,23 @@ try {
     if ($modelo->existeNombre($nombre)) {
         responderJson(['exito' => false, 'mensaje' => 'Ya existe una disciplina con ese nombre.'], 409);
     }
+    $contexto['conexion']->beginTransaction();
     $id = $modelo->crear($nombre, $estado, $categorias, $tipos);
     registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'disciplina_creada', 'disciplina', $id, $nombre . ' · ' . $estado);
+    $contexto['conexion']->commit();
     responderJson([
         'exito' => true,
         'mensaje' => 'Disciplina creada correctamente.',
         'disciplina' => $modelo->obtenerPorId($id)
     ], 201);
 } catch (InvalidArgumentException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 422);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo crear la disciplina.'], 500);
 }

@@ -34,6 +34,15 @@ try {
     $esPropietario = in_array('organizador', $contexto['roles'], true)
         && (int) $torneo['id_organizador'] === (int) $contexto['usuario']['id_usuario'];
     if (!$esAdministrador && !$esPropietario) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'torneo_cancelado',
+            'torneo',
+            (int) $idTorneo,
+            'Intento no autorizado de cancelación',
+            'denegado'
+        );
         responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para cancelar este torneo.'], 403);
     }
 
@@ -52,7 +61,9 @@ try {
         ]);
     }
 
+    $contexto['conexion']->beginTransaction();
     if (!$modelo->cancelar((int) $idTorneo)) {
+        $contexto['conexion']->rollBack();
         responderJson(['exito' => false, 'mensaje' => 'No se pudo cancelar el torneo.'], 409);
     }
 
@@ -64,6 +75,7 @@ try {
         (int) $idTorneo,
         (string) $torneo['nombre'] . ' · Motivo: ' . $motivo
     );
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -71,5 +83,8 @@ try {
         'accion' => 'cancelado'
     ]);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo cancelar el torneo.'], 500);
 }

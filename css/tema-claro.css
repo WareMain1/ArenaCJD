@@ -463,7 +463,6 @@ html[data-tema="claro"] .panel-calendario option {
   color: var(--text-primary);
 }
 
-/* Separación de superficies sin alterar la geometría compartida. */
 html[data-tema="claro"] body :is(
   .tarjeta-ah,.tarjeta-estadistica,.tarjeta-torneo,.resumen-participante,
   .tarjeta-equipo,.barra-filtros-participantes,.filtros-torneos,

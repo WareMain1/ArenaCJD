@@ -23,14 +23,54 @@ if ((int) $idUsuario === (int) $contexto['usuario']['id_usuario']) {
 
 try {
     $modelo = new Usuario($contexto['conexion']);
-    if (!$modelo->buscarPorId((int) $idUsuario)) {
+    $usuarioExistente = $modelo->buscarPorId((int) $idUsuario);
+    if (!$usuarioExistente) {
         responderJson(['exito' => false, 'mensaje' => 'El usuario no existe.'], 404);
     }
+    $contexto['conexion']->beginTransaction();
     $modelo->actualizarGestion((int) $idUsuario, $estado, $roles);
-    registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'usuario_actualizado', 'usuario', (int) $idUsuario, $estado . ' · ' . implode(', ', $roles));
+
+    $rolesPrevios = $usuarioExistente['roles'] ? explode(',', $usuarioExistente['roles']) : [];
+    sort($rolesPrevios);
+    $rolesNuevos = array_values(array_unique(array_filter(array_map('strval', $roles))));
+    sort($rolesNuevos);
+
+    if ($rolesPrevios !== $rolesNuevos) {
+        $detalleRoles = "@{$usuarioExistente['nombre_usuario']} · Roles: " . implode(', ', $rolesPrevios) . ' -> ' . implode(', ', $rolesNuevos);
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'usuario_rol_actualizado',
+            'usuario',
+            (int) $idUsuario,
+            $detalleRoles
+        );
+    }
+
+    $cambios = [];
+    if ($estado !== $usuarioExistente['estado']) {
+        $cambios[] = "Estado: {$usuarioExistente['estado']} -> {$estado}";
+    }
+    $detalleUsuario = "@{$usuarioExistente['nombre_usuario']}" . ($cambios ? ' · ' . implode(' · ', $cambios) : " · Estado: {$estado}") . ' · Roles: ' . implode(', ', $rolesNuevos);
+
+    registrarAuditoriaApi(
+        $contexto['conexion'],
+        (int) $contexto['usuario']['id_usuario'],
+        'usuario_actualizado',
+        'usuario',
+        (int) $idUsuario,
+        $detalleUsuario
+    );
+    $contexto['conexion']->commit();
     responderJson(['exito' => true, 'mensaje' => 'Usuario actualizado correctamente.']);
 } catch (InvalidArgumentException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 400);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar el usuario.'], 500);
 }

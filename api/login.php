@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+exigirLimiteSolicitudesApi('login', 30, 900);
+
 $datos = json_decode(file_get_contents('php://input'), true);
 
 if (!is_array($datos)) {
@@ -78,14 +80,20 @@ try {
         $estadoIntento = null;
 
         if ($usuario) {
+            $conexion->beginTransaction();
             $estadoIntento = $modeloUsuario->registrarIntentoLoginFallido((int) $usuario['id_usuario'], 5, 15);
+            registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_fallido', 'sesion', null, 'Intento de acceso para @' . $nombreUsuario, 'denegado');
+            if ($estadoIntento && ($estadoIntento['bloqueado'] ?? false)) {
+                registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_bloqueado_temporal', 'sesion', null, 'Bloqueo automático por 5 intentos fallidos', 'denegado');
+            }
+            $conexion->commit();
+        } else {
+            registrarAuditoriaApi($conexion, null, 'login_fallido', 'sesion', null, 'Intento de acceso para @' . $nombreUsuario, 'denegado');
         }
 
-        registrarAuditoriaApi($conexion, $usuario ? (int) $usuario['id_usuario'] : null, 'login_fallido', 'sesion', null, 'Intento de acceso para @' . $nombreUsuario, 'denegado');
         registrarEventoSeguridadApi('LOGIN_FAILED', $nombreUsuario);
 
         if ($estadoIntento && ($estadoIntento['bloqueado'] ?? false)) {
-            registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_bloqueado_temporal', 'sesion', null, 'Bloqueo automático por 5 intentos fallidos', 'denegado');
             registrarEventoSeguridadApi('LOGIN_BLOCKED', $nombreUsuario);
             http_response_code(429);
 
@@ -108,10 +116,12 @@ try {
         exit;
     }
 
+    $conexion->beginTransaction();
     $modeloUsuario->limpiarIntentosLogin((int) $usuario['id_usuario']);
 
     if ($usuario['estado'] === 'pendiente') {
         registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_denegado', 'sesion', null, 'Cuenta pendiente de aprobación', 'denegado');
+        $conexion->commit();
         http_response_code(403);
 
         echo json_encode([
@@ -124,6 +134,7 @@ try {
 
     if ($usuario['estado'] === 'bloqueado') {
         registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_denegado', 'sesion', null, 'Cuenta bloqueada', 'denegado');
+        $conexion->commit();
         http_response_code(403);
 
         echo json_encode([
@@ -136,6 +147,7 @@ try {
 
     if ($usuario['estado'] !== 'activo') {
         registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_denegado', 'sesion', null, 'Cuenta no activa: ' . $usuario['estado'], 'denegado');
+        $conexion->commit();
         http_response_code(403);
 
         echo json_encode([
@@ -145,6 +157,9 @@ try {
 
         exit;
     }
+
+    registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_exitoso', 'sesion', null, 'Inicio de sesión correcto');
+    $conexion->commit();
 
     session_set_cookie_params([
         'lifetime' => $recordar ? 60 * 60 * 24 * 30 : 0,
@@ -167,7 +182,6 @@ try {
     $_SESSION['version_sesion'] = (int) ($usuario['version_sesion'] ?? 1);
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-    registrarAuditoriaApi($conexion, (int) $usuario['id_usuario'], 'login_exitoso', 'sesion', null, 'Inicio de sesión correcto');
     registrarEventoSeguridadApi('LOGIN_SUCCESS', $nombreUsuario);
 
     echo json_encode([
@@ -182,6 +196,9 @@ try {
     ]);
 
 } catch (Throwable $error) {
+    if (isset($conexion) && $conexion instanceof PDO && $conexion->inTransaction()) {
+        $conexion->rollBack();
+    }
     http_response_code(500);
 
     echo json_encode([

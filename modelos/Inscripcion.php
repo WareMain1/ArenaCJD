@@ -248,9 +248,12 @@ class Inscripcion
 
     public function inscribirEquipoExistente(int $idEquipo, int $idTorneo): int
     {
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $consultaExiste = $this->conexion->prepare(
                 "SELECT id_inscripcion
                  FROM inscripciones_equipos
@@ -308,10 +311,12 @@ class Inscripcion
                 $consultaSnapshot->execute([':id_inscripcion' => $idInscripcion, ':id_usuario' => $idUsuario]);
             }
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return $idInscripcion;
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;

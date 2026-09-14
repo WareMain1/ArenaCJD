@@ -18,7 +18,7 @@ $modalidad = (string) ($datos['modalidad'] ?? '');
 $fechaInicio = (string) ($datos['fecha_inicio'] ?? '');
 $horaInicio = (string) ($datos['hora_inicio'] ?? '09:00');
 $fechaFin = (string) ($datos['fecha_fin'] ?? '');
-$estado = 'borrador'; // Estado inicial obligatorio: no se acepta desde el cliente.
+$estado = 'borrador';  
 $cupoBruto = $datos['cupo_maximo'] ?? null;
 $cupoMaximo = ($cupoBruto === '' || $cupoBruto === null) ? null : filter_var($cupoBruto, FILTER_VALIDATE_INT);
 
@@ -64,6 +64,7 @@ try {
         responderJson(['exito' => false, 'mensaje' => 'La categoría o el tipo de torneo no son compatibles con la disciplina seleccionada.'], 400);
     }
 
+    $contexto['conexion']->beginTransaction();
     $idTorneo = $modelo->crear(
         $nombre,
         (int) $idDisciplina,
@@ -89,11 +90,16 @@ try {
         $nombre
     );
 
+    $contexto['conexion']->commit();
+
     responderJson([
         'exito' => true,
         'mensaje' => 'Torneo creado correctamente.',
         'torneo' => $modelo->obtenerPorId($idTorneo)
     ], 201);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo crear el torneo.'], 500);
 }

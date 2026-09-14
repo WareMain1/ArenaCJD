@@ -23,8 +23,19 @@ if (!$hash || !password_verify($actual, $hash)) {
     responderJson(['exito' => false, 'mensaje' => 'La contraseña actual no es correcta.'], 403);
 }
 
-$modelo->actualizarContrasena($idUsuario, password_hash($nueva, PASSWORD_DEFAULT));
-$_SESSION['version_sesion'] = $modelo->obtenerVersionSesion($idUsuario);
-session_regenerate_id(true);
-registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'cambio_contrasena', 'usuario', $idUsuario, 'Contraseña actualizada e invalidación de sesiones anteriores');
-responderJson(['exito' => true, 'mensaje' => 'Contraseña actualizada correctamente. Las demás sesiones fueron cerradas.']);
+try {
+    $contexto['conexion']->beginTransaction();
+    $modelo->actualizarContrasena($idUsuario, password_hash($nueva, PASSWORD_DEFAULT));
+    $versionSesion = $modelo->obtenerVersionSesion($idUsuario);
+    registrarAuditoriaApi($contexto['conexion'], $idUsuario, 'cambio_contrasena', 'usuario', $idUsuario, 'Contraseña actualizada e invalidación de sesiones anteriores');
+    $contexto['conexion']->commit();
+
+    $_SESSION['version_sesion'] = $versionSesion;
+    session_regenerate_id(true);
+    responderJson(['exito' => true, 'mensaje' => 'Contraseña actualizada correctamente. Las demás sesiones fueron cerradas.']);
+} catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
+    responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar la contraseña.'], 500);
+}

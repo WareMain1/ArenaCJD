@@ -1346,6 +1346,20 @@ padding: 0 8px;
   font-size: 28px;
 }
 
+.icono-resumen-sorteo > .media-entidad {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+}
+
+.icono-resumen-sorteo > .media-entidad img {
+  border-radius: inherit;
+  object-fit: cover;
+}
+
 .resumen-torneo-texto,
 .dato-resumen-sorteo > div {
   display: flex;
@@ -1401,7 +1415,6 @@ padding: 0 8px;
   min-width: 0;
 }
 
-/* El contenedor se vuelve transparente al grid para que el orden visual sea siempre 1 → 2 → 3. */
 .columna-configuracion-sorteo {
   display: contents;
 }
@@ -1869,6 +1882,47 @@ padding: 0 8px;
   overflow-wrap: anywhere;
 }
 
+.competidor-previo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.emparejamiento-previo{
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+}
+
+.identidad-cruce-sorteo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.nombre-cruce-sorteo{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.emparejamiento-previo .numero-competidor-previo{
+  flex:0 0 24px;
+}
+
+.emparejamiento-previo .media-entidad,
+.cruce-llave .media-entidad{
+  flex:0 0 34px;
+}
+
+.emparejamiento-previo .media-entidad-fallback,
+.cruce-llave .media-entidad-fallback{
+  width:100%;
+  height:100%;
+  font-size:12px;
+}
+
 .notificacion-sorteo {
   position: fixed;
   top: 112px;
@@ -2043,8 +2097,38 @@ padding: 0 8px;
   }
 }
 
+@media(max-width:480px){
+  .tabla-participantes-sorteo .media-entidad.media-pequena,
+  .emparejamiento-previo .media-entidad.media-pequena,
+  .cruce-llave .media-entidad.media-pequena{
+    width:32px;
+    height:32px;
+    flex-basis:32px;
+  }
 
-/* Estados funcionales del flujo de generación. */
+  .emparejamiento-previo{
+    grid-template-columns:minmax(0,1fr);
+    gap:8px;
+    padding:12px;
+  }
+
+  .emparejamiento-previo .competidor-previo{
+    width:100%;
+  }
+
+  .emparejamiento-previo b{
+    justify-self:center;
+  }
+
+  .emparejamiento-previo strong,
+  .emparejamiento-previo .nombre-cruce-sorteo,
+  .cruce-llave .nombre-cruce-sorteo{
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+}
+
+
 .ayuda-generar-sorteo {
   margin: -4px 0 12px;
   padding: 9px 11px;
@@ -2101,4 +2185,3 @@ padding: 0 8px;
   font-size: 12px;
   line-height: 1.45;
 }
-

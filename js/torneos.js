@@ -17,6 +17,7 @@
   const accionSin = document.getElementById('accionSinTorneos');
   const resumenFiltros = document.getElementById('resumenFiltrosTorneos');
   const paginacion = document.getElementById('paginacionTorneos');
+  const pieResultados = document.getElementById('pieResultadosTorneos');
   const controlesPaginacion = document.getElementById('controlesPaginacionTorneos');
   const infoPaginacion = document.getElementById('infoPaginacionTorneos');
   const sincronizacion = document.getElementById('estadoSincronizacionTorneos');
@@ -43,6 +44,9 @@
   const inputImagenTorneo = document.getElementById('editarTorneoImagen');
   const previewImagenTorneo = document.getElementById('previewTorneoImagenImg');
   const quitarImagenTorneo = document.getElementById('quitarTorneoImagen');
+  const opcionesRealizacion = Array.from(document.querySelectorAll('input[name="realizacionTorneo"]'));
+  const avisoRealizacionSinDefinir = document.getElementById('avisoRealizacionSinDefinir');
+  const modalidadesTorneos = window.ArenaCJDModalidadesTorneos;
   let urlPreviewTorneo = '';
 
   const camposEditar = {
@@ -77,6 +81,33 @@
   let indicadorGuardadoTorneo = null;
   let avisoBorradorTorneo = null;
 
+  function realizacionSeleccionada() {
+    const seleccionada = opcionesRealizacion.find(function (opcion) { return opcion.checked; });
+    return seleccionada ? seleccionada.value : '';
+  }
+
+  function seleccionarRealizacion(valor) {
+    opcionesRealizacion.forEach(function (opcion) { opcion.checked = opcion.value === valor; });
+    if (avisoRealizacionSinDefinir) avisoRealizacionSinDefinir.hidden = Boolean(valor);
+  }
+
+  function actualizarRealizacionesEnTarjetas() {
+    tarjetas.forEach(function (tarjeta) {
+      const idTorneo = tarjeta.dataset.idTorneo;
+      const realizacion = modalidadesTorneos.obtener(idTorneo);
+      let fila = tarjeta.querySelector('.fila-realizacion-torneo-tarjeta');
+
+      if (!fila) {
+        fila = document.createElement('div');
+        fila.className = 'fila-realizacion-torneo-tarjeta';
+        const metadatos = tarjeta.querySelector('.fila-meta-torneo');
+        if (metadatos && metadatos.parentNode) metadatos.insertAdjacentElement('beforebegin', fila);
+      }
+
+      fila.innerHTML = '<span class="etiqueta-realizacion-torneo-tarjeta">Modalidad de realización</span>' + modalidadesTorneos.indicadorHTML(realizacion, 'insignia-realizacion-torneo');
+    });
+  }
+
   function asegurarIndicadorGuardadoTorneo() {
     if (indicadorGuardadoTorneo || !formularioEditar) return indicadorGuardadoTorneo;
     indicadorGuardadoTorneo = document.createElement('span');
@@ -102,6 +133,7 @@
       id_tipo_torneo: camposEditar.tipo ? camposEditar.tipo.value : '',
       id_organizador: camposEditar.organizador ? camposEditar.organizador.value : '',
       modalidad: camposEditar.modalidad ? camposEditar.modalidad.value : 'individual',
+      realizacion: realizacionSeleccionada() || 'presencial',
       fecha_inicio: camposEditar.inicio ? camposEditar.inicio.value : '',
       hora_inicio: camposEditar.horaInicio ? camposEditar.horaInicio.value : '',
       fecha_fin: camposEditar.fin ? camposEditar.fin.value : '',
@@ -142,6 +174,7 @@
     actualizarCatalogosDependientes(borrador.id_categoria || '', borrador.id_tipo_torneo || '');
     if (camposEditar.organizador && borrador.id_organizador && Array.from(camposEditar.organizador.options).some(function (opcion) { return opcion.value === String(borrador.id_organizador); })) camposEditar.organizador.value = String(borrador.id_organizador);
     if (camposEditar.modalidad) camposEditar.modalidad.value = borrador.modalidad || 'individual';
+    seleccionarRealizacion(borrador.realizacion || 'presencial');
     if (camposEditar.inicio) camposEditar.inicio.value = borrador.fecha_inicio || camposEditar.inicio.value;
     if (camposEditar.horaInicio) camposEditar.horaInicio.value = borrador.hora_inicio || camposEditar.horaInicio.value;
     if (camposEditar.fin) camposEditar.fin.value = borrador.fecha_fin || camposEditar.fin.value;
@@ -287,6 +320,8 @@
         infoPaginacion.textContent = 'Mostrando ' + desde + ' a ' + hasta + ' de ' + total + (total === 1 ? ' torneo' : ' torneos');
       }
     }
+
+    if (pieResultados) pieResultados.hidden = total === 0;
 
     if (!paginacion || !controlesPaginacion) return;
     if (total <= TORNEOS_POR_PAGINA) {
@@ -461,12 +496,11 @@
   }
 
   function itemsPermitidosPorDisciplina(tipoRelacion, items, idDisciplina) {
-    if (tipoRelacion === 'disciplina_categorias' && (!catalogosFormulario || !idDisciplina)) return [];
     if (!catalogosFormulario || !idDisciplina) return items || [];
     const relaciones = catalogosFormulario[tipoRelacion] || [];
     const claveDestino = tipoRelacion === 'disciplina_categorias' ? 'id_categoria' : 'id_tipo_torneo';
     const ids = relaciones.filter(function(r){ return Number(r.id_disciplina) === Number(idDisciplina); }).map(function(r){ return Number(r[claveDestino]); });
-    if (!ids.length) return tipoRelacion === 'disciplina_categorias' ? [] : (items || []);
+    if (!ids.length) return items || [];
     return (items || []).filter(function(item){ return ids.includes(Number(item.id)); });
   }
 
@@ -551,12 +585,14 @@
   function renderDetalle(torneo) {
     if (!contenidoDetalle) return;
     const cupo = torneo.cupo_maximo == null ? 'Sin límite' : torneo.cupo_maximo;
+    const realizacion = modalidadesTorneos.obtener(torneo.id_torneo);
     contenidoDetalle.innerHTML = [
       '<div class="detalle-torneo-imagen"><span>Imagen</span><strong>' + (window.ArenaCJDMedia ? window.ArenaCJDMedia.html('torneo', torneo.id_torneo, torneo.nombre, {clase:'media-grande'}) : window.ArenaCJDIcono('torneo')) + '</strong></div>',
       '<div><span>Disciplina</span><strong>' + escaparHTML(torneo.disciplina) + '</strong></div>',
       '<div><span>Categoría</span><strong>' + escaparHTML(torneo.categoria) + '</strong></div>',
       '<div><span>Tipo</span><strong>' + escaparHTML(torneo.tipo_torneo) + '</strong></div>',
-      '<div><span>Modalidad</span><strong>' + escaparHTML(etiquetaModalidad(torneo.modalidad)) + '</strong></div>',
+      '<div><span>Modalidad de participación</span><strong>' + escaparHTML(etiquetaModalidad(torneo.modalidad)) + '</strong></div>',
+      '<div><span>Modalidad de realización</span><strong class="detalle-realizacion-torneo">' + modalidadesTorneos.indicadorHTML(realizacion, 'valor-realizacion-torneo') + '</strong></div>',
       '<div><span>Organizador</span><strong>' + escaparHTML(torneo.organizador) + ' (@' + escaparHTML(torneo.organizador_usuario) + ')</strong></div>',
       '<div><span>Estado</span><strong>' + escaparHTML(etiquetaEstado(torneo.estado)) + '</strong></div>',
       '<div><span>Área pública</span><strong>' + (Number(torneo.publicado || 0) === 1 ? 'Visible' : 'No publicado') + '</strong></div>',
@@ -684,6 +720,7 @@
       });
       camposEditar.organizador.disabled = !resultado.es_administrador;
       camposEditar.modalidad.value = 'individual';
+      seleccionarRealizacion('presencial');
       camposEditar.estado.value = 'borrador';
       if (camposEditar.publicado) camposEditar.publicado.checked = false;
       camposEditar.cupo.value = '';
@@ -763,6 +800,7 @@
         return item.nombre + ' (@' + item.usuario + ')';
       });
       camposEditar.modalidad.value = torneo.modalidad;
+      seleccionarRealizacion(modalidadesTorneos.obtener(torneo.id_torneo));
       camposEditar.inicio.value = torneo.fecha_inicio;
       if (camposEditar.horaInicio) camposEditar.horaInicio.value = String(torneo.hora_inicio || '09:00').slice(0, 5);
       camposEditar.fin.value = torneo.fecha_fin;
@@ -831,6 +869,8 @@
   }
 
 
+  actualizarRealizacionesEnTarjetas();
+
   if (camposEditar.estado) {
     camposEditar.estado.addEventListener('change', actualizarDisponibilidadPublicacion);
   }
@@ -874,6 +914,9 @@
         const resultado = await respuesta.json();
         if (!respuesta.ok || !resultado.exito) throw new Error(resultado.mensaje || (modoFormulario === 'crear' ? 'No se pudo crear el torneo.' : 'No se pudo actualizar el torneo.'));
         const idGuardado = Number(resultado.torneo && resultado.torneo.id_torneo ? resultado.torneo.id_torneo : datos.id_torneo);
+        const realizacion = realizacionSeleccionada();
+        if (idGuardado && realizacion) modalidadesTorneos.guardar(idGuardado, realizacion);
+        actualizarRealizacionesEnTarjetas();
         if (idGuardado && inputImagenTorneo && inputImagenTorneo.files && inputImagenTorneo.files[0]) await subirImagenTorneo(idGuardado);
         formularioTorneoModificado = false;
         window.clearTimeout(temporizadorBorradorTorneo);

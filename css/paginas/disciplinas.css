@@ -251,7 +251,6 @@
   .acciones-confirmacion-catalogo .boton{width:100%}
 }
 
-/* Refinamiento visual del formulario de alta/edición de disciplinas */
 .modal-disciplina-contenido{
   width:min(100%,700px);
   max-width:700px;
@@ -388,7 +387,6 @@
   .modal-disciplina-contenido .acciones-modal-torneo .boton{width:100%}
 }
 
-/* Ajuste de alineación y espacio del modal de disciplinas */
 @media(min-width:720px){
   .modal-disciplina-contenido{
     width:min(94vw,780px);
@@ -451,7 +449,6 @@
   }
 }
 
-/* Alineación óptica exacta: check + texto + eliminar en una misma línea */
 .fila-categoria-disciplina{
   grid-template-columns:32px minmax(0,1fr) 32px;
   grid-template-rows:32px;
@@ -521,7 +518,27 @@
 
 .tabla-disciplinas{
   min-width:980px;
+  table-layout:fixed;
+  border-collapse:collapse;
 }
+
+.tabla-disciplinas th,
+.tabla-disciplinas td{
+  box-sizing:border-box;
+}
+
+.tabla-disciplinas th:nth-child(1),
+.tabla-disciplinas td:nth-child(1){width:12%}
+.tabla-disciplinas th:nth-child(2),
+.tabla-disciplinas td:nth-child(2){width:9%;text-align:center}
+.tabla-disciplinas th:nth-child(3),
+.tabla-disciplinas td:nth-child(3){width:7%;text-align:center}
+.tabla-disciplinas th:nth-child(4),
+.tabla-disciplinas td:nth-child(4){width:29%}
+.tabla-disciplinas th:nth-child(5),
+.tabla-disciplinas td:nth-child(5){width:25%}
+.tabla-disciplinas th:nth-child(6),
+.tabla-disciplinas td:nth-child(6){width:18%;text-align:center}
 
 .tabla-disciplinas th{
   color:var(--color-texto-secundario);
@@ -539,7 +556,16 @@
   display:flex;
   flex-wrap:wrap;
   gap:6px;
-  min-width:160px;
+  min-width:0;
+  max-width:100%;
+}
+
+.tabla-disciplinas td:nth-child(2) .estado-disciplina{
+  justify-content:center;
+}
+
+.tabla-disciplinas td:nth-child(6) .acciones-disciplina-tabla{
+  justify-content:center;
 }
 
 .chip-asociacion-disciplina{
@@ -735,6 +761,7 @@
     padding:9px 0;
     border:0;
     border-bottom:1px solid color-mix(in srgb,var(--color-borde) 70%,transparent);
+    text-align:left;
   }
   .tabla-disciplinas td:last-child{
     border-bottom:0;
@@ -750,6 +777,9 @@
     min-width:0;
   }
   .acciones-disciplina-tabla{
+    justify-content:flex-start;
+  }
+  .tabla-disciplinas td:nth-child(6) .acciones-disciplina-tabla{
     justify-content:flex-start;
   }
   .cabecera-asociacion-disciplina{

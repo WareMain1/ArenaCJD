@@ -17,6 +17,7 @@ if (!$idCategoria || $idCategoria < 1) {
 
 try {
     $modelo = new Disciplina($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $categoria = $modelo->eliminarCategoria((int) $idCategoria);
     registrarAuditoriaApi(
         $contexto['conexion'],
@@ -26,6 +27,7 @@ try {
         (int) $idCategoria,
         (string) $categoria['nombre']
     );
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -33,9 +35,15 @@ try {
         'categoria' => $categoria
     ]);
 } catch (InvalidArgumentException|DomainException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'],
         'categoria_eliminada', 'categoria', (int) $idCategoria, $error->getMessage(), 'denegado');
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar la categoría.'], 500);
 }

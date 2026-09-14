@@ -19,6 +19,7 @@ if (!$idInvitacion || !in_array($respuesta, ['aceptada', 'rechazada'], true)) {
 
 try {
     $modelo = new Invitacion($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $resultado = $modelo->responder(
         (int) $idInvitacion,
         (int) $contexto['usuario']['id_usuario'],
@@ -32,6 +33,7 @@ try {
         'invitacion',
         (int) $idInvitacion
     );
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -41,7 +43,13 @@ try {
         'invitacion' => $resultado
     ]);
 } catch (DomainException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo responder la invitación.'], 500);
 }

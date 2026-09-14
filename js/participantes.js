@@ -1034,16 +1034,29 @@
   }
 
   function normalizarTorneoRegistro(torneo) {
+    const modalidadBase = String(torneo.modalidadBD || torneo.modalidad || 'individual').toLowerCase();
+    const estadoBase = String(torneo.estadoBD || torneo.estado || 'borrador').toLowerCase();
+    const cupoBase = Object.prototype.hasOwnProperty.call(torneo, 'cupoMaximo') ? torneo.cupoMaximo : torneo.cupo_maximo;
+    const inscritosBase = Object.prototype.hasOwnProperty.call(torneo, 'cantidadInscritos')
+      ? torneo.cantidadInscritos
+      : (Object.prototype.hasOwnProperty.call(torneo, 'cantidadParticipantes') ? torneo.cantidadParticipantes : torneo.cantidad_inscritos);
     return {
       id: String(torneo.id_torneo != null ? torneo.id_torneo : torneo.id),
       nombre: torneo.nombre || '',
       disciplina: torneo.disciplina || '',
       categoria: torneo.categoria || '',
-      modalidadBD: torneo.modalidad || torneo.modalidadBD || 'individual',
-      estadoBD: torneo.estado || torneo.estadoBD || 'borrador',
-      cupoMaximo: torneo.cupo_maximo == null ? null : Number(torneo.cupo_maximo),
-      cantidadInscritos: Number(torneo.cantidad_inscritos || 0)
+      modalidadBD: modalidadBase === 'equipo' || modalidadBase === 'por equipos' ? 'equipo' : 'individual',
+      estadoBD: estadoBase === 'inscripciones' ? 'inscripciones' : estadoBase.replace('en curso', 'en_curso'),
+      cupoMaximo: cupoBase == null || cupoBase === '' ? null : Number(cupoBase),
+      cantidadInscritos: Number(inscritosBase || 0)
     };
+  }
+
+  function torneosDisponiblesRegistro() {
+    const fuente = torneosRegistroDirectos.length
+      ? torneosRegistroDirectos
+      : (window.ArenaCJDDatos && Array.isArray(window.ArenaCJDDatos.torneos) ? window.ArenaCJDDatos.torneos : []);
+    return fuente.map(normalizarTorneoRegistro);
   }
 
   async function cargarTorneosRegistroDirecto(mostrarEstado) {
@@ -1093,8 +1106,7 @@
   function actualizarTorneosRegistro() {
     if (!torneoRegistro) return;
     const modalidad = modalidadRegistroActual();
-    const compartidos = window.ArenaCJDDatos && Array.isArray(window.ArenaCJDDatos.torneos) ? window.ArenaCJDDatos.torneos : [];
-    const torneos = torneosRegistroDirectos.length ? torneosRegistroDirectos : compartidos;
+    const torneos = torneosDisponiblesRegistro();
     const anterior = torneoRegistro.value;
     const bloqueadosIndividual = modalidad === 'individual' ? torneosBloqueadosParaUsuarioIndividual() : new Set();
     const compatibles = torneos.filter(function (torneo) {
@@ -1121,7 +1133,8 @@
     if (botonGuardar) botonGuardar.disabled = false;
     torneoRegistro.innerHTML = '<option value="">Seleccionar torneo</option>' + compatibles.map(function (torneo) {
       const cupo = torneo.cupoMaximo === null ? 'sin límite' : (torneo.cantidadInscritos + '/' + torneo.cupoMaximo);
-      return '<option value="' + escaparHTML(torneo.id) + '">' + escaparHTML(torneo.nombre) + ' — ' + escaparHTML(torneo.disciplina) + ' · cupo ' + escaparHTML(cupo) + '</option>';
+      const categoria = torneo.categoria || 'Sin categoría';
+      return '<option value="' + escaparHTML(torneo.id) + '">' + escaparHTML(torneo.nombre) + ' — ' + escaparHTML(torneo.disciplina) + ' · ' + escaparHTML(categoria) + ' · cupo ' + escaparHTML(cupo) + '</option>';
     }).join('');
     if (compatibles.some(function (torneo) { return String(torneo.id) === String(anterior); })) torneoRegistro.value = anterior;
     actualizarCategoriaRegistro();
@@ -1129,11 +1142,11 @@
 
   function actualizarCategoriaRegistro() {
     if (!categoriaRegistro || !torneoRegistro) return;
-    const torneos = torneosRegistroDirectos.length
-      ? torneosRegistroDirectos
-      : (window.ArenaCJDDatos && Array.isArray(window.ArenaCJDDatos.torneos) ? window.ArenaCJDDatos.torneos : []);
+    const torneos = torneosDisponiblesRegistro();
     const torneo = torneos.find(function (item) { return String(item.id) === String(torneoRegistro.value); }) || null;
-    categoriaRegistro.value = torneo ? torneo.categoria : (torneoRegistro.options.length === 1 && !torneoRegistro.value ? 'Sin torneos disponibles' : 'Selecciona un torneo');
+    categoriaRegistro.value = torneo
+      ? (torneo.categoria || 'Sin categoría')
+      : (torneoRegistro.options.length === 1 && !torneoRegistro.value ? 'Sin torneos disponibles' : 'Selecciona un torneo');
   }
 
   function actualizarModalidadRegistro() {

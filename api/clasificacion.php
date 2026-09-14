@@ -31,5 +31,5 @@ try {
 } catch (DomainException $error) {
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 404);
 } catch (Throwable $error) {
-    responderJson(['exito' => false, 'mensaje' => 'No se pudo calcular la clasificación. Verifica la migración de la base de datos.'], 500);
+    responderJson(['exito' => false, 'mensaje' => 'No se pudo calcular la clasificación. Verifica la instalación de la base de datos.'], 500);
 }

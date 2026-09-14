@@ -1678,7 +1678,6 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
 ):not(:disabled):not(.boton-desactivado) {
   transform-origin: center;
   transition:
-    transform .14s var(--ease-suave),
     box-shadow .18s ease,
     filter .18s ease,
     background-color .18s ease,
@@ -1694,7 +1693,7 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
   a.enlace-ver-todo,
   [role="button"]
 ):not(:disabled):not(.boton-desactivado):hover {
-  transform: translateY(-1px) scale(1.035);
+  transform: none;
   filter: brightness(1.12) saturate(1.08);
   box-shadow: 0 0 0 2px var(--morado-claro), 0 8px 20px var(--color-directo-001) !important;
   z-index: 2;
@@ -1708,7 +1707,7 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
   a.enlace-ver-todo,
   [role="button"]
 ):not(:disabled):not(.boton-desactivado):active {
-  transform: translateY(1px) scale(.985);
+  transform: none;
   filter: brightness(.98);
 }
 
@@ -1855,7 +1854,7 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
   .acciones-competencia-viva a,
   [role="button"]
 ):not(:disabled):not(.boton-desactivado):hover {
-  transform: translateY(-1px) scale(1.045);
+  transform: none;
   box-shadow: inset 0 0 0 2px var(--morado-claro), 0 8px 20px var(--color-directo-001) !important;
 }
 
@@ -1866,7 +1865,7 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
 }
 
 .acciones-foto-perfil .boton:hover {
-  transform: translateY(-1px) scale(1.045) !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1902,7 +1901,7 @@ html[data-tema="oscuro"] ::-webkit-scrollbar-thumb:hover {
 
 #botonGuardarUsuarioPerfil:hover,
 #botonGuardarUsuarioPerfil:focus-visible {
-  transform: translateY(-1px) scale(1.05) !important;
+  transform: none !important;
   filter: brightness(1.12) saturate(1.08);
   box-shadow: inset 0 0 0 2px var(--morado-claro), 0 8px 20px var(--color-directo-001) !important;
   z-index: 3;
@@ -1975,3 +1974,32 @@ body > #botonVolverArriba:focus-visible{outline:3px solid var(--state-accent-tex
 body > #botonVolverArriba:hover{filter:brightness(1.12)}
 @media(max-width:991px){body > #botonVolverArriba.boton-volver-arriba{display:none}}
 @media(prefers-reduced-motion:reduce){body > #botonVolverArriba{transition:none}}
+@media(max-width:699px){
+  .panel-busqueda-global-ah .cabecera-busqueda-global-ah{padding-top:calc(18px + env(safe-area-inset-top,0px))}
+  .panel-ayuda-ah{top:calc(66px + env(safe-area-inset-top,0px));max-height:calc(100dvh - 80px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+  .panel-notificaciones{height:100dvh;padding-top:calc(18px + env(safe-area-inset-top,0px));padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+  .fondo-modal-perfil,
+  .fondo-modal-clasificacion,
+  .modal-torneo,
+  .modal-registro,
+  .fondo-modal-gestion-usuario,
+  .modal-confirmacion-catalogo,
+  .fondo-confirmacion-ah{box-sizing:border-box;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .modal-perfil-usuario,
+  .modal-participante-clasificacion,
+  .modal-torneo-contenido,
+  .modal-registro-contenido,
+  .modal-gestion-usuario,
+  .contenido-catalogo-categorias,
+  .modal-confirmacion-contenido,
+  .modal-confirmacion-ah{max-height:calc(100dvh - 28px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+  .modal-torneo-cerrar,
+  .modal-registro-cerrar,
+  .cerrar-modal-gestion-usuario,
+  .boton-cerrar-clasificacion,
+  .cerrar-catalogo-categorias,
+  .cerrar-modal-perfil,
+  .cerrar-confirmacion-ah,
+  .cerrar-panel-experiencia-ah,
+  .cabecera-panel-notificaciones button{min-width:44px;min-height:44px}
+}

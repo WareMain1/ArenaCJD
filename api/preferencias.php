@@ -63,17 +63,33 @@ try {
         $limpias['torneoPredeterminado'] = (string) $idTorneo;
     }
 
+    $contexto['conexion']->beginTransaction();
     $modelo->guardar($idUsuario, $limpias);
+    registrarAuditoriaApi(
+        $contexto['conexion'],
+        $idUsuario,
+        'preferencias_actualizadas',
+        'usuario',
+        $idUsuario,
+        "Tema: {$limpias['tema']} · Paginación: {$limpias['elementosPagina']}"
+    );
+    $contexto['conexion']->commit();
     responderJson([
         'exito' => true,
         'mensaje' => 'Preferencias guardadas.',
         'preferencias' => $limpias
     ]);
 } catch (PDOException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson([
         'exito' => false,
         'mensaje' => 'La tabla de preferencias no está disponible. Ejecuta database/segunda_entrega_actualizacion.sql.'
     ], 500);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudieron gestionar las preferencias.'], 500);
 }

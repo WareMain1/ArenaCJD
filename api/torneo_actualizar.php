@@ -66,6 +66,15 @@ try {
     $esPropietario = in_array('organizador', $contexto['roles'], true)
         && (int) $torneo['id_organizador'] === (int) $contexto['usuario']['id_usuario'];
     if (!$esAdministrador && !$esPropietario) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'torneo_actualizado',
+            'torneo',
+            (int) $idTorneo,
+            'Intento no autorizado de modificación',
+            'denegado'
+        );
         responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para editar este torneo.'], 403);
     }
 
@@ -153,6 +162,7 @@ try {
         responderJson(['exito' => false, 'mensaje' => 'La categoría o el tipo de torneo no son compatibles con la disciplina seleccionada.'], 400);
     }
 
+    $contexto['conexion']->beginTransaction();
     $modelo->actualizar(
         (int) $idTorneo,
         $nombre,
@@ -170,14 +180,30 @@ try {
         (int) $periodoGracia
     );
 
+    $cambios = [];
+    if ($nombre !== $torneo['nombre']) {
+        $cambios[] = "Nombre: {$torneo['nombre']} -> {$nombre}";
+    }
+    if ($estado !== $torneo['estado']) {
+        $cambios[] = "Estado: {$torneo['estado']} -> {$estado}";
+    }
+    $pubAnterior = (int) $torneo['publicado'];
+    $pubNuevo = $publicado ? 1 : 0;
+    if ($pubAnterior !== $pubNuevo) {
+        $cambios[] = "Publicado: {$pubAnterior} -> {$pubNuevo}";
+    }
+    $detalleAuditoria = $nombre . ($cambios ? ' · ' . implode(' · ', $cambios) : '');
+
     registrarAuditoriaApi(
         $contexto['conexion'],
         (int) $contexto['usuario']['id_usuario'],
         'torneo_actualizado',
         'torneo',
         (int) $idTorneo,
-        $nombre
+        $detalleAuditoria
     );
+
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -185,5 +211,8 @@ try {
         'torneo' => $modelo->obtenerPorId((int) $idTorneo)
     ]);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar el torneo.'], 500);
 }

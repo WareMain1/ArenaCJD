@@ -1,8 +1,7 @@
 <?php
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/../config/iniciarSesion.php';
+iniciarSesionArenaCJD();
 
 function escaparPublico(mixed $valor): string
 {
@@ -29,14 +28,15 @@ function abrirPaginaPublica(string $titulo, string $activa, string $pagina): voi
 <title><?= escaparPublico($titulo) ?> - ArenaCJD</title>
 <link rel="icon" type="image/png" href="imagenes/arena-cjd-isotipo.png">
 <script src="js/tema-inicial.js"></script>
-<script src="js/iconos.js?v=20260909-sprint11"></script>
+<script src="js/iconos.js?v=20260913-realizacion1"></script>
+<script src="js/modalidades-torneos.js?v=20260913-realizacion3"></script>
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/layout.css?v=20260911-stableui1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/animaciones.css">
 <link rel="stylesheet" href="css/paginas/index.css?v=20260909-sprint11">
-<link rel="stylesheet" href="css/paginas/area-publica.css?v=20260910-mobile1">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/paginas/area-publica.css?v=20260913-realizacion3">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">
@@ -64,7 +64,7 @@ function cerrarPaginaPublica(): void
 </main>
 <?php require __DIR__ . '/footer.php'; ?>
 <script src="js/tema.js?v=20260909-login-tema1"></script>
-<script src="js/area-publica.js?v=20260909-iconos4"></script>
+<script src="js/area-publica.js?v=20260913-realizacion3"></script>
 </body>
 </html>
 <?php

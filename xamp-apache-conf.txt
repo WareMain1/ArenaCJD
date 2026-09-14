@@ -1,3 +1,0 @@
-C:\xampp\apache\conf
-
-y sustituir este archivo

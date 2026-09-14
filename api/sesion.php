@@ -3,12 +3,11 @@
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../config/Conexion.php';
+require_once __DIR__ . '/../config/iniciarSesion.php';
 require_once __DIR__ . '/../modelos/Usuario.php';
 require_once __DIR__ . '/../servicios/FotoPerfil.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+iniciarSesionArenaCJD();
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

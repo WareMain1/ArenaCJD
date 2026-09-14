@@ -451,6 +451,30 @@
   background: var(--color-fondo-secundario);
 }
 
+.resumen-usuarios-activos article {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 13px;
+}
+
+.resumen-usuarios-activos article strong,
+.resumen-usuarios-activos article span {
+  display: block;
+  line-height: 1.25;
+}
+
+.resumen-usuarios-activos article strong {
+  flex: 0 0 auto;
+  font-size: 1.1em;
+}
+
+.resumen-usuarios-activos article span {
+  min-width: 0;
+}
+
 .resumen-usuarios-activos strong,
 .rol-configuracion h3,
 .historial-usuarios-configuracion strong {

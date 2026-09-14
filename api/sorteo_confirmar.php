@@ -37,11 +37,19 @@ try {
     }
 
     $modelo = new Enfrentamiento($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $lista = $modelo->generarPrimeraRonda($id, $orden);
     registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'sorteo_confirmado', 'torneo', $id, (string) $torneo['nombre']);
+    $contexto['conexion']->commit();
     responderJson(['exito' => true, 'mensaje' => 'Sorteo guardado correctamente.', 'enfrentamientos' => $lista]);
 } catch (DomainException | InvalidArgumentException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 422);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo guardar el sorteo. Verifica la conexión y la estructura de la base de datos.'], 500);
 }

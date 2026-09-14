@@ -40,9 +40,13 @@ try {
         ], 409);
     }
 
+    $conexion->beginTransaction();
     try {
         $actualizado = $modeloUsuario->actualizarNombreUsuario($idUsuario, $nombreUsuario);
     } catch (PDOException $error) {
+        if ($conexion->inTransaction()) {
+            $conexion->rollBack();
+        }
         if ($error->getCode() === '23000') {
             responderJson([
                 'exito' => false,
@@ -53,14 +57,16 @@ try {
     }
 
     if (!$actualizado) {
+        $conexion->rollBack();
         responderJson([
             'exito' => false,
             'mensaje' => 'No se pudo actualizar el nombre de usuario.'
         ], 400);
     }
 
-    $_SESSION['nombre_usuario'] = $nombreUsuario;
     registrarAuditoriaApi($conexion, $idUsuario, 'nombre_usuario_actualizado', 'usuario', $idUsuario, '@' . $nombreUsuario);
+    $conexion->commit();
+    $_SESSION['nombre_usuario'] = $nombreUsuario;
 
     responderJson([
         'exito' => true,
@@ -68,6 +74,9 @@ try {
         'nombre_usuario' => $nombreUsuario
     ]);
 } catch (Throwable $error) {
+    if (isset($conexion) && $conexion instanceof PDO && $conexion->inTransaction()) {
+        $conexion->rollBack();
+    }
     responderJson([
         'exito' => false,
         'mensaje' => 'No se pudo actualizar el nombre de usuario.'

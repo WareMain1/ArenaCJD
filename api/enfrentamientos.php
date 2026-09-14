@@ -16,9 +16,9 @@ try {
         ? (int) $contexto['usuario']['id_usuario']
         : null;
 
-    // Sincronización oportuna de período de gracia y resoluciones vencidas
+     
     try {
-        $modelo->procesarResolucionAutomatica($idTorneo ? (int) $idTorneo : null);
+        $modelo->procesarPeriodosGracia($idTorneo ? (int) $idTorneo : null);
     } catch (Throwable) {
     }
 

@@ -256,7 +256,16 @@ class Invitacion
         } else {
             $consulta->bindValue(':id_equipo', $idEquipo, PDO::PARAM_INT);
         }
-        $consulta->execute();
+        try {
+            $consulta->execute();
+        } catch (PDOException $error) {
+            if ((string) $error->getCode() === '23000') {
+                throw new DomainException($tipo === 'equipo'
+                    ? 'Ese equipo ya tiene una invitación para este torneo.'
+                    : 'Ese usuario ya tiene una invitación para este torneo.');
+            }
+            throw $error;
+        }
 
         return (int) $this->conexion->lastInsertId();
     }
@@ -267,9 +276,12 @@ class Invitacion
             throw new InvalidArgumentException('Respuesta de invitación no válida.');
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $consulta = $this->conexion->prepare(
                 "SELECT
                     i.id_invitacion,
@@ -323,7 +335,9 @@ class Invitacion
                 ':id_invitacion' => $idInvitacion
             ]);
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
 
             return [
                 'id_torneo' => (int) $invitacion['id_torneo'],
@@ -333,7 +347,7 @@ class Invitacion
                 'estado' => $respuesta
             ];
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;

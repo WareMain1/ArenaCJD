@@ -181,7 +181,7 @@ try {
             $enGracia = $partidoOrg['estado'] === 'en_periodo_gracia';
             $actividadUsuario[] = [
                 'clave' => 'actividad:enfrentamiento-atencion:' . (int) $partidoOrg['id_enfrentamiento'] . ':' . (string) $partidoOrg['estado'],
-                'titulo' => $enGracia ? 'Período de gracia: confirma el resultado' : 'Revisión requerida: resultado pendiente',
+                'titulo' => $enGracia ? 'Período de gracia: registra o confirma el resultado' : 'Revisión requerida: resultado pendiente',
                 'detalle' => (string) $partidoOrg['torneo'] . ' · ' . (string) $partidoOrg['ronda'],
                 'url' => 'resultados.php?torneo=' . (int) $partidoOrg['id_torneo']
             ];

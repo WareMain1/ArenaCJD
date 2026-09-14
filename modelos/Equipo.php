@@ -419,9 +419,12 @@ class Equipo
             return false;
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $consultaIntegrantes = $this->conexion->prepare(
                 "DELETE iie
                  FROM integrantes_inscripcion_equipo iie
@@ -452,14 +455,18 @@ class Equipo
             $eliminado = $consultaEquipo->rowCount() === 1;
 
             if (!$eliminado) {
-                $this->conexion->rollBack();
+                if ($propietarioTransaccion && $this->conexion->inTransaction()) {
+                    $this->conexion->rollBack();
+                }
                 return false;
             }
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return true;
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
 

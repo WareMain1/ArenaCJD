@@ -30,6 +30,15 @@ try {
 
     $esAdministrador = in_array('administrador', $contexto['roles'], true);
     if (!$esAdministrador && (int) $actual['id_organizador'] !== (int) $contexto['usuario']['id_usuario']) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'enfrentamiento_actualizado',
+            'enfrentamiento',
+            (int) $id,
+            'Intento no autorizado de gestión de enfrentamiento',
+            'denegado'
+        );
         responderJson(['exito' => false, 'mensaje' => 'No puedes gestionar este torneo.'], 403);
     }
 

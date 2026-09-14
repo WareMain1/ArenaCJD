@@ -11,7 +11,7 @@
   font-family: inherit;
   min-height: 42px;
   line-height: 1.2;
-  transition: transform .12s var(--ease-suave), box-shadow .2s ease, background .2s ease;
+  transition: box-shadow .2s ease, background .2s ease, filter .18s ease;
   box-shadow: var(--sombra-hover);
   will-change: transform;
 }
@@ -25,7 +25,7 @@
 }
 
 .boton:active {
-  transform: translateY(2px) scale(.98);
+  transform: none;
   box-shadow: 0 1px 4px var(--color-directo-001);
 }
 
@@ -124,7 +124,7 @@
 .boton-accion,
 .boton-descarga,
 .enlace-ver-todo {
-  transition: transform .12s var(--ease-suave), box-shadow .2s ease, background .2s ease;
+  transition: box-shadow .2s ease, background .2s ease, filter .18s ease;
   box-shadow: var(--sombra-pequena);
 }
 
@@ -1613,7 +1613,6 @@ body.modal-registro-abierto {
 
 .media-entidad{position:relative;display:inline-grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border:1px solid var(--color-borde);border-radius:14px;overflow:hidden;background:var(--color-fondo-secundario);color:var(--color-acento);font-weight:900;line-height:1;vertical-align:middle}.media-entidad-fallback{display:grid;place-items:center;width:100%;height:100%;font-size:15px}.media-entidad.media-torneo .media-entidad-fallback{font-size:21px}.media-entidad img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--color-fondo-secundario)}.media-entidad.media-grande{width:58px;height:58px;border-radius:17px}.media-entidad.media-mediana{width:50px;height:50px}.media-entidad.media-pequena{width:34px;height:34px;border-radius:10px}.media-entidad.media-hero{width:86px;height:86px;border-radius:22px}.media-entidad.media-hero .media-entidad-fallback{font-size:30px}.fila-entidad-con-media{display:flex;align-items:center;gap:11px;min-width:0}.fila-entidad-con-media>div{min-width:0}.fila-entidad-con-media .nombre-entidad-media{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.selector-imagen-entidad{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px;padding:12px;border:1px solid var(--color-borde);border-radius:14px;background:var(--color-fondo-secundario)}.preview-imagen-entidad{position:relative;display:grid;place-items:center;width:82px;height:82px;border:1px dashed color-mix(in srgb,var(--color-acento) 40%,var(--color-borde));border-radius:18px;overflow:hidden;background:var(--color-fondo-tarjeta);color:var(--color-acento);font-size:28px;font-weight:900}.preview-imagen-entidad img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.controles-imagen-entidad{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.entrada-imagen-entidad{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.ayuda-imagen-entidad{display:block;margin-top:5px;color:var(--color-texto-secundario);font-size:11px;line-height:1.45}@media(max-width:560px){.selector-imagen-entidad{grid-template-columns:1fr}.preview-imagen-entidad{width:100%;height:150px}}
 
-/* Alinea los controles de imagen en una misma fila dentro de formularios. */
 .grupo-formulario .controles-imagen-entidad > label.boton {
   display: inline-flex;
   margin-bottom: 0;
@@ -1991,7 +1990,6 @@ button:disabled,
 .estado-vacio-ah[hidden]{
   display:none!important;
 }
-/* Controles compartidos: tokens de superficie y estado para ambos temas. */
 .icono-ui { display:block; width:22px; height:22px; flex:0 0 auto; }
 .icono-imagen-ui { display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; }
 .icono-imagen-ui.icono-menu { width:24px; height:24px; }
@@ -2021,7 +2019,6 @@ button:disabled,
 .leyenda-registro { color:var(--state-accent-text); }
 .pagina-legal-publica { font-family:var(--fuente); }
 
-/* Perfil: geometría independiente del tema y scroll contenido. */
 #fondoModalPerfil, #fondoModalPerfil * { box-sizing:border-box; }
 #fondoModalPerfil .modal-perfil-usuario {
   --espacio-perfil:22px;
@@ -2082,7 +2079,6 @@ button:disabled,
 }
 #fondoModalPerfil .cabecera-modal-perfil { border-radius:18px 18px 0 0; }
 
-/* Iconografía local: cajas estables y colores heredados en todos los temas. */
 [data-icono] { display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; flex:0 0 auto; }
 [data-icono] > .icono-ui { width:1.15em; height:1.15em; min-width:16px; min-height:16px; }
 :is(.resumen-icono,.icono-resumen-clasificacion,.icono-resumen-calendario,.icono-resumen-panel,.icono-dato,.icono-campeon,.icono-publico,.icono-confirmacion-ah,.icono-historial-vivo,.candado-opcion) { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
@@ -2090,8 +2086,7 @@ button:disabled,
 :is(.resumen-icono,.icono-resumen-clasificacion,.icono-resumen-calendario,.icono-resumen-panel,.icono-campeon,.icono-publico,.icono-confirmacion-ah,.candado-opcion) .icono-ui { width:24px; height:24px; }
 .icono-resumen-sorteo .icono-ui { width:36px; height:36px; }
 :is(.media-entidad-fallback,.media-publica>span) .icono-ui { width:26px; height:26px; }
-:is(.boton-mas,.boton-favorito-ah) .icono-ui { width:18px; height:18px; }
-.boton-favorito-ah[aria-pressed="true"] .icono-ui { fill:var(--surface-selected); color:var(--state-accent-text); }
+.boton-mas .icono-ui { width:18px; height:18px; }
 :is(.boton-experiencia-ah,#botonNotificaciones) { width:44px; height:44px; display:inline-grid; place-items:center; }
 :is(.boton-experiencia-ah,#botonNotificaciones) .icono-ui { width:22px; height:22px; stroke-width:1.8; fill:none; }
 :is(.boton-experiencia-ah,#botonNotificaciones):focus-visible { outline:2px solid var(--state-accent-text); outline-offset:3px; }
@@ -2114,14 +2109,10 @@ button:disabled,
 .cuerpo-app :is(.icono-resumen-actividad,.icono-bloque-actividad) { color:var(--state-accent-text); }
 .cuerpo-app .resumen-inscripciones .icono-resumen-actividad { color:var(--state-info-text); }
 .cuerpo-app .resumen-invitaciones .icono-resumen-actividad { color:var(--state-warning-text); }
-[data-favorito-torneo] { display:inline-grid; place-items:center; }
-[data-favorito-torneo] .icono-ui { width:20px; height:20px; }
-[data-favorito-torneo][aria-pressed="true"] .icono-ui { fill:var(--surface-selected); color:var(--state-accent-text); }
 .enlace-volver-publico { align-items:center; gap:8px; }
 .media-publica-hero .icono-ui { width:36px; height:36px; }
 .etiqueta-portada > [data-icono] { margin-right:6px; }
 
-/* Navegación: un único catálogo, sin dibujos CSS ni imágenes transitorias. */
 .boton-menu { color:var(--state-accent-text); }
 #botonMenu .icono-ui { width:24px; height:24px; }
 #botonMenu .icono-menu-cerrar { display:none; }
@@ -2134,7 +2125,6 @@ button:disabled,
 .icono-menu.icono-imagen-ui .icono-ui { width:24px; height:24px; }
 .opcion-usuario .icono-ui,.flecha-usuario-menu .icono-ui { width:18px; height:18px; }
 
-/* Las etiquetas accesibles también existen en páginas sin CSS de participantes. */
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
 .cuerpo-app :is(.insignia-publicacion,.insignia-torneo) { border-width:1px; border-style:solid; border-color:transparent; }

@@ -16,6 +16,7 @@ if (!$idDisciplina) {
 
 try {
     $modelo = new Disciplina($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $disciplina = $modelo->eliminarDisciplina((int) $idDisciplina);
     registrarAuditoriaApi(
         $contexto['conexion'],
@@ -25,13 +26,20 @@ try {
         (int) $idDisciplina,
         (string) $disciplina['nombre']
     );
+    $contexto['conexion']->commit();
     responderJson([
         'exito' => true,
         'mensaje' => 'Disciplina eliminada correctamente. Dejó de estar disponible en ArenaCJD.',
         'disciplina' => $disciplina
     ]);
 } catch (InvalidArgumentException|DomainException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar la disciplina.'], 500);
 }

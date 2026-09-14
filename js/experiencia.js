@@ -20,7 +20,6 @@
   const pagina = window.location.pathname.split('/').pop() || 'panel.php';
   const claveUsuario = String(idUsuario || 'anonimo');
   const claveRecientes = 'arenaCJD-recientes-v2-' + claveUsuario;
-  const claveFavoritos = 'arenaCJD-favoritos-v2-' + claveUsuario;
   const claveFiltros = 'arenaCJD-filtros-v2-' + claveUsuario + '-' + pagina;
   let ultimoFocoPanel = null;
   let temporizadorBusqueda = 0;
@@ -57,11 +56,6 @@
     return Array.isArray(items) ? items.slice(0, 8) : [];
   }
 
-  function listaFavoritos() {
-    const items = leerJsonLocal(claveFavoritos, []);
-    return Array.isArray(items) ? items.slice(0, 20) : [];
-  }
-
   function registrarReciente(item) {
     if (!item || !item.url || !item.titulo) return;
     const actuales = listaRecientes().filter(function (actual) {
@@ -75,26 +69,6 @@
     });
     guardarJsonLocal(claveRecientes, actuales.slice(0, 8));
     renderizarAccesosPanel();
-  }
-
-  function alternarFavorito(item) {
-    if (!item || !item.id) return false;
-    const id = Number(item.id);
-    let favoritos = listaFavoritos();
-    const existe = favoritos.some(function (favorito) { return Number(favorito.id) === id; });
-    if (existe) {
-      favoritos = favoritos.filter(function (favorito) { return Number(favorito.id) !== id; });
-    } else {
-      favoritos.unshift({
-        id: id,
-        nombre: String(item.nombre || 'Torneo'),
-        url: String(item.url || ('torneos.php?detalle=' + id))
-      });
-    }
-    guardarJsonLocal(claveFavoritos, favoritos.slice(0, 20));
-    sincronizarFavoritos();
-    renderizarAccesosPanel();
-    return !existe;
   }
 
   function insertarSaltoContenido() {
@@ -495,50 +469,17 @@
     }
   }
 
-  function sincronizarFavoritos() {
-    const favoritos = listaFavoritos();
-    document.querySelectorAll('[data-favorito-torneo]').forEach(function (boton) {
-      const id = Number(boton.dataset.favoritoTorneo || 0);
-      const activo = favoritos.some(function (item) { return Number(item.id) === id; });
-      boton.setAttribute('aria-pressed', activo ? 'true' : 'false');
-      boton.setAttribute('aria-label', activo ? 'Quitar torneo de favoritos' : 'Agregar torneo a favoritos');
-      boton.title = activo ? 'Quitar de favoritos' : 'Agregar a favoritos';
-      boton.innerHTML = window.ArenaCJDIcono('favorito');
-    });
-  }
-
-  function enriquecerTarjetasTorneos() {
-    document.querySelectorAll('.tarjeta-torneo[data-id-torneo]').forEach(function (tarjeta) {
-      const id = Number(tarjeta.dataset.idTorneo || 0);
-      const fila = tarjeta.querySelector('.fila-superior-torneo');
-      const nombre = tarjeta.querySelector('.nombre-torneo');
-      if (!id || !fila || fila.querySelector('[data-favorito-torneo]')) return;
-      const boton = document.createElement('button');
-      boton.type = 'button';
-      boton.className = 'favorito-torneo-ah';
-      boton.dataset.favoritoTorneo = String(id);
-      boton.addEventListener('click', function () {
-        const activado = alternarFavorito({id: id, nombre: nombre ? nombre.textContent.trim() : 'Torneo', url: 'torneos.php?detalle=' + id});
-        if (window.ArenaCJDAvisar) window.ArenaCJDAvisar(activado ? 'Torneo agregado a favoritos.' : 'Torneo quitado de favoritos.', 'info');
-      });
-      const insignias = fila.querySelector('.insignias-torneo');
-      if (insignias) fila.insertBefore(boton, insignias); else fila.appendChild(boton);
-    });
-    sincronizarFavoritos();
-  }
-
   function renderizarAccesosPanel() {
     const contenedor = document.getElementById('accesosRecientesArenaCJD');
     if (!contenedor) return;
     const recientes = listaRecientes().slice(0, 4);
-    const favoritos = listaFavoritos().slice(0, 4);
-    function lista(items, vacio) {
-      if (!items.length) return '<div class="estado-vacio-recientes-ah">' + escapar(vacio) + '</div>';
-      return '<div class="lista-accesos-recientes-ah">' + items.map(function (item) {
-        return '<a class="acceso-reciente-ah" href="' + escapar(item.url) + '"><div><strong>' + escapar(item.titulo || item.nombre) + '</strong><span>' + escapar(item.tipo || 'Torneo') + '</span></div></a>';
-      }).join('') + '</div>';
+    if (!recientes.length) {
+      contenedor.innerHTML = '<div class="estado-vacio-recientes-ah">Tus últimos accesos aparecerán aquí.</div>';
+      return;
     }
-    contenedor.innerHTML = '<div><h3>Recientes</h3>' + lista(recientes, 'Tus últimos accesos aparecerán aquí.') + '</div><div><h3>Favoritos</h3>' + lista(favoritos.map(function (item) { return {url: item.url, titulo: item.nombre, tipo: 'Torneo favorito'}; }), 'Marca torneos como favoritos para encontrarlos rápido.') + '</div>';
+    contenedor.innerHTML = '<div class="lista-accesos-recientes-ah">' + recientes.map(function (item) {
+      return '<a class="acceso-reciente-ah" href="' + escapar(item.url) + '"><div><strong>' + escapar(item.titulo) + '</strong><span>' + escapar(item.tipo || 'Acceso') + '</span></div></a>';
+    }).join('') + '</div>';
   }
 
   function crearAccesosPanel() {
@@ -548,7 +489,7 @@
     const referencia = main.querySelector('.proximos-panel') || main.querySelector('.distribucion-panel');
     const seccion = document.createElement('section');
     seccion.className = 'tarjeta-ah seccion-panel';
-    seccion.innerHTML = '<div class="cabecera-bloque-panel"><div><h2>Continuar donde estabas</h2><p>Accesos recientes y torneos que marcaste como favoritos.</p></div></div><div class="panel-recientes-ah" id="accesosRecientesArenaCJD"></div>';
+    seccion.innerHTML = '<div class="cabecera-bloque-panel"><div><h2>Continuar donde estabas</h2><p>Tus accesos recientes para continuar donde estabas.</p></div></div><div class="panel-recientes-ah" id="accesosRecientesArenaCJD"></div>';
     if (referencia) main.insertBefore(seccion, referencia); else main.appendChild(seccion);
     renderizarAccesosPanel();
   }
@@ -705,14 +646,7 @@
     elemento.classList.add('resaltado-actualizacion-ah');
     window.setTimeout(function () { elemento.classList.remove('resaltado-actualizacion-ah'); }, 1900);
   };
-
-  window.ArenaCJDFavoritos = {
-    lista: listaFavoritos,
-    alternar: alternarFavorito,
-    sincronizar: sincronizarFavoritos
-  };
-
-  window.ArenaCJDRecientes = {
+window.ArenaCJDRecientes = {
     lista: listaRecientes,
     registrar: registrarReciente
   };
@@ -723,7 +657,6 @@
   activarAtajos();
   crearBannerConexion();
   crearBarraContextoTorneo();
-  enriquecerTarjetasTorneos();
   crearOnboarding();
   crearAccesosPanel();
   activarFiltrosPersistentes();

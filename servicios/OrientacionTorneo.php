@@ -1,6 +1,6 @@
 <?php
 
-/** Orientación de la interfaz a partir de inscripciones y cruces persistidos. */
+ 
 function siguienteAccionTorneo(array $torneo): ?array
 {
     $id = (int) ($torneo['id_torneo'] ?? 0);
@@ -13,7 +13,7 @@ function siguienteAccionTorneo(array $torneo): ?array
     if ($estado === 'borrador') {
         return ['texto' => 'Revisar configuración', 'detalle' => 'Completa los datos antes de abrir inscripciones.', 'url' => 'torneos.php?detalle=' . $id, 'orden' => 1];
     }
-    // Un torneo puede comenzar por fecha antes de contar con participantes o sorteo.
+     
     if ($cruces === 0) {
         if ($aprobados < 2) {
             $detalle = $aprobados . ($aprobados === 1 ? ' inscripción aprobada' : ' inscripciones aprobadas');

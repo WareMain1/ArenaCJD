@@ -29,9 +29,17 @@ try {
         responderJson(['exito' => false, 'mensaje' => 'La inscripción ya está vinculada a enfrentamientos y no puede eliminarse.'], 409);
     }
 
-    if (!$modelo->eliminarIndividual((int) $id)) responderJson(['exito' => false, 'mensaje' => 'La inscripción ya no existe.'], 404);
+    $contexto['conexion']->beginTransaction();
+    if (!$modelo->eliminarIndividual((int) $id)) {
+        $contexto['conexion']->rollBack();
+        responderJson(['exito' => false, 'mensaje' => 'La inscripción ya no existe.'], 404);
+    }
     registrarAuditoriaApi($contexto['conexion'], $idActual, 'inscripcion_eliminada', 'inscripcion_individual', (int) $id, (string) $actual['torneo']);
+    $contexto['conexion']->commit();
     responderJson(['exito' => true, 'mensaje' => 'Inscripción eliminada correctamente.']);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar la inscripción.'], 500);
 }

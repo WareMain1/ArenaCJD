@@ -677,7 +677,6 @@ html[data-tema="oscuro"] {
   --acento-tema-claro: var(--tema-oscuro-fondo-terciario);
 }
 
-/* Paletas efectivas: los componentes consumen estos tokens. */
 html[data-tema="oscuro"] {
   --tema-oscuro-fondo-pagina: var(--color-directo-050a12);
   --tema-oscuro-fondo-tarjeta: var(--color-directo-0b1320);

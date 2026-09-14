@@ -54,7 +54,9 @@ try {
         }
 
         $actualizar->execute([':estado' => $estado, ':id' => $id]);
-        registrarAuditoriaApi($conexion, $idUsuario, 'inscripcion_actualizada', 'inscripcion_individual', $id, $estado . ' · acción masiva');
+        $accionAuditoria = $estado === 'aprobada' ? 'inscripcion_aprobada' : 'inscripcion_rechazada';
+        $detalleAuditoria = "{$inscripcion['torneo']} · Estado: {$inscripcion['estado']} -> {$estado} · acción masiva";
+        registrarAuditoriaApi($conexion, $idUsuario, $accionAuditoria, 'inscripcion_individual', $id, $detalleAuditoria);
         $actualizadas++;
     }
 

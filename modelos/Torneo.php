@@ -209,7 +209,7 @@ class Torneo
         ]);
         $categoria = $consultaCategoria->fetch(PDO::FETCH_ASSOC) ?: ['configuradas' => 0, 'coincide' => 0];
 
-        if ((int) $categoria['coincide'] === 0) {
+        if ((int) $categoria['configuradas'] > 0 && (int) $categoria['coincide'] === 0) {
             return false;
         }
 
@@ -416,16 +416,57 @@ class Torneo
 
     public function sincronizarEstadosTemporales(): int
     {
-        $consulta = $this->conexion->prepare(
-            "UPDATE torneos
-             SET estado = 'en_curso'
+        $buscar = $this->conexion->prepare(
+            "SELECT id_torneo, nombre FROM torneos
              WHERE estado = 'inscripciones'
                AND TIMESTAMP(fecha_inicio, hora_inicio) <= NOW()
                AND fecha_fin >= CURRENT_DATE"
         );
-        $consulta->execute();
+        $buscar->execute();
+        $torneos = $buscar->fetchAll(PDO::FETCH_ASSOC);
 
-        return $consulta->rowCount();
+        if (!$torneos) {
+            return 0;
+        }
+
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
+            $this->conexion->beginTransaction();
+        }
+
+        try {
+            $consulta = $this->conexion->prepare(
+                "UPDATE torneos
+                 SET estado = 'en_curso'
+                 WHERE estado = 'inscripciones'
+                   AND TIMESTAMP(fecha_inicio, hora_inicio) <= NOW()
+                   AND fecha_fin >= CURRENT_DATE"
+            );
+            $consulta->execute();
+            $filas = $consulta->rowCount();
+
+            $insAud = $this->conexion->prepare(
+                "INSERT INTO auditoria (id_usuario, accion, entidad, id_entidad, detalle, resultado)
+                 VALUES (NULL, 'torneo_estado_sincronizado', 'torneo', :id, :detalle, 'exito')"
+            );
+            foreach ($torneos as $t) {
+                $insAud->execute([
+                    ':id' => (string) $t['id_torneo'],
+                    ':detalle' => "Cambio de estado automático: inscripciones -> en_curso · Torneo: {$t['nombre']}"
+                ]);
+            }
+
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
+
+            return $filas;
+        } catch (Throwable $error) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
+                $this->conexion->rollBack();
+            }
+            throw $error;
+        }
     }
 
     public function obtenerResumen(?int $idOrganizador = null): array

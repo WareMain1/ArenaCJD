@@ -198,9 +198,12 @@ class InvitacionEquipo
             throw new InvalidArgumentException('Respuesta de invitación no válida.');
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $consulta = $this->conexion->prepare(
                 "SELECT
                     ie.id_invitacion_equipo,
@@ -263,14 +266,16 @@ class InvitacionEquipo
                 ':id_invitacion' => $idInvitacion
             ]);
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return [
                 'id_equipo' => (int) $invitacion['id_equipo'],
                 'equipo' => (string) $invitacion['equipo'],
                 'estado' => $respuesta
             ];
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;

@@ -23,11 +23,11 @@ try {
     $equiposQ->execute([':id' => $idUsuario, ':id2' => $idUsuario]);
     $equipos = $equiposQ->fetchAll(PDO::FETCH_ASSOC);
 
-    /*
-     * Se consultan por separado las participaciones individuales y por equipos.
-     * Así una inscripción individual aprobada siempre aparece en Mi actividad,
-     * independientemente de que el usuario también pertenezca a equipos.
-     */
+    
+
+
+
+
     $individualesQ = $contexto['conexion']->prepare(
         "SELECT
                 'individual' AS modalidad,
@@ -157,7 +157,7 @@ try {
     $invitaciones = array_merge($invitaciones, $invitacionesEquipo);
     usort($invitaciones, static fn(array $a, array $b): int => strcmp((string) ($b['fecha_creacion'] ?? ''), (string) ($a['fecha_creacion'] ?? '')));
 
-    /* Alertas personales que se muestran al entrar a Mi actividad. */
+     
     $alertas = [];
     foreach ($invitaciones as $invitacion) {
         if (($invitacion['estado'] ?? '') !== 'pendiente') continue;

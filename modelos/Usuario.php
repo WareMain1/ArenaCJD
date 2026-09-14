@@ -49,9 +49,12 @@ class Usuario
         string $preguntaRecuperacion,
         string $respuestaRecuperacion
     ): int {
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $sql = "INSERT INTO usuarios
                     (
                         nombre_completo,
@@ -104,13 +107,15 @@ class Usuario
                 );
             }
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
 
             return $idUsuario;
 
         } catch (Throwable $error) {
 
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
 
@@ -173,9 +178,12 @@ class Usuario
             throw new InvalidArgumentException('La política de bloqueo no es válida.');
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $consulta = $this->conexion->prepare(
                 "SELECT login_intentos, login_bloqueado_hasta
                  FROM usuarios
@@ -186,7 +194,9 @@ class Usuario
             $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
             if (!$usuario) {
-                $this->conexion->rollBack();
+                if ($propietarioTransaccion && $this->conexion->inTransaction()) {
+                    $this->conexion->rollBack();
+                }
                 return ['bloqueado' => false, 'intentos_restantes' => $maxIntentos];
             }
 
@@ -196,7 +206,9 @@ class Usuario
                 : null;
 
             if ($bloqueadoHastaActual && $bloqueadoHastaActual > $ahora) {
-                $this->conexion->commit();
+                if ($propietarioTransaccion) {
+                    $this->conexion->commit();
+                }
                 return [
                     'bloqueado' => true,
                     'bloqueado_hasta' => $bloqueadoHastaActual->format('Y-m-d H:i:s'),
@@ -226,7 +238,9 @@ class Usuario
                 ':id_usuario' => $idUsuario
             ]);
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
 
             return [
                 'bloqueado' => $bloqueado,
@@ -234,7 +248,7 @@ class Usuario
                 'intentos_restantes' => $bloqueado ? 0 : max(0, $maxIntentos - $intentos)
             ];
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;
@@ -436,9 +450,12 @@ class Usuario
             throw new InvalidArgumentException('El usuario debe conservar al menos un rol.');
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
 
+        try {
             $marcadores = implode(',', array_fill(0, count($roles), '?'));
             $consultaRoles = $this->conexion->prepare(
                 "SELECT id_rol, nombre FROM roles WHERE nombre IN ($marcadores)"
@@ -471,10 +488,12 @@ class Usuario
                 ]);
             }
 
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return true;
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;
@@ -507,20 +526,28 @@ class Usuario
             return false;
         }
 
-        try {
+        $propietarioTransaccion = !$this->conexion->inTransaction();
+        if ($propietarioTransaccion) {
             $this->conexion->beginTransaction();
+        }
+
+        try {
             $this->conexion->prepare("DELETE FROM usuario_rol WHERE id_usuario = :id_usuario")
                 ->execute([':id_usuario' => $idUsuario]);
             $consulta = $this->conexion->prepare("DELETE FROM usuarios WHERE id_usuario = :id_usuario");
             $consulta->execute([':id_usuario' => $idUsuario]);
             if ($consulta->rowCount() !== 1) {
-                $this->conexion->rollBack();
+                if ($propietarioTransaccion && $this->conexion->inTransaction()) {
+                    $this->conexion->rollBack();
+                }
                 return false;
             }
-            $this->conexion->commit();
+            if ($propietarioTransaccion) {
+                $this->conexion->commit();
+            }
             return true;
         } catch (Throwable $error) {
-            if ($this->conexion->inTransaction()) {
+            if ($propietarioTransaccion && $this->conexion->inTransaction()) {
                 $this->conexion->rollBack();
             }
             throw $error;

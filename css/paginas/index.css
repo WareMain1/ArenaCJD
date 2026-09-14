@@ -148,7 +148,7 @@ html::-webkit-scrollbar-thumb:hover{background:var(--scroll-index-thumb-hover)}
 .contenedor-imagen-vista-previa {
   position: relative;
   width: 100%;
-  aspect-ratio: 1272 / 788;
+  aspect-ratio: 1280 / 870;
   overflow: hidden;
   border-radius: 11px 11px 3px 3px;
   background: var(--color-fondo-secundario);
@@ -163,7 +163,7 @@ html::-webkit-scrollbar-thumb:hover{background:var(--scroll-index-thumb-hover)}
   object-fit: cover;
   object-position: top center;
   opacity: 1;
-  transition: opacity .2s ease;
+  transition: none;
 }
 
 .imagen-vista-previa-oscura { opacity: 0; }

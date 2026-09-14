@@ -8,9 +8,9 @@
 <script src="js/tema-inicial.js"></script>
 <script src="js/iconos.js?v=20260909-sprint11"></script>
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/paginas/index-publico-vivo.css">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">

@@ -63,7 +63,6 @@ try {
     foreach ($invitadosValidos as $idInvitado => $usuario) {
         $idsInvitaciones[] = $modeloInvitacion->crearOReenviar($idEquipo, $idActual, (int) $idInvitado);
     }
-    $contexto['conexion']->commit();
 
     registrarAuditoriaApi(
         $contexto['conexion'],
@@ -73,6 +72,8 @@ try {
         $idEquipo,
         $nombre . ' · ' . count($idsInvitaciones) . ' invitaciones pendientes'
     );
+
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -91,5 +92,5 @@ try {
     if ($contexto['conexion']->inTransaction()) {
         $contexto['conexion']->rollBack();
     }
-    responderJson(['exito' => false, 'mensaje' => 'No se pudo crear el equipo. Verifica que la migración de invitaciones a equipos esté aplicada.'], 500);
+    responderJson(['exito' => false, 'mensaje' => 'No se pudo crear el equipo. Verifica que la base de datos esté instalada correctamente.'], 500);
 }

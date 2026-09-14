@@ -104,12 +104,12 @@ if ($esAdministrador) {
 </script>
 
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/layout.css?v=20260911-stableui1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/experiencia.css?v=20260910-guia1">
 <link rel="stylesheet" href="css/animaciones.css">
 <link rel="stylesheet" href="css/paginas/panel.css?v=20260908-actividad1">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">
@@ -322,7 +322,7 @@ if ($esAdministrador) {
 
 <script src="js/sincronizacion.js?v=20260831-central1"></script>
 <script src="js/datos.js"></script>
-<script src="js/componentes.js?v=20260910-confirmacion1"></script>
+<script src="js/componentes.js?v=20260913-sin-presencia1"></script>
 <script src="js/experiencia.js?v=20260910-guia1"></script>
 <script src="js/menu.js?v=20260909-sprint11"></script>
 <?php if ($puedeGestionarPanel): ?>

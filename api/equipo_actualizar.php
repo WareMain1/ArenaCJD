@@ -47,6 +47,15 @@ try {
     $esAdministrador = in_array('administrador', $contexto['roles'], true);
     $esResponsable = (int) $equipo['id_creador'] === (int) $contexto['usuario']['id_usuario'];
     if (!$esAdministrador && !$esResponsable) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'equipo_actualizado',
+            'equipo',
+            (int) $idEquipo,
+            'Intento no autorizado de modificación de equipo',
+            'denegado'
+        );
         responderJson(['exito' => false, 'mensaje' => 'No tienes permiso para editar este equipo.'], 403);
     }
 
@@ -108,6 +117,11 @@ try {
     }
 
     $contexto['conexion']->beginTransaction();
+
+    $qPrev = $contexto['conexion']->prepare("SELECT id_usuario FROM integrantes_equipo WHERE id_equipo = :id");
+    $qPrev->execute([':id' => (int) $idEquipo]);
+    $prevIntegrantes = array_map('intval', $qPrev->fetchAll(PDO::FETCH_COLUMN));
+
     $modelo->actualizar((int) $idEquipo, $nombre, (int) $responsable['id_usuario'], $estado);
     $modelo->reemplazarIntegrantes((int) $idEquipo, array_values($idsIntegrantes));
 
@@ -121,7 +135,31 @@ try {
             (int) $idInvitado
         );
     }
-    $contexto['conexion']->commit();
+
+    $nuevosIntegrantes = array_values(array_map('intval', $idsIntegrantes));
+    $agregados = array_diff($nuevosIntegrantes, $prevIntegrantes);
+    $eliminados = array_diff($prevIntegrantes, $nuevosIntegrantes);
+
+    foreach ($agregados as $idAgregado) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'equipo_integrante_agregado',
+            'equipo',
+            (int) $idEquipo,
+            "Integrante #{$idAgregado} incorporado al equipo {$nombre}"
+        );
+    }
+    foreach ($eliminados as $idEliminado) {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'equipo_integrante_eliminado',
+            'equipo',
+            (int) $idEquipo,
+            "Integrante #{$idEliminado} removido del equipo {$nombre}"
+        );
+    }
 
     registrarAuditoriaApi(
         $contexto['conexion'],
@@ -131,6 +169,8 @@ try {
         (int) $idEquipo,
         $nombre . ' · ' . $estado . ' · ' . count($invitadosValidos) . ' invitaciones pendientes'
     );
+
+    $contexto['conexion']->commit();
 
     responderJson([
         'exito' => true,
@@ -147,5 +187,5 @@ try {
     if ($contexto['conexion']->inTransaction()) {
         $contexto['conexion']->rollBack();
     }
-    responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar el equipo. Verifica que la migración de invitaciones a equipos esté aplicada.'], 500);
+    responderJson(['exito' => false, 'mensaje' => 'No se pudo actualizar el equipo. Verifica que la base de datos esté instalada correctamente.'], 500);
 }

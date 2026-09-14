@@ -1,6 +1,5 @@
 (function () {
   'use strict';
-  // Mismo lenguaje SVG de trazo utilizado por la cabecera; sin librerías externas.
   const trazos = {
     clasificacion: '<path d="M3 21V12h6v9m0 0V5h6v16m0 0v-6h6v6M2 21h20M11 8h1v3"/>',
     menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
@@ -13,7 +12,6 @@
     alerta: '<path d="m12 3 10 18H2Z M12 9v5m0 3h.01"/>',
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/>',
     reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
-    favorito: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>',
     agregar: '<path d="M12 4v16M4 12h16"/>',
     editar: '<path d="m16 3 5 5-12 12-6 1 1-6ZM13 6l5 5"/>',
     eliminar: '<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/>',
@@ -45,6 +43,8 @@
     actividad: '<path d="M3 12h4l3-8 4 16 3-8h4"/>',
     enfrentamientos: '<path d="m4 4 16 16m0-16L4 20M4 4v5m0-5h5m11 0v5m0-5h-5M2 18l4 4m12 0 4-4"/>',
     sistema: '<rect x="3" y="3" width="18" height="13" rx="2"/><path d="M12 16v5m-5 0h10"/>',
+    presencial: '<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>',
+    virtual: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 9h2m6 0h2m-8 4h6"/>',
     foto: '<path d="M3 7h4l2-3h6l2 3h4v14H3Z"/><circle cx="12" cy="13" r="4"/>',
     mensaje: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 5 9 8 9-8"/>',
     exito: '<path d="m4 12 5 5L20 6"/>',

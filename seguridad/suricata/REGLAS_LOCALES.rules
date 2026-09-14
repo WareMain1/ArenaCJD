@@ -1,3 +1,1 @@
-# Regla de demostración segura para ArenaCJD.
-# Genera una alerta IDS al acceder a /prueba-suricata desde HTTP.
 alert http any any -> $HOME_NET any (msg:"ArenaCJD prueba IDS HTTP"; http.uri; content:"/prueba-suricata"; sid:1000001; rev:1;)

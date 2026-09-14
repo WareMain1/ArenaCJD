@@ -131,12 +131,6 @@ html[data-tema="claro"] :where(
   color: var(--morado-principal) !important;
 }
 
-html[data-tema="claro"] .favorito-torneo-ah[aria-pressed="true"] {
-  border-color: var(--state-warning-border);
-  background: var(--state-warning-bg);
-  color: var(--state-warning-text);
-}
-
 html[data-tema="claro"] :where(
   .beneficio-modular,
   .estado-calendario.confirmado

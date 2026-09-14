@@ -24,10 +24,24 @@ try {
             'dependencias' => $dependencias
         ], 409);
     }
-    if (!$modelo->eliminarSinDependencias((int) $idUsuario)) responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar el usuario.'], 409);
-    try { (new FotoPerfil())->eliminar((int) $idUsuario); } catch (Throwable $fotoError) {}
+    $contexto['conexion']->beginTransaction();
+    if (!$modelo->eliminarSinDependencias((int) $idUsuario)) {
+        $contexto['conexion']->rollBack();
+        responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar el usuario.'], 409);
+    }
     registrarAuditoriaApi($contexto['conexion'], (int) $contexto['usuario']['id_usuario'], 'usuario_eliminado', 'usuario', (int) $idUsuario, '@' . (string) $usuario['nombre_usuario']);
+    $contexto['conexion']->commit();
+
+    try {
+        (new FotoPerfil())->eliminar((int) $idUsuario);
+    } catch (Throwable $fotoError) {
+         
+    }
+
     responderJson(['exito' => true, 'mensaje' => 'Usuario eliminado correctamente.']);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo eliminar el usuario.'], 500);
 }

@@ -248,9 +248,9 @@ require_once __DIR__ . '/servicios/OrientacionTorneo.php';
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Torneos - ArenaCJD</title>
 <link rel="icon" type="image/png" href="imagenes/arena-cjd-isotipo.png">
-<script src="tests/observador-tema.js"></script>
 <script src="js/tema-inicial.js"></script>
-<script src="js/iconos.js?v=20260909-sprint11"></script>
+<script src="js/iconos.js?v=20260913-realizacion1"></script>
+<script src="js/modalidades-torneos.js?v=20260913-realizacion3"></script>
 <script>
   if (window.matchMedia('(min-width: 992px)').matches &&
       localStorage.getItem('menuColapsado') !== 'true') {
@@ -259,12 +259,12 @@ require_once __DIR__ . '/servicios/OrientacionTorneo.php';
 </script>
 
 <link rel="stylesheet" href="css/variables.css?v=20260909-audit12">
-<link rel="stylesheet" href="css/layout.css?v=20260909-sprint13">
-<link rel="stylesheet" href="css/componentes.css?v=20260910-visibilidad1">
+<link rel="stylesheet" href="css/layout.css?v=20260911-stableui1">
+<link rel="stylesheet" href="css/componentes.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/experiencia.css?v=20260910-guia1">
 <link rel="stylesheet" href="css/animaciones.css">
-<link rel="stylesheet" href="css/paginas/torneos.css?v=20260910-menus1">
-<link rel="stylesheet" href="css/utilidades.css?v=20260909-sprint11">
+<link rel="stylesheet" href="css/paginas/torneos.css?v=20260913-mobile1">
+<link rel="stylesheet" href="css/utilidades.css?v=20260911-stableui1">
 <link rel="stylesheet" href="css/tema-claro.css?v=20260909-sprint11">
 <link rel="stylesheet" href="css/tema-oscuro.css?v=20260908-toast1">
 <link rel="stylesheet" href="css/contraste-claro.css?v=20260909-audit12">
@@ -299,7 +299,7 @@ require_once __DIR__ . '/servicios/OrientacionTorneo.php';
     ? 'Administra y organiza todos los torneos del sistema.'
     : ($esOrganizadorTorneos ? 'Gestiona únicamente los torneos que tienes asignados.' : 'Consulta torneos, detalles e inscripciones disponibles.') ?></p></div>
 <?php if ($esAdministradorTorneos): ?>
-<button class="boton boton-principal" id="crearNuevoTorneo" type="button"><span data-icono="agregar" aria-hidden="true"></span> Nuevo torneo</button>
+<button class="boton boton-principal boton-nuevo-torneo" id="crearNuevoTorneo" type="button"><span data-icono="agregar" aria-hidden="true"></span>Nuevo torneo</button>
 <?php endif; ?>
 </div>
 
@@ -411,7 +411,7 @@ require_once __DIR__ . '/servicios/OrientacionTorneo.php';
 <div><h2 class="titulo-seccion">Lista de torneos</h2><p class="descripcion-lista-torneos">Prioriza el torneo que necesitas gestionar y continúa con su siguiente etapa desde el menú de acciones.</p></div>
 <div class="orden">
 <label>Ordenar por:</label>
-<select class="selector-formulario selector-orden">
+<select class="selector-formulario selector-orden" aria-label="Ordenar torneos">
 <option>Más recientes</option>
 </select>
 </div>
@@ -460,7 +460,7 @@ data-publicado="<?= !empty($torneo['publicado']) ? '1' : '0' ?>"
 <div class="escudo-torneo <?= escaparTorneo($disciplinaVisual['clase']) ?>"><span class="media-entidad-fallback"><?= $disciplinaVisual['contenido'] ?></span><img class="imagen-torneo-tarjeta" src="api/imagen_torneo.php?id_torneo=<?= (int) $torneo['id_torneo'] ?>" alt="Imagen de <?= escaparTorneo($torneo['nombre']) ?>" loading="lazy" onerror="this.hidden=true"></div>
 <div class="cuerpo-torneo">
 <div class="fila-superior-torneo"><h3 class="nombre-torneo"><?= escaparTorneo($torneo['nombre']) ?></h3><div class="insignias-torneo"><span class="insignia-publicacion<?= !empty($torneo['publicado']) ? ' publicada' : '' ?>"><?= !empty($torneo['publicado']) ? 'Público' : 'Privado' ?></span><span class="insignia-torneo <?= escaparTorneo($estadoVisual['clase']) ?>"><?= escaparTorneo($estadoVisual['texto']) ?></span></div></div>
-<div class="fila-meta-torneo"><span class="meta-torneo"><b>Formato</b><?= escaparTorneo($torneo['tipo_torneo']) ?></span><span class="meta-torneo"><b>Participación</b><?= escaparTorneo($textoCantidad) ?></span><span class="meta-torneo meta-categoria"><b>Disciplina</b><?= escaparTorneo($torneo['disciplina']) ?></span></div>
+<div class="fila-meta-torneo"><span class="meta-torneo"><b>Formato</b><?= escaparTorneo($torneo['tipo_torneo']) ?></span><span class="meta-torneo"><b>Participación</b><?= escaparTorneo($textoCantidad) ?></span><span class="meta-torneo"><b>Disciplina</b><?= escaparTorneo($torneo['disciplina']) ?></span><span class="meta-torneo meta-categoria"><b>Categoría</b><?= escaparTorneo($torneo['categoria']) ?></span></div>
 <div class="fila-fechas-torneo"><span><b>Inicio</b> <?= escaparTorneo(formatearFechaTorneo($torneo['fecha_inicio'])) ?> · <?= escaparTorneo(formatearHoraTorneo($torneo['hora_inicio'] ?? null)) ?></span><span class="flecha-fecha"><span data-icono="derecha" aria-hidden="true"></span></span><span><b>Fin</b> <?= escaparTorneo(formatearFechaTorneo($torneo['fecha_fin'])) ?></span></div>
 <div class="progreso-torneo"><div class="cabecera-progreso-torneo"><span class="etiqueta-progreso-torneo"><?= escaparTorneo($etiquetaProgreso) ?></span><span class="texto-progreso"><?= $progreso ?>%</span></div><div class="fondo-progreso" role="progressbar" aria-label="<?= escaparTorneo($etiquetaProgreso) ?>" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $progreso ?>"><span class="relleno-progreso<?= $progreso === 100 ? ' progreso-verde' : '' ?>" style="width:<?= $progreso ?>%;"></span></div></div>
 <div class="progreso-concreto-torneo-ah"><strong><?= escaparTorneo($textoCantidad) ?></strong><span>·</span><span><?= $totalEnfrentamientosTarjeta > 0 ? $finalizadosTarjeta . '/' . $totalEnfrentamientosTarjeta . ' ' . $textoEnfrentamientosTarjeta : 'Sin enfrentamientos generados' ?></span></div>
@@ -488,11 +488,13 @@ data-publicado="<?= !empty($torneo['publicado']) ? '1' : '0' ?>"
 
 <div class="estado-vacio-ah estado-vacio-torneos" id="mensajeSinTorneos"<?= (!$torneos || $errorCargaTorneos) ? '' : ' hidden' ?>><strong id="tituloSinTorneos"><?= $errorCargaTorneos ? 'No se pudieron cargar los torneos' : (!$torneos ? 'Todavía no hay torneos' : 'No hay coincidencias') ?></strong><p id="detalleSinTorneos"><?= $errorCargaTorneos ? 'Intenta actualizar la vista dentro de unos instantes.' : (!$torneos ? 'Crea el primer torneo para comenzar a registrar participantes y generar enfrentamientos.' : 'Prueba con otros filtros o restablece la búsqueda.') ?></p><?php if ($esAdministradorTorneos): ?><button class="boton boton-principal" id="accionSinTorneos" type="button"><?= $torneos ? 'Quitar filtros' : 'Crear torneo' ?></button><?php else: ?><button class="boton boton-claro" id="accionSinTorneos" type="button">Quitar filtros</button><?php endif; ?></div>
 
-<div class="paginacion" id="paginacionTorneos"<?= !$torneos ? ' hidden' : '' ?>>
+<footer class="pie-resultados-torneos" id="pieResultadosTorneos"<?= !$torneos ? ' hidden' : '' ?>>
+<div class="paginacion" id="paginacionTorneos">
 <span class="info-paginacion" id="infoPaginacionTorneos"><?= count($torneos) === 1 ? 'Mostrando 1 de 1 torneo' : 'Mostrando ' . count($torneos) . ' de ' . count($torneos) . ' torneos' ?></span>
 <div class="controles-paginacion" id="controlesPaginacionTorneos"></div>
 </div>
 <p class="estado-sincronizacion-torneos" id="estadoSincronizacionTorneos" aria-live="polite">Datos actualizados</p>
+</footer>
 </section>
 
 <aside class="lateral-torneos">
@@ -581,7 +583,26 @@ data-publicado="<?= !empty($torneo['publicado']) ? '1' : '0' ?>"
 <div class="grupo-formulario"><label for="editarTorneoDisciplina">Disciplina</label><select class="selector-formulario" id="editarTorneoDisciplina" required></select></div>
 <div class="grupo-formulario"><label for="editarTorneoCategoria">Categoría</label><select class="selector-formulario" id="editarTorneoCategoria" required></select></div>
 <div class="grupo-formulario" id="grupoTorneoTipo"><label for="editarTorneoTipo">Tipo de torneo</label><select class="selector-formulario" id="editarTorneoTipo" required></select><small>Define el formato competitivo que utilizará el torneo.</small></div>
-<div class="grupo-formulario"><label for="editarTorneoModalidad">Modalidad</label><select class="selector-formulario" id="editarTorneoModalidad" required><option value="individual">Individual</option><option value="equipo">Por equipos</option></select></div>
+<div class="grupo-formulario"><label for="editarTorneoModalidad">Modalidad de participación</label><select class="selector-formulario" id="editarTorneoModalidad" required><option value="individual">Individual</option><option value="equipo">Por equipos</option></select></div>
+<fieldset class="grupo-formulario grupo-formulario-completo grupo-realizacion-torneo" id="grupoTorneoRealizacion">
+<legend>Modalidad de realización</legend>
+<div class="opciones-realizacion-torneo" role="radiogroup" aria-label="Modalidad de realización del torneo">
+<label class="opcion-realizacion-torneo" for="realizacionTorneoPresencial">
+<input id="realizacionTorneoPresencial" type="radio" name="realizacionTorneo" value="presencial">
+<span class="icono-realizacion-torneo" aria-hidden="true"><span data-icono="presencial"></span></span>
+<span class="texto-realizacion-torneo"><strong>Presencial</strong><small>La competencia se realiza físicamente en una ubicación.</small></span>
+<span class="marca-realizacion-torneo" aria-hidden="true"></span>
+</label>
+<label class="opcion-realizacion-torneo" for="realizacionTorneoVirtual">
+<input id="realizacionTorneoVirtual" type="radio" name="realizacionTorneo" value="virtual">
+<span class="icono-realizacion-torneo" aria-hidden="true"><span data-icono="virtual"></span></span>
+<span class="texto-realizacion-torneo"><strong>Virtual</strong><small>La competencia se realiza de forma remota u online.</small></span>
+<span class="marca-realizacion-torneo" aria-hidden="true"></span>
+</label>
+</div>
+<small id="ayudaRealizacionTorneo">Esta preferencia se guarda únicamente en este navegador y no modifica la base de datos.</small>
+<small class="aviso-realizacion-sin-definir" id="avisoRealizacionSinDefinir" hidden>Este torneo todavía no tiene una modalidad de realización definida en este navegador.</small>
+</fieldset>
 <div class="grupo-formulario" id="grupoTorneoOrganizador"><label for="editarTorneoOrganizador">Organizador asignado</label><select class="selector-formulario" id="editarTorneoOrganizador" required></select><small>El organizador podrá gestionar participantes, sorteos y resultados de este torneo.</small></div>
 <div class="grupo-formulario"><label for="editarTorneoInicio">Fecha de inicio</label><input class="campo-formulario" id="editarTorneoInicio" type="date" required></div>
 <div class="grupo-formulario"><label for="editarTorneoHoraInicio">Hora de inicio</label><input class="campo-formulario" id="editarTorneoHoraInicio" type="time" required></div>
@@ -590,7 +611,7 @@ data-publicado="<?= !empty($torneo['publicado']) ? '1' : '0' ?>"
 <div class="grupo-formulario estado-inicial-torneo" id="estadoInicialTorneo" hidden><span class="etiqueta-estado-inicial">Estado inicial</span><strong><span data-icono="circulo" aria-hidden="true"></span> Borrador</strong><small>Los torneos nuevos siempre se crean como borrador. Podrás abrir las inscripciones después de revisar la configuración.</small></div>
 <div class="grupo-formulario grupo-publicacion-torneo" id="grupoTorneoPublicado"><label class="opcion-publicacion-torneo" for="editarTorneoPublicado"><input id="editarTorneoPublicado" type="checkbox"><span><strong>Visible en el área pública</strong><small>Permite que visitantes sin cuenta consulten este torneo, sus cruces, resultados y clasificación.</small></span></label></div>
 <div class="grupo-formulario"><label for="editarTorneoCupo">Cupo máximo</label><input class="campo-formulario" id="editarTorneoCupo" type="number" min="1" max="65535" placeholder="Sin límite"></div>
-<div class="grupo-formulario"><label for="editarTorneoPeriodoGracia">Período de gracia (minutos)</label><input class="campo-formulario" id="editarTorneoPeriodoGracia" type="number" min="5" max="10080" step="5" value="60" placeholder="60"><small>Tiempo adicional tras concluir el juego antes de la resolución automática.</small></div>
+<div class="grupo-formulario"><label for="editarTorneoPeriodoGracia">Período de gracia (minutos)</label><input class="campo-formulario" id="editarTorneoPeriodoGracia" type="number" min="5" max="10080" step="5" value="60" placeholder="60"><small>Tiempo adicional después del encuentro para registrar o confirmar el resultado antes de enviarlo a revisión.</small></div>
 <p class="mensaje-edicion-torneo grupo-formulario-completo" id="mensajeEditarTorneo" aria-live="polite"></p>
 <footer class="acciones-modal-torneo grupo-formulario-completo"><button class="boton boton-claro" type="button" data-cerrar-modal-torneo="editar">Cancelar</button><button class="boton boton-principal" id="guardarTorneoModal" type="submit">Guardar cambios</button></footer>
 </form>
@@ -608,10 +629,10 @@ data-publicado="<?= !empty($torneo['publicado']) ? '1' : '0' ?>"
 </section></div>
 
 <script src="js/sincronizacion.js?v=20260831-central1"></script>
-<script src="js/componentes.js?v=20260910-confirmacion1"></script>
+<script src="js/componentes.js?v=20260913-sin-presencia1"></script>
 <script src="js/experiencia.js?v=20260910-guia1"></script>
 <script src="js/menu.js?v=20260909-sprint11"></script>
 <script src="js/tema.js?v=20260909-login-tema1"></script>
-<script src="js/torneos.js?v=20260910-menus1"></script>
+<script src="js/torneos.js?v=20260913-realizacion3"></script>
 </body>
 </html>

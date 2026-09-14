@@ -283,6 +283,30 @@
     return cruces;
   }
 
+  function esPaseAutomatico(participante) {
+    return !participante || participante === 'Pase automático' || participante.esPase === true;
+  }
+
+  function htmlIdentidadCruce(participante, claseMedia) {
+    if (esPaseAutomatico(participante)) {
+      return '<span class="identidad-cruce-sorteo pase-automatico"><span class="nombre-cruce-sorteo">Pase automático</span></span>';
+    }
+
+    const nombre = participante.nombre || '';
+    const media = participante.tipo === 'equipo' && window.ArenaCJDMedia
+      ? window.ArenaCJDMedia.html('equipo', participante.id, nombre, {clase: claseMedia || 'media-pequena'})
+      : '';
+    return '<span class="identidad-cruce-sorteo">' + media + '<span class="nombre-cruce-sorteo">' + escaparHTML(nombre) + '</span></span>';
+  }
+
+  function htmlEmparejamiento(cruce, indice) {
+    return '<article class="emparejamiento-previo"><div class="competidor-previo"><span class="numero-competidor-previo">' + (indice * 2 + 1) + '</span><strong>' + htmlIdentidadCruce(cruce[0], 'media-pequena') + '</strong></div><b>VS</b><div class="competidor-previo"><span class="numero-competidor-previo">' + (indice * 2 + 2) + '</span><strong>' + htmlIdentidadCruce(cruce[1], 'media-pequena') + '</strong></div></article>';
+  }
+
+  function htmlCruceLlave(cruce, indice, estado) {
+    return '<article class="cruce-llave"><div><span>' + (indice * 2 + 1) + '</span><strong>' + htmlIdentidadCruce(cruce[0], 'media-pequena') + '</strong></div><div><span>' + (indice * 2 + 2) + '</span><strong>' + htmlIdentidadCruce(cruce[1], 'media-pequena') + '</strong></div><small>' + escaparHTML(estado) + '</small></article>';
+  }
+
   function renderTabla(torneo, participantes) {
     if (!elementos.cuerpo) return;
 
@@ -345,16 +369,13 @@
     vistaPreviaValida = true;
     sorteoExistenteCargado = false;
     sorteoExistenteBloqueado = false;
-    const nombres = lista.map(function (participante) { return participante.nombre; });
-    const cruces = crearCruces(nombres);
+    const cruces = crearCruces(lista);
     if (elementos.cruces) {
-      elementos.cruces.innerHTML = cruces.map(function (cruce, indice) {
-        return '<article class="emparejamiento-previo"><span>' + (indice * 2 + 1) + '</span><strong>' + escaparHTML(cruce[0]) + '</strong><b>VS</b><strong>' + escaparHTML(cruce[1]) + '</strong><span>' + (indice * 2 + 2) + '</span></article>';
-      }).join('');
+      elementos.cruces.innerHTML = cruces.map(htmlEmparejamiento).join('');
     }
-    const cantidadPases = cruces.filter(function (cruce) { return cruce[1] === 'Pase automático'; }).length;
+    const cantidadPases = cruces.filter(function (cruce) { return esPaseAutomatico(cruce[1]); }).length;
     if (elementos.cantidadEnfrentamientos) elementos.cantidadEnfrentamientos.textContent = pluralizarCantidad(cruces.length, 'enfrentamiento', 'enfrentamientos');
-    if (elementos.cantidadResumen) elementos.cantidadResumen.textContent = pluralizarCantidad(nombres.length, torneo.modalidadBD === 'equipo' ? 'equipo' : 'participante', torneo.modalidadBD === 'equipo' ? 'equipos' : 'participantes');
+    if (elementos.cantidadResumen) elementos.cantidadResumen.textContent = pluralizarCantidad(lista.length, torneo.modalidadBD === 'equipo' ? 'equipo' : 'participante', torneo.modalidadBD === 'equipo' ? 'equipos' : 'participantes');
     if (elementos.cantidadPases) elementos.cantidadPases.textContent = pluralizarCantidad(cantidadPases, 'pase', 'pases');
     if (elementos.resumenGeneracion) elementos.resumenGeneracion.hidden = false;
     if (elementos.detalles) elementos.detalles.hidden = false;
@@ -378,7 +399,7 @@
     }
 
     elementos.cuadro.innerHTML = cruces.map(function (cruce, indice) {
-      return '<article class="cruce-llave"><div><span>' + (indice * 2 + 1) + '</span><strong>' + escaparHTML(cruce[0]) + '</strong></div><div><span>' + (indice * 2 + 2) + '</span><strong>' + escaparHTML(cruce[1]) + '</strong></div><small>' + escaparHTML(esEliminacion ? 'Por disputarse' : 'Ronda 1') + '</small></article>';
+      return htmlCruceLlave(cruce, indice, esEliminacion ? 'Por disputarse' : 'Ronda 1');
     }).join('');
   }
 
@@ -403,7 +424,11 @@
 
       sorteoExistenteBloqueado = bloqueado;
       const cruces = primera.map(function (e) {
-        return [e.participante_a || 'Pase automático', e.participante_b || 'Pase automático'];
+        const tipo = e.tipo_participante === 'equipo' ? 'equipo' : 'individual';
+        return [
+          e.id_participante_a == null ? {esPase:true} : {id:e.id_participante_a, nombre:e.participante_a || '', tipo:tipo},
+          e.id_participante_b == null ? {esPase:true} : {id:e.id_participante_b, nombre:e.participante_b || '', tipo:tipo}
+        ];
       });
 
       if (elementos.resumenGeneracion) elementos.resumenGeneracion.hidden = false;
@@ -417,13 +442,11 @@
       }
 
       if (elementos.cruces) {
-        elementos.cruces.innerHTML = cruces.map(function (cruce, indice) {
-          return '<article class="emparejamiento-previo"><span>' + (indice * 2 + 1) + '</span><strong>' + escaparHTML(cruce[0]) + '</strong><b>VS</b><strong>' + escaparHTML(cruce[1]) + '</strong><span>' + (indice * 2 + 2) + '</span></article>';
-        }).join('');
+        elementos.cruces.innerHTML = cruces.map(htmlEmparejamiento).join('');
       }
       if (elementos.cuadro) {
         elementos.cuadro.innerHTML = cruces.map(function (cruce, indice) {
-          return '<article class="cruce-llave"><div><span>' + (indice * 2 + 1) + '</span><strong>' + escaparHTML(cruce[0]) + '</strong></div><div><span>' + (indice * 2 + 2) + '</span><strong>' + escaparHTML(cruce[1]) + '</strong></div><small>Confirmado</small></article>';
+          return htmlCruceLlave(cruce, indice, 'Confirmado');
         }).join('');
       }
       if (elementos.estado) {
@@ -529,7 +552,11 @@
       return;
     }
 
-    if (elementos.icono) elementos.icono.innerHTML = iconoDisciplina(torneoDisponible.disciplina);
+    if (elementos.icono) {
+      elementos.icono.innerHTML = window.ArenaCJDMedia
+        ? window.ArenaCJDMedia.html('torneo', torneoDisponible.id, torneoDisponible.nombre, {clase: 'media-resumen-sorteo'})
+        : iconoDisciplina(torneoDisponible.disciplina);
+    }
     if (elementos.nombre) elementos.nombre.textContent = torneoDisponible.nombre;
     if (elementos.detalle) elementos.detalle.textContent = torneoDisponible.disciplina + ' · ' + torneoDisponible.modalidad + ' · ' + torneoDisponible.tipo;
     if (elementos.fecha) elementos.fecha.textContent = formatearFecha(torneoDisponible.fechaInicio);

@@ -19,6 +19,7 @@ if (!$idInvitacion || !in_array($respuesta, ['aceptada', 'rechazada'], true)) {
 
 try {
     $modelo = new InvitacionEquipo($contexto['conexion']);
+    $contexto['conexion']->beginTransaction();
     $resultado = $modelo->responder((int) $idInvitacion, (int) $contexto['usuario']['id_usuario'], $respuesta);
 
     registrarAuditoriaApi(
@@ -30,6 +31,18 @@ try {
         $resultado['equipo']
     );
 
+    if ($respuesta === 'aceptada') {
+        registrarAuditoriaApi(
+            $contexto['conexion'],
+            (int) $contexto['usuario']['id_usuario'],
+            'equipo_integrante_agregado',
+            'equipo',
+            (int) ($resultado['id_equipo'] ?? 0),
+            "Integrante incorporado al equipo {$resultado['equipo']} tras aceptar invitación"
+        );
+    }
+    $contexto['conexion']->commit();
+
     responderJson([
         'exito' => true,
         'mensaje' => $respuesta === 'aceptada'
@@ -38,7 +51,13 @@ try {
         'resultado' => $resultado
     ]);
 } catch (DomainException|InvalidArgumentException $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => $error->getMessage()], 409);
 } catch (Throwable $error) {
+    if ($contexto['conexion']->inTransaction()) {
+        $contexto['conexion']->rollBack();
+    }
     responderJson(['exito' => false, 'mensaje' => 'No se pudo responder la invitación al equipo.'], 500);
 }
